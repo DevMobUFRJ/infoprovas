@@ -38,7 +38,7 @@ class SubjectDetail extends StatelessWidget {
                                     color: Colors.black),
                                 textAlign: TextAlign.center),
                             onTap: () {
-                              FlutterPdfViewer.loadAsset('assets/${GlobalState.pdfs[index].path}');
+                              PdfViewer.loadAsset('assets/${GlobalState.pdfs[index].path}');
                             },
                           ),
                           new Divider(color: Colors.black26),
