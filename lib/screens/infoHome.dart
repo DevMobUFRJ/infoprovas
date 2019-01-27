@@ -4,6 +4,9 @@ import '../styles/style.dart';
 import '../screens/subjectDetails.dart';
 import '../config/globalState.dart';
 import '../model/subject.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+Firestore firestore = Firestore.instance;
 
 class InfoHome extends StatefulWidget {
   @override

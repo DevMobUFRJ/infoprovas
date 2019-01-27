@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1079620147621",
+    "firebase_url": "https://infoprovas-78722.firebaseio.com",
+    "project_id": "infoprovas-78722",
+    "storage_bucket": "infoprovas-78722.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079620147621:android:7ef0d05c58edb14b",
+        "android_client_info": {
+          "package_name": "com.yourcompany.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079620147621-lr7mcj5q9u52sm8l8fculv6ls82mg416.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDqZPC9Kog7GQADMAYcBhOD43jaedBkTs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
