@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'drawerScreen.dart';
 import '../styles/style.dart';
 import '../screens/subjectDetails.dart';
 import '../config/globalState.dart';
@@ -27,7 +28,7 @@ class HomeState extends State<InfoHome> {
       home: DefaultTabController(
           length: 2,
           child: Scaffold(
-              drawer: Drawer(),
+              drawer: DrawerScreen(),
               backgroundColor: Colors.white,
               appBar: new AppBar(
                 title: Text("InfoProvas"),
