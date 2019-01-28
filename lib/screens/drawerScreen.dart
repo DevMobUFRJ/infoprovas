@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/config/globalState.dart';
 import 'package:project/screens/about.dart';
 import 'package:project/styles/style.dart';
 
@@ -33,7 +34,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           fontSize: 13.0,
                         ),
                       ),
-                      Text("Ciência da Computação",
+                      Text(GlobalState.course.nome,
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.white,

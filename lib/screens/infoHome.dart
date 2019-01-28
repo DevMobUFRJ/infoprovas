@@ -23,9 +23,7 @@ class HomeState extends State<InfoHome> {
   GlobalState store = GlobalState.instance;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: Style.themePrincipal,
-      home: DefaultTabController(
+    return DefaultTabController(
           length: 2,
           child: Scaffold(
               drawer: DrawerScreen(),
@@ -147,7 +145,7 @@ class HomeState extends State<InfoHome> {
                     ))
               ])
       ),
-    ));
+    );
   }
 }
 

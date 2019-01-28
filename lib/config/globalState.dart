@@ -1,3 +1,4 @@
+import 'package:project/model/course.dart';
 import '../model/professor.dart';
 import '../model/subject.dart';
 import '../model/pdf.dart';
@@ -10,6 +11,8 @@ class GlobalState {
 
   set(dynamic key,dynamic value) => _data[key] = value;
   get(dynamic key) => _data[key];
+
+  static Course course;
 
   static List<String> periods = [
     "1º Período",
