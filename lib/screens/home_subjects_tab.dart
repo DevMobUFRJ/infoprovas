@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/config/globalState.dart';
@@ -10,7 +11,7 @@ class SubjectsTab extends StatefulWidget {
   _SubjectsTabState createState() => _SubjectsTabState();
 }
 
-List<Subject> subjectsFiltered = GlobalState.subjects.where((i) => i.periodNumber == ( 1)).toList();
+//List<Subject> subjectsFiltered = GlobalState.subjects.where((i) => i.periodNumber == ( 1)).toList();
 
 class _SubjectsTabState extends State<SubjectsTab> {
   int _selectedPeriod = 0;
@@ -57,7 +58,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
                                       onSelectedItemChanged: (int index) {
                                         setState(() {
                                           _selectedPeriod = index;
-                                          subjectsFiltered = GlobalState.subjects.where((i) => i.periodNumber == (index + 1)).toList();
+                                          //subjectsFiltered = GlobalState.subjects.where((i) => i.periodNumber == (index + 1)).toList();
                                         });
                                       },
                                       children: new List<Widget>.generate(GlobalState.periods.length,
@@ -79,29 +80,100 @@ class _SubjectsTabState extends State<SubjectsTab> {
           ])]),
         new Divider(color: Colors.black26),
         ExpandableContainer(
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return new Column(children: <Widget>[
-                new ListTile(
-                    title: new Text(subjectsFiltered[index].name,
-                        style: new TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black),
-                        textAlign: TextAlign.center),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => SubjectDetail(subject: subjectsFiltered[index])));}
-                ),
-                new Divider(color: Colors.black26),
-              ]);
-            },
-            itemCount: subjectsFiltered.length,
-          ),
+          child: _buildSubjectsList(),
+//          child: ListView.builder(
+//            itemBuilder: (BuildContext context, int index) {
+//              return new Column(children: <Widget>[
+//                new ListTile(
+//                    title: new Text(subjectsFiltered[index].name,
+//                        style: new TextStyle(
+//                            fontWeight: FontWeight.w400,
+//                            color: Colors.black),
+//                        textAlign: TextAlign.center),
+//                    onTap: () {
+//                      Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (_) => SubjectDetail(subject: subjectsFiltered[index])));}
+//                ),
+//                new Divider(color: Colors.black26),
+//              ]);
+//            },
+//            itemCount: subjectsFiltered.length,
+//          ),
         )
       ],
     );
+  }
+
+  Widget _buildSubjectsList() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: GlobalState.course.reference.collection(Subject.collectionName)
+          .orderBy("nome")
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        if(snapshot.data.documents.length == 0)
+          return Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text("Não há disciplinas"),
+            ],
+          );
+
+        return _buildList(snapshot.data.documents);
+      },
+    );
+  }
+
+  Widget _buildList(List<DocumentSnapshot> snapshot) {
+    return Column(
+        children: [
+          Expanded(
+            child:  ListView(
+              children: snapshot.map((data){
+                Subject subject = Subject.fromMap(data.data, reference: data.reference);
+
+                // Seleção 0 representa todas, e a última posição é eletivas.
+                if(_selectedPeriod != 0 && _selectedPeriod != GlobalState.periods.length-1) {
+                  if (subject.periodNumber != _selectedPeriod)
+                    return null;
+                } else if (_selectedPeriod == GlobalState.periods.length-1){
+                  // Se for o último, é lista de eletivas
+                  if (!subject.eletiva)
+                    return null;
+                }
+
+                return _buildListItem(subject);
+              }).where((w) => w != null).toList(),
+            ),
+          ),
+        ]
+    );
+  }
+
+  Widget _buildListItem(Subject subject) {
+    return Column(children: <Widget>[
+      ListTile(
+        title: Text(subject.name,
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: Colors.black
+          ),
+          textAlign: TextAlign.center
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => SubjectDetail(subject: subject))
+          );
+        }
+      ),
+      Divider(color: Colors.black26)
+    ]);
   }
 }
 

@@ -17,14 +17,16 @@ class GlobalState {
   /// Preenchido quando o curso é selecionado. Ver abaixo o método [setCourse]
   static List<String> periods = [];
 
-  static List<Subject> subjects = [
-    new Subject("Calculo Infinitesimal I", 1, 1),
-    new Subject("Computação I", 2, 1),
-    new Subject("Fundamentos da Computação Digital", 3, 1),
-    new Subject("Números Inteiros e Criptografia", 4, 1),
-    new Subject("Sistemas de Informação", 5, 1),
-    new Subject("Sistemas de Informação 2", 5, 2)
-  ];
+//  static List<Subject> subjects = [
+//    new Subject("Calculo Infinitesimal I", 1, 1),
+//    new Subject("Computação I", 2, 1),
+//    new Subject("Fundamentos da Computação Digital", 3, 1),
+//    new Subject("Números Inteiros e Criptografia", 4, 1),
+//    new Subject("Sistemas de Informação", 5, 1),
+//    new Subject("Sistemas de Informação 2", 5, 2)
+//  ];
+//  getSubjects() => subjects;
+
   static List<Professor> professors = [
     new Professor("Adraina Santarosa Vivacqua", 1),
     new Professor("Adriano Joaquim de Oliveira Cruz", 2),
@@ -45,13 +47,12 @@ class GlobalState {
   ];
 
 
-  getSubjects() => subjects;
 
   /// Inicializa o curso com o curso selecionado pelo usuário, além de
   /// outras variáveis relacionadas com a seleção.
   static void setCourse(Course newCourse){
     course = newCourse;
-    periods = [];
+    periods = ["Todos os períodos"];
     for(int i = 0; i < course.periodos; i++){
       periods.add((i+1).toString() + "º Período");
     }
