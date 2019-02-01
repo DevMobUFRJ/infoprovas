@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project/config/globalState.dart';
 import 'package:project/model/course.dart';
-import 'package:project/screens/infoHome.dart';
+import 'package:project/screens/home.dart';
 import 'package:project/styles/style.dart';
 
 class CourseSelection extends StatefulWidget {
