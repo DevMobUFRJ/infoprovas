@@ -15,7 +15,6 @@ class _CouseSelectionState extends State<CourseSelection> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -43,7 +42,7 @@ class _CouseSelectionState extends State<CourseSelection> {
             color: Style.themePrincipal.primaryColor,
             textColor: Colors.white,
             onPressed: (){
-              GlobalState.course = courseSelected;
+              GlobalState.setCourse(courseSelected);
               // Substitui a rota atual para que o usuário não volte mais pra cá
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => InfoHome()));

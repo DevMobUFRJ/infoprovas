@@ -14,17 +14,8 @@ class GlobalState {
 
   static Course course;
 
-  static List<String> periods = [
-    "1º Período",
-    "2º Período",
-    "3º Período",
-    "4º Período",
-    "5º Período",
-    "6º Período",
-    "7º Período",
-    "8º Período",
-    "Eletivas",
-  ];
+  /// Preenchido quando o curso é selecionado. Ver abaixo o método [setCourse]
+  static List<String> periods = [];
 
   static List<Subject> subjects = [
     new Subject("Calculo Infinitesimal I", 1, 1),
@@ -56,4 +47,14 @@ class GlobalState {
 
   getSubjects() => subjects;
 
+  /// Inicializa o curso com o curso selecionado pelo usuário, além de
+  /// outras variáveis relacionadas com a seleção.
+  static void setCourse(Course newCourse){
+    course = newCourse;
+    periods = [];
+    for(int i = 0; i < course.periodos; i++){
+      periods.add((i+1).toString() + "º Período");
+    }
+    periods.add("Eletivas");
+  }
 }
