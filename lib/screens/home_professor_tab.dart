@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/config/globalState.dart';
-import 'package:project/screens/home_subjects_tab.dart';
 
 class ProfessorTab extends StatefulWidget {
   @override
@@ -13,7 +12,6 @@ class _ProfessorTabState extends State<ProfessorTab> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-      child: ExpandableContainer(
         child: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Column(children: <Widget>[
@@ -31,7 +29,7 @@ class _ProfessorTabState extends State<ProfessorTab> {
           },
           itemCount: GlobalState.professors.length,
         ),
-      )
+
     );
   }
 
