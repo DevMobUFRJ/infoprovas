@@ -1,13 +1,33 @@
-import 'professor.dart';
-import 'subject.dart';
-import 'pdf.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Exam {
-  num id;
-  String periodYearSemester; // Ex.: 2016-2
-  PDF pdf;
-  Professor professor;
-  Subject subject;
+  static const String collectionName = "provas";
 
-  Exam(this.id, this.periodYearSemester, this.pdf, this.professor, this.subject);
+  String periodYearSemester; // Ex.: 2016-2
+  String professor;
+  String subject;
+  String filename;
+  String examType; //"Prova 1", "Prova 2" ou "Prova Final"
+
+  DocumentReference reference;
+
+  Exam(this.periodYearSemester,this.professor, this.subject, this.filename, {this.reference});
+
+  Exam.fromMap(Map<String, dynamic> map, this.reference) :
+      periodYearSemester = map['semestre'] ?? '',
+      professor = map['professor'] ?? '',
+      subject = map['disciplina'] ?? '',
+      filename = map['filename'] ?? '',
+      examType = map['tipo'] ?? '';
+
+  Map<String, dynamic> toMap() =>
+      {
+        'semestre': periodYearSemester,
+        'professor': professor,
+        'subject': subject,
+        'filename': filename,
+        'tipo': examType,
+      };
+
+  String title() => this.periodYearSemester + " - Professor ou Disciplina";
 }

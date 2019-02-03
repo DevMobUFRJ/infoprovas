@@ -11,8 +11,6 @@ class SubjectsTab extends StatefulWidget {
   _SubjectsTabState createState() => _SubjectsTabState();
 }
 
-//List<Subject> subjectsFiltered = GlobalState.subjects.where((i) => i.periodNumber == ( 1)).toList();
-
 class _SubjectsTabState extends State<SubjectsTab> {
   int _selectedPeriod = 0;
   GlobalState store = GlobalState.instance;
@@ -58,7 +56,6 @@ class _SubjectsTabState extends State<SubjectsTab> {
                                       onSelectedItemChanged: (int index) {
                                         setState(() {
                                           _selectedPeriod = index;
-                                          //subjectsFiltered = GlobalState.subjects.where((i) => i.periodNumber == (index + 1)).toList();
                                         });
                                       },
                                       children: new List<Widget>.generate(GlobalState.periods.length,
@@ -81,26 +78,6 @@ class _SubjectsTabState extends State<SubjectsTab> {
         new Divider(color: Colors.black26),
         ExpandableContainer(
           child: _buildSubjectsList(),
-//          child: ListView.builder(
-//            itemBuilder: (BuildContext context, int index) {
-//              return new Column(children: <Widget>[
-//                new ListTile(
-//                    title: new Text(subjectsFiltered[index].name,
-//                        style: new TextStyle(
-//                            fontWeight: FontWeight.w400,
-//                            color: Colors.black),
-//                        textAlign: TextAlign.center),
-//                    onTap: () {
-//                      Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                              builder: (_) => SubjectDetail(subject: subjectsFiltered[index])));}
-//                ),
-//                new Divider(color: Colors.black26),
-//              ]);
-//            },
-//            itemCount: subjectsFiltered.length,
-//          ),
         )
       ],
     );
