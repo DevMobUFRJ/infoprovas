@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/config/globalState.dart';
+import 'package:project/config/global_state.dart';
 import 'package:project/model/course.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/styles/style.dart';
@@ -45,7 +45,7 @@ class _CouseSelectionState extends State<CourseSelection> {
               GlobalState.setCourse(courseSelected);
               // Substitui a rota atual para que o usuário não volte mais pra cá
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => InfoHome()));
+                  MaterialPageRoute(builder: (context) => Home()));
             },
           ),
         ],

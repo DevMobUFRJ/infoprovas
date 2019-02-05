@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/config/globalState.dart';
+import 'package:project/config/global_state.dart';
 import 'package:project/screens/about.dart';
 import 'package:project/styles/style.dart';
 

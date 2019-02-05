@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdf_viewer/flutter_pdf_viewer.dart';
+//import 'package:flutter_pdf_viewer/flutter_pdf_viewer.dart';
 import 'package:project/model/exam.dart';
 import 'package:project/model/subject.dart';
-import '../config/globalState.dart';
+import '../config/global_state.dart';
 import '../styles/style.dart';
 
 class SubjectDetail extends StatefulWidget {

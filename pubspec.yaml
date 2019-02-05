@@ -15,7 +15,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_pdf_viewer: ^0.0.7
+  #flutter_pdf_viewer: ^0.0.7
 
   firebase_core: ^0.3.0
   cloud_firestore: ^0.9.0
