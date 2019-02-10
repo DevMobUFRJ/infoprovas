@@ -17,7 +17,7 @@ class Exam {
       periodYearSemester = map['semestre'] ?? '',
       professor = map['professor'] ?? '',
       subject = map['disciplina'] ?? '',
-      filename = map['filename'] ?? '',
+      filename = map['arquivo'] ?? '',
       examType = map['tipo'] ?? '';
 
   Map<String, dynamic> toMap() =>
@@ -25,7 +25,7 @@ class Exam {
         'semestre': periodYearSemester,
         'professor': professor,
         'subject': subject,
-        'filename': filename,
+        'arquivo': filename,
         'tipo': examType,
       };
 

@@ -183,11 +183,13 @@ class _SendState extends State<Send> {
     String filename = "${profSelected.name}-${subjectSelected.name}";
     File file = File(_path);
     // não é necessário criar variável, mas uploadTask pode ser usado para aprimorar o layout da tela
-    StorageUploadTask uploadTask = reference.child(filename).putFile(file);
+    StorageUploadTask uploadTask = reference
+        .child('${subjectSelected.name}/${profSelected.name}/$filename').putFile(file);
+    //TODO: salvar no Firestore a referência para o arquivo (exam)
 
     /* comandos necessários para pegar o url de download do arquivo
     (isso poderá ser usado caso o usuário desejar baixar o pdf ao visualizá-lo)
-   StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     String url = (await  downloadUrl.ref.getDownloadURL());
     */
   }
