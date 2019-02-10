@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class Style {
 
   // ===== TEMA PADRÃO ===== //
-  static ThemeData themePrincipal = ThemeData(
+  static ThemeData mainTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: Color.fromARGB(255, 0, 0xA8, 0xA1),
     accentColor: const Color.fromARGB(255, 0, 0xA8, 0xA1),

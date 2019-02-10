@@ -53,7 +53,7 @@ class GlobalState {
   static void setCourse(Course newCourse){
     course = newCourse;
     periods = ["Todos os períodos"];
-    for(int i = 0; i < course.periodos; i++){
+    for(int i = 0; i < course.periods; i++){
       periods.add((i+1).toString() + "º Período");
     }
     periods.add("Eletivas");

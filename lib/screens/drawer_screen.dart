@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project/config/global_state.dart';
-import 'package:project/screens/about.dart';
 import 'package:project/styles/style.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -23,7 +22,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 child: Container(
                   padding: EdgeInsets.all(16.0),
                   height: 100.0,
-                  color: Style.themePrincipal.primaryColor,
+                  color: Style.mainTheme.primaryColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -34,7 +33,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           fontSize: 13.0,
                         ),
                       ),
-                      Text(GlobalState.course.nome,
+                      Text(GlobalState.course.name,
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.white,
@@ -54,12 +53,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
           _ItemDrawer(
             text: "Provas Salvas",
             icon: Icons.save_alt,
-            onPressed: null,
+            onPressed: () => Navigator.pushNamed(context, 'savedtests'),
           ),
           _ItemDrawer(
             text: "Enviar Prova",
             icon: Icons.note_add,
-            onPressed: null,
+            onPressed: () => Navigator.pushNamed(context, 'send'),
           ),
           Expanded(child: Container(),), //Spacer
           Divider(color: Colors.black45, height: 0,),
@@ -67,10 +66,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             text: "Sobre",
             icon: Icons.help,
             onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => About())
-              );
+              Navigator.pushNamed(context, 'about');
             },
           )
         ]
@@ -96,7 +92,7 @@ class _ItemDrawer extends StatelessWidget{
     return ListTile(
       leading: Icon(
         icon,
-        color: Style.themePrincipal.primaryColor,
+        color: Style.mainTheme.primaryColor,
       ),
       title: Text(
         text,

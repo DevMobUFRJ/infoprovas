@@ -25,6 +25,7 @@ class SubjectDetailState extends State<SubjectDetail> {
 
   @override
   void initState(){
+    super.initState();
     GlobalState.course.reference.collection(Exam.collectionName)
         .where("disciplina", isEqualTo: widget.subject.reference.documentID)
         .where("tipo", isEqualTo: "Prova 1")
@@ -57,13 +58,14 @@ class SubjectDetailState extends State<SubjectDetail> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: Style.themePrincipal,
+        theme: Style.mainTheme,
         home: DefaultTabController(
             length: 3,
             child: Scaffold(
                 appBar: AppBar(
                   title: new Center(child: Text("${widget.subject.name}")),
                   bottom: new TabBar(indicatorColor: Colors.white, tabs: [
+                    //TODO: receber tipos de provas do Firestore
                     new Tab(text: "Prova 1"),
                     new Tab(text: "Prova 2"),
                     new Tab(text: "Prova Final"),
@@ -85,10 +87,10 @@ class SubjectDetailState extends State<SubjectDetail> {
     );
   }
 
-  Widget _buildTab(List<DocumentSnapshot> provas){
-        if (provas == null) return Container();
+  Widget _buildTab(List<DocumentSnapshot> tests){
+        if (tests == null) return Container();
 
-        if(provas.length == 0)
+        if(tests.length == 0)
           return Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -98,7 +100,7 @@ class SubjectDetailState extends State<SubjectDetail> {
             ],
           );
 
-        return _buildList(provas);
+        return _buildList(tests);
 //    return Container(
 //      padding: EdgeInsets.all(10.0),
 //      alignment: Alignment.topCenter,

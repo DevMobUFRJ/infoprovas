@@ -7,10 +7,10 @@ import 'package:project/styles/style.dart';
 
 class CourseSelection extends StatefulWidget {
   @override
-  _CouseSelectionState createState() => _CouseSelectionState();
+  _CourseSelectionState createState() => _CourseSelectionState();
 }
 
-class _CouseSelectionState extends State<CourseSelection> {
+class _CourseSelectionState extends State<CourseSelection> {
   Course courseSelected;
 
   @override
@@ -23,7 +23,7 @@ class _CouseSelectionState extends State<CourseSelection> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Image.asset("assets/devmob-logo.png", //TODO Logo do Infoprovas
+            child: Image.asset("assets/logo.png", //TODO Logo do Infoprovas
               height: 120.0,
             ),
           ),
@@ -39,7 +39,7 @@ class _CouseSelectionState extends State<CourseSelection> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Text("Continuar"),
             ),
-            color: Style.themePrincipal.primaryColor,
+            color: Style.mainTheme.primaryColor,
             textColor: Colors.white,
             onPressed: (){
               GlobalState.setCourse(courseSelected);
@@ -77,7 +77,7 @@ class _CouseSelectionState extends State<CourseSelection> {
 
         return DropdownMenuItem<Course>(
           value: course,
-          child: Text(course.nome),
+          child: Text(course.name),
         );
       }).toList(),
       hint: Text("Escolha um curso"),

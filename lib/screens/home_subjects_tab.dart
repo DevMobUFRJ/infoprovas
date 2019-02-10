@@ -42,7 +42,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     pressedOpacity: 0.5,
-                    color: Style.themePrincipal.primaryColor,
+                    color: Style.mainTheme.primaryColor,
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -126,7 +126,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
               if (subject.periodNumber != _selectedPeriod) return null;
             } else if (_selectedPeriod == GlobalState.periods.length - 1) {
               // Se for o último, é lista de eletivas
-              if (!subject.eletiva) return null;
+              if (!subject.elective) return null;
             }
 
             return _buildListItem(subject);

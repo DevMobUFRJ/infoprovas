@@ -1,22 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Course {
   static const String collectionName = "cursos";
 
-  String nome;
-  int periodos;
+  String name;
+  int periods;
 
   DocumentReference reference;
 
-  Course({this.nome, this.periodos, this.reference});
+  Course({this.name, this.periods, this.reference});
 
   Course.fromMap(Map<String, dynamic> map, {this.reference}) :
-      nome = map['nome'] ?? '',
-      periodos = map['periodos'] ?? 0;
+      name = map['nome'] ?? '',
+      periods = map['periodos'] ?? 0;
 
   //Métodos necessários para fazer o dropdown funcionar
-  bool operator ==(o) => o is Course && nome == o.nome && periodos == o.periodos;
-  int get hashCode => nome.hashCode + periodos;
+  bool operator ==(o) => o is Course && name == o.name && periods == o.periods;
+  int get hashCode => name.hashCode + periods;
 
-  String toString() => "Nome: " + this.nome + " / " + this.periodos.toString() + " periodos";
+  String toString() => "Nome: " + this.name + " / " + this.periods.toString() + " periodos";
 }

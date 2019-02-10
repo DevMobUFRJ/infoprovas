@@ -50,7 +50,7 @@ class About extends StatelessWidget {
                     Text("Infoprovas",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Style.themePrincipal.primaryColorDark,
+                        color: Style.mainTheme.primaryColorDark,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -68,7 +68,7 @@ class About extends StatelessWidget {
                     Text("DevMob",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Style.themePrincipal.primaryColorDark,
+                        color: Style.mainTheme.primaryColorDark,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
