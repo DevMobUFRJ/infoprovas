@@ -8,10 +8,11 @@ class Exam {
   String subject;
   String filename;
   String examType; //"Prova 1", "Prova 2" ou "Prova Final"
+  String documentID;
 
   DocumentReference reference;
 
-  Exam(this.periodYearSemester,this.professor, this.subject, this.filename, {this.reference});
+  Exam(this.periodYearSemester,this.professor, this.documentID, this.filename, this.examType, {this.reference});
 
   Exam.fromMap(Map<String, dynamic> map, this.reference) :
       periodYearSemester = map['semestre'] ?? '',
@@ -24,7 +25,7 @@ class Exam {
       {
         'semestre': periodYearSemester,
         'professor': professor,
-        'subject': subject,
+        'disciplina': subject,
         'arquivo': filename,
         'tipo': examType,
       };

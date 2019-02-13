@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
       theme: Style.mainTheme,
       home: CourseSelection(),
       routes: <String, WidgetBuilder>{
-        //'/send': (context) => SendPage()
         'send': (context) => Send(),
         'about': (context) => About(),
         'savedtests': (context) => SavedTests(),

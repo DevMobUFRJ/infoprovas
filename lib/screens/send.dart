@@ -5,10 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:project/model/professor.dart';
 import 'package:project/model/subject.dart';
+import 'package:project/model/exam.dart';
 import 'package:flutter_document_picker/flutter_document_picker.dart';
 import 'dart:io';
 
 StorageReference reference = FirebaseStorage.instance.ref();
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 class Send extends StatefulWidget {
   @override
@@ -18,7 +20,8 @@ class Send extends StatefulWidget {
 class _SendState extends State<Send> {
   Professor profSelected;
   Subject subjectSelected;
-  String _path = '-';
+  String _path = '-', _filename;
+  Exam _exam;
   bool _pickFileInProgress = false;
   bool _iosPublicDataUTI = true;
   bool _checkByMimeType = false;
@@ -26,6 +29,7 @@ class _SendState extends State<Send> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Enviar Prova"),
@@ -116,8 +120,10 @@ class _SendState extends State<Send> {
           : "Escolha um professor"),
       onChanged: (dynamic selected) {
         setState(() {
-          if (selection == "subject") subjectSelected = selected;
-          else profSelected = selected;
+          if (selection == "subject")
+            subjectSelected = selected;
+          else
+            profSelected = selected;
         });
       },
       //TODO: corrigir erro ao selecionar opção da lista e mostrar em "value"
@@ -175,22 +181,67 @@ class _SendState extends State<Send> {
   }
 
   Future sendFile() async {
+    sendingFile(true);
     //TODO: manipular o envio de arquivo e as exceções que podem gerar
     if (_path == '-') {
       return;
     }
     //TODO: gerar nome do arquivo a ser salvo no Storage
-    String filename = "${profSelected.name}-${subjectSelected.name}";
+    _filename = "${profSelected.name}-${subjectSelected.name}";
     File file = File(_path);
     // não é necessário criar variável, mas uploadTask pode ser usado para aprimorar o layout da tela
     StorageUploadTask uploadTask = reference
-        .child('${subjectSelected.name}/${profSelected.name}/$filename').putFile(file);
-    //TODO: salvar no Firestore a referência para o arquivo (exam)
+        .child('${subjectSelected.name}/${profSelected.name}/$_filename')
+        .putFile(file);
+    uploadTask.onComplete.then((s) {
+      sendingFile(false);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Style.mainTheme.primaryColor,
+          content: Text(
+            "Arquivo enviado com sucesso",
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          )));
+    });
+    setFirestoreData();
 
+    setState(() {
+      _path = "-";
+    });
     /* comandos necessários para pegar o url de download do arquivo
     (isso poderá ser usado caso o usuário desejar baixar o pdf ao visualizá-lo)
     StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     String url = (await  downloadUrl.ref.getDownloadURL());
     */
+  }
+
+  sendingFile(bool isSending) {
+    if (isSending) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: Style.mainTheme.primaryColor,
+          content: Row(
+            children: <Widget>[
+              CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
+              Text(
+                " Enviando arquivo...",
+                textAlign: TextAlign.right,
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else
+      _scaffoldKey.currentState.hideCurrentSnackBar();
+  }
+
+  setFirestoreData() {
+    //TODO: subjectSelected.reference.documentID está retornando null
+    _exam = Exam('2019-1', profSelected.name,
+        subjectSelected.reference.documentID, _filename, 'p1');
+    GlobalState.course.reference
+        .collection(Exam.collectionName)
+        .add(_exam.toMap());
   }
 }

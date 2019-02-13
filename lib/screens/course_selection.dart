@@ -23,7 +23,8 @@ class _CourseSelectionState extends State<CourseSelection> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Image.asset("assets/logo.png", //TODO Logo do Infoprovas
+            child: Image.asset(
+              "assets/logo.png",
               height: 120.0,
             ),
           ),
@@ -41,11 +42,11 @@ class _CourseSelectionState extends State<CourseSelection> {
             ),
             color: Style.mainTheme.primaryColor,
             textColor: Colors.white,
-            onPressed: (){
+            onPressed: () {
               GlobalState.setCourse(courseSelected);
               // Substitui a rota atual para que o usuário não volte mais pra cá
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Home()));
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Home()));
             },
           ),
         ],
@@ -53,15 +54,16 @@ class _CourseSelectionState extends State<CourseSelection> {
     );
   }
 
-  Widget _buildDropdown(){
+  Widget _buildDropdown() {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection(Course.collectionName)
+      stream: Firestore.instance
+          .collection(Course.collectionName)
           .orderBy("nome")
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
 
-        if (snapshot.data.documents.length == 0){
+        if (snapshot.data.documents.length == 0) {
           return Text("Erro - Não há cursos cadastrados");
         }
 
@@ -70,9 +72,9 @@ class _CourseSelectionState extends State<CourseSelection> {
     );
   }
 
-  Widget _buildItem(BuildContext context, List<DocumentSnapshot> data){
+  Widget _buildItem(BuildContext context, List<DocumentSnapshot> data) {
     return DropdownButton<Course>(
-      items: data.map( (DocumentSnapshot doc) {
+      items: data.map((DocumentSnapshot doc) {
         Course course = Course.fromMap(doc.data, reference: doc.reference);
 
         return DropdownMenuItem<Course>(
@@ -81,7 +83,7 @@ class _CourseSelectionState extends State<CourseSelection> {
         );
       }).toList(),
       hint: Text("Escolha um curso"),
-      onChanged: (Course c){
+      onChanged: (Course c) {
         setState(() {
           courseSelected = c;
         });
@@ -90,4 +92,3 @@ class _CourseSelectionState extends State<CourseSelection> {
     );
   }
 }
-
