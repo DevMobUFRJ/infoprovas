@@ -25,6 +25,8 @@ class _SendState extends State<Send> {
   bool _pickFileInProgress = false;
   bool _iosPublicDataUTI = true;
   bool _checkByMimeType = false;
+  var _types = ['P1', 'P2', 'P3', 'PF', 'Segunda Chamada'];
+  var _currentItemSelected = 'P1';
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,25 @@ class _SendState extends State<Send> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               _buildDropdown("subject"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              DropdownButton<String>(
+                items: _types.map((String dropDownStringItem) {
+                  return DropdownMenuItem<String>(
+                    value: dropDownStringItem,
+                    child: Text(dropDownStringItem),
+                  );
+                }).toList(),
+                hint: Text("Selecione o Tipo de Prova"),
+                onChanged: (String valueSelected) {
+                  _dropDownItemSelected(valueSelected);
+                },
+                value: _currentItemSelected,
+              ),
             ],
           ),
           _path == "-"
@@ -222,7 +243,9 @@ class _SendState extends State<Send> {
           backgroundColor: Style.mainTheme.primaryColor,
           content: Row(
             children: <Widget>[
-              CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
               Text(
                 " Enviando arquivo...",
                 textAlign: TextAlign.right,
@@ -243,5 +266,11 @@ class _SendState extends State<Send> {
     GlobalState.course.reference
         .collection(Exam.collectionName)
         .add(_exam.toMap());
+  }
+
+  void _dropDownItemSelected(String valueSelected) {
+    setState(() {
+      this._currentItemSelected = valueSelected;
+    });
   }
 }
