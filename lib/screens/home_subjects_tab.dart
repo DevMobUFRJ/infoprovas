@@ -18,9 +18,11 @@ class _SubjectsTabState extends State<SubjectsTab> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        padding: EdgeInsets.all(10.0),
         child: Column(children: <Widget>[
-          selectorPeriod(),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: selectorPeriod(),
+          ),
           Flexible(
             child: _buildSubjectsList(),
           )
@@ -28,9 +30,11 @@ class _SubjectsTabState extends State<SubjectsTab> {
   }
 
   Widget selectorPeriod() {
-    return Column(
-      children: <Widget>[
-        new Container(
+    return Material(
+      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+      elevation: 3.0,
+        child: Container(
+          decoration: BoxDecoration(borderRadius:BorderRadius.all(Radius.circular(100.0)), color: Style.mainTheme.primaryColor ),
             child: new SizedBox(
                 width: double.infinity,
                 // height: double.infinity,
@@ -40,9 +44,11 @@ class _SubjectsTabState extends State<SubjectsTab> {
                             fontWeight: FontWeight.w700, color: Colors.white)),
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    //borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     pressedOpacity: 0.5,
-                    color: Style.mainTheme.primaryColor,
+                    //color: Colors.white,
+                    //color: Colors.green,
+                    //color: Style.mainTheme.primaryColor,
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -84,8 +90,8 @@ class _SubjectsTabState extends State<SubjectsTab> {
                               ),
                             );
                           });
-                    })))
-      ],
+                    }))
+      )
     );
   }
 
@@ -107,7 +113,6 @@ class _SubjectsTabState extends State<SubjectsTab> {
               Text("Não há disciplinas"),
             ],
           );
-
         return _buildList(snapshot.data.documents);
       },
     );
@@ -128,7 +133,6 @@ class _SubjectsTabState extends State<SubjectsTab> {
               // Se for o último, é lista de eletivas
               if (!subject.elective) return null;
             }
-
             return _buildListItem(subject);
           })
           .where((w) => w != null)
@@ -137,19 +141,27 @@ class _SubjectsTabState extends State<SubjectsTab> {
   }
 
   Widget _buildListItem(Subject subject) {
-    return Column(children: <Widget>[
-      ListTile(
-          title: Text(subject.name,
-              style:
-                  TextStyle(fontWeight: FontWeight.w400, color: Colors.black),
-              textAlign: TextAlign.center),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => SubjectDetail(subject: subject)));
-          }),
-      Divider(color: Colors.black26)
-    ]);
+    return Container(
+      child: Column(children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 15,right: 15),
+          child: Container(
+          height: 1.0,
+          color: Colors.black12,
+      ),
+        ),
+        ListTile(
+            title: Text(subject.name,
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, color: Colors.black),
+                textAlign: TextAlign.center),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => SubjectDetail(subject: subject)));
+            }),
+      ]),
+    );
   }
 }
