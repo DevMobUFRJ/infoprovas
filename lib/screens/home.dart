@@ -40,7 +40,7 @@ class HomeState extends State<Home> {
                   child: Container(
                     color: Style.mainTheme.primaryColor,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
+                      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -54,8 +54,8 @@ class HomeState extends State<Home> {
                             unselectedLabelColor: Colors.white,
                             labelColor: Style.mainTheme.primaryColor,
                             tabs: [
-                              new Tab(child: Text("Disciplina")),
-                              new Tab(child: Text("Professor")),
+                              new Tab(child: Text("Disciplinas")),
+                              new Tab(child: Text("Professores")),
                             ],
                           ),
                         ],
