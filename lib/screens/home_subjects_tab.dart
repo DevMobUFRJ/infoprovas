@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/config/global_state.dart';
 import 'package:project/model/subject.dart';
 import 'package:project/styles/style.dart';
-import 'subjectTile.dart';
-import '../repository/subjectRepository.dart';
+import 'subject_tile.dart';
+import 'package:project/repository/subject_repository.dart';
 
 class SubjectsTab extends StatefulWidget {
   @override
@@ -22,7 +21,6 @@ class _SubjectsTabState extends State<SubjectsTab> {
   }
 
   int _selectedPeriod = 0;
-  GlobalState store = GlobalState.instance;
 
   @override
   Widget build(BuildContext context) {
