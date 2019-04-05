@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:project/screens/home_professor_tab.dart';
 import 'package:project/screens/home_subjects_tab.dart';
 import 'package:project/screens/drawer_screen.dart';
-import 'package:project/config/global_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
@@ -21,7 +20,6 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
 
-  GlobalState store = GlobalState.instance;
   @override
   Widget build(BuildContext context) {
 

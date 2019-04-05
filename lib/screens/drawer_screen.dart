@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project/config/global_state.dart';
 import 'package:project/styles/style.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -33,7 +32,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           fontSize: 13.0,
                         ),
                       ),
-                      Text(GlobalState.course.name,
+                      Text("Ciência da Computação",
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.white,

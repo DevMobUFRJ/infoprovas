@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/config/global_state.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/model/professor.dart';
 import 'professor_tile.dart';

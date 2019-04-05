@@ -7,7 +7,7 @@ class subjectTile extends StatelessWidget {
   subjectTile(this._disciplina, this.periodo);
 
   Widget _buildDisciplina(){
-    if(_disciplina.periodo == periodo){
+    if(periodo == 0){
       return
         Column(
           children: <Widget>[
@@ -23,11 +23,40 @@ class subjectTile extends StatelessWidget {
             )
           ],
         );
-    }else{
+    }else if (periodo == 9 && _disciplina.periodo == 0) {
       return
-        Container(
-
+        Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(_disciplina.nome, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.black87),),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+              child: Container(
+                height: 0.5,
+                color: Colors.black12,
+              ),
+            )
+          ],
         );
+    }else if ( _disciplina.periodo == periodo){
+      return
+        Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(_disciplina.nome, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.black87),),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+              child: Container(
+                height: 0.5,
+                color: Colors.black12,
+              ),
+            )
+          ],
+        );
+    }else {
+      return Container();
     }
   }
 

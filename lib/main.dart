@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:project/screens/course_selection.dart';
+import 'package:project/screens/home.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/screens/about.dart';
 import 'package:project/screens/saved_tests.dart';
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'InfoProvas',
       theme: Style.mainTheme,
-      home: CourseSelection(),
+      home: Home(),
       routes: <String, WidgetBuilder>{
         'about': (context) => About(),
         'savedtests': (context) => SavedTests(),

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/config/global_state.dart';
 import 'package:project/model/subject.dart';
 import 'package:project/styles/style.dart';
 import 'subject_tile.dart';
@@ -26,18 +25,17 @@ class _SubjectsTabState extends State<SubjectsTab> {
   Widget build(BuildContext context) {
     return new Container(
         child: Column(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: selectorPeriod(),
-          ),
-          Flexible(
-            child: ListView.builder(
-              itemCount: _subject.length,
-              itemBuilder: (context, index) =>
-                  subjectTile(_subject[index], _selectedPeriod),
-            ),
-          )
-        ]));
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: selectorPeriod(),
+      ),
+      Flexible(
+        child: ListView.builder(
+          itemCount: _subject.length,
+          itemBuilder: (context, index) => subjectTile(_subject[index], _selectedPeriod),
+        ),
+      )
+    ]));
   }
 
   Widget selectorPeriod() {
@@ -52,16 +50,10 @@ class _SubjectsTabState extends State<SubjectsTab> {
                 width: double.infinity,
                 // height: double.infinity,
                 child: CupertinoButton(
-                    child: new Text(GlobalState.periods[_selectedPeriod],
-                        style: new TextStyle(
-                            fontWeight: FontWeight.w700, color: Colors.white)),
+                    child: cupertinoText(_selectedPeriod),
                     padding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
-                    //borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
                     pressedOpacity: 0.5,
-                    //color: Colors.white,
-                    //color: Colors.green,
-                    //color: Style.mainTheme.primaryColor,
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
@@ -74,7 +66,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
                                   Expanded(
                                     child: CupertinoPicker(
                                       scrollController:
-                                      new FixedExtentScrollController(
+                                          new FixedExtentScrollController(
                                         initialItem: _selectedPeriod,
                                       ),
                                       itemExtent: 48.0,
@@ -82,22 +74,13 @@ class _SubjectsTabState extends State<SubjectsTab> {
                                       onSelectedItemChanged: (int index) {
                                         setState(() {
                                           _selectedPeriod = index;
-                                          //subjectsFiltered = GlobalState.subjects.where((i) => i.periodNumber == (index + 1)).toList();
                                         });
                                       },
-                                      children: new List<Widget>.generate(
-                                          GlobalState.periods.length,
-                                              (int index) {
-                                            return new Center(
-                                              child: new Text(
-                                                  GlobalState.periods[index],
-                                                  style: new TextStyle(
-                                                      fontWeight: FontWeight
-                                                          .w600,
-                                                      fontSize: 16.0,
-                                                      color: Colors.black)),
-                                            );
-                                          }),
+                                      children: new List<Widget>.generate(10,
+                                          (int index) {
+                                            return selectorText(index);
+                                          }
+                                        ),
                                     ),
                                   ),
                                 ],
@@ -109,8 +92,50 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   void listenForSubject() async {
     final Stream<Subject> stream = await getSubject();
-    stream.listen((Subject subject) =>
-        setState(() => _subject.add(subject))
-    );
+    stream.listen((Subject subject) => setState(() => _subject.add(subject)));
+  }
+
+  Widget selectorText(int selectedPeriod) {
+    if (selectedPeriod == 0) {
+      return new Center(
+        child: new Text("Todas as Disciplinas",
+            style: new TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16.0,
+                color: Colors.black)),
+      );
+    } else if (selectedPeriod == 9) {
+      return new Center(
+        child: new Text("Eletivas",
+            style: new TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16.0,
+                color: Colors.black)),
+      );
+    } else {
+      return new Center(
+        child: new Text("$selectedPeriodº Periodo",
+            style: new TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16.0,
+                color: Colors.black)),
+      );
+    }
+  }
+
+  Widget cupertinoText(int selectedPeriod) {
+    if (selectedPeriod == 0) {
+      return Text("Todas as Disciplinas",
+          style:
+              new TextStyle(fontWeight: FontWeight.w700, color: Colors.white));
+    } else if (selectedPeriod == 9) {
+      return Text("Eletivas",
+          style:
+              new TextStyle(fontWeight: FontWeight.w700, color: Colors.white));
+    } else {
+      return Text("$selectedPeriodº Periodo",
+          style:
+              new TextStyle(fontWeight: FontWeight.w700, color: Colors.white));
+    }
   }
 }
