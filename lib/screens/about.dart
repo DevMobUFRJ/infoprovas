@@ -3,7 +3,7 @@ import 'package:project/styles/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatelessWidget {
-  _launchURL(String url) async{
+  _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     }
@@ -14,6 +14,7 @@ class About extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: new AppBar(
+        backgroundColor: Style.mainTheme.accentColor,
         title: Text("Sobre"),
         elevation: 2.0,
       ),
@@ -23,66 +24,105 @@ class About extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Expanded(
-              child: ListView(
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        GestureDetector(
-                          child: Image.asset("assets/devmob-logo.png", width: 80,),
-                          onTap: () => _launchURL("http://facebook.com/devmobufrj"),
-                        ),
-                      ],
+              child: ListView(children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Image.asset(
+                        "assets/devmob-logo.png",
+                        width: 80,
+                      ),
+                      onTap: () => _launchURL("http://facebook.com/devmobufrj"),
                     ),
-                    Container(
-                      height: 8.0,
+                  ],
+                ),
+                Container(
+                  height: 8.0,
+                ),
+                Text(
+                  "App desenvolvido por DevMob UFRJ\n"
+                      "Nome da Pessoa / Nomeie Outra Pessoa",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 15,
+                  ),
+                ),
+                Divider(
+                  color: Colors.black45,
+                  height: 28,
+                ),
+                Text(
+                  "Infoprovas",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Style.mainTheme.primaryColorDark,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6.0),
+                  child: Text(
+                    "O InfoProvas é um projeto do CAInfo, Centro Acadêmico do curso de Ciência da Computação. "
+                        "Anteriormente, consistindo apenas de um site.\nO InfoProvas conta com provas antigas de "
+                        "professores e disciplinas, com o objetivo principal de auxiliar os alunos nos estudos, "
+                        "permitindo uma preparação mais efetiva e objetiva, trazendo resultados melhores pros alunos, "
+                        "pro curso, e pra universidade.",
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+                Divider(
+                  color: Colors.black45,
+                  height: 28,
+                ),
+                Text(
+                  "DevMob",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Style.mainTheme.primaryColorDark,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6.0),
+                  child: Text(
+                    "O aplicativo foi desenvolvido pelo DevMob, Grupo de Desenvolvimento de Aplicativos do "
+                        "Departamento de Ciência da Computação da UFRJ. O app foi desenvolvido em Flutter, e o seu "
+                        "código fonte está aberto, disponível no GitHub do grupo.",
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+                Divider(
+                  color: Colors.black45,
+                  height: 28,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.filter_1),
+                      disabledColor: Colors.black54,
+                      color: Colors.black54,
+                      iconSize: 40,
+                      onPressed: () => _launchURL("http://facebook.com/devmobufrj")
                     ),
-                    Text("App desenvolvido por DevMob UFRJ\n"
-                        "Nome da Pessoa / Nomeie Outra Pessoa",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
+                    IconButton(
+                        icon: Icon(Icons.filter_2),
+                        disabledColor: Colors.black54,
                         color: Colors.black54,
-                        fontSize: 15,
-                      ),
-                    ),
-                    Divider(color: Colors.black45, height: 28,),
-                    Text("Infoprovas",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Style.mainTheme.primaryColorDark,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: Text("O InfoProvas é um projeto do CAInfo, Centro Acadêmico do curso de Ciência da Computação. "
-                          "Anteriormente, consistindo apenas de um site.\nO InfoProvas conta com provas antigas de "
-                          "professores e disciplinas, com o objetivo principal de auxiliar os alunos nos estudos, "
-                          "permitindo uma preparação mais efetiva e objetiva, trazendo resultados melhores pros alunos, "
-                          "pro curso, e pra universidade.",
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
-                    Divider(color: Colors.black45, height: 28,),
-                    Text("DevMob",
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Style.mainTheme.primaryColorDark,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: Text("O aplicativo foi desenvolvido pelo DevMob, Grupo de Desenvolvimento de Aplicativos do "
-                          "Departamento de Ciência da Computação da UFRJ. O app foi desenvolvido em Flutter, e o seu "
-                          "código fonte está aberto, disponível no GitHub do grupo.",
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
-                    Divider(color: Colors.black45, height: 28,),
-                  ]
-              ),
+                        iconSize: 40,
+                        onPressed: () => print("botao 2")),
+                    IconButton(
+                        icon: Icon(Icons.filter_3),
+                        disabledColor: Colors.black54,
+                        color: Colors.black54,
+                        iconSize: 40,
+                        onPressed: () => print("botao 3")),
+                  ],
+                )
+              ]),
             ),
           ],
         ),

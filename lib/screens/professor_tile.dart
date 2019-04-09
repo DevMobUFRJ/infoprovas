@@ -16,6 +16,7 @@ class ProfessorTile extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, color: Colors.black87),
                 ),
+                onTap: () => print("${_professor.name}, ${_professor.id}"),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),

@@ -1,38 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/model/professor.dart';
 import 'professor_tile.dart';
-import 'package:project/repository/professor_repository.dart';
 
 class ProfessorTab extends StatefulWidget {
+  List<Professor> _professor = <Professor>[];
+  ProfessorTab(this._professor);
+
   @override
-  _ProfessorTabState createState() => _ProfessorTabState();
+  _ProfessorTabState createState() => _ProfessorTabState(_professor);
 }
 
 class _ProfessorTabState extends State<ProfessorTab> {
   List<Professor> _professor = <Professor>[];
 
-  @override
-  void initState() {
-    super.initState();
-    listenForProfessor();
-  }
+  _ProfessorTabState(this._professor);
 
   @override
   Widget build(BuildContext context) {
-    return  ListView.builder(
-        itemCount: _professor.length,
-        itemBuilder: (context, index) =>
-            ProfessorTile(_professor[index]),
-
-    );
+    return loadingProfessorTiles();
   }
 
-  void listenForProfessor() async {
-    final Stream<Professor> stream = await getProfessor();
-    stream.listen((Professor professor) =>
-        setState(() => _professor.add(professor))
-    );
+  Widget loadingProfessorTiles() {
+    return _professor.isEmpty
+        ? Center(child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
+          ))
+        : ListView.builder(
+            itemCount: _professor.length,
+            itemBuilder: (context, index) => ProfessorTile(_professor[index]),
+          );
   }
 }

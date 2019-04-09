@@ -2,68 +2,45 @@ import 'package:flutter/material.dart';
 import '../model/subject.dart';
 
 class subjectTile extends StatelessWidget {
-  int periodo;
-  final Subject _disciplina;
-  subjectTile(this._disciplina, this.periodo);
+  int period;
+  final Subject _subject;
+  subjectTile(this._subject, this.period);
 
-  Widget _buildDisciplina(){
-    if(periodo == 0){
-      return
-        Column(
-          children: <Widget>[
-            ListTile(
-              title: Text(_disciplina.nome, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.black87),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-              child: Container(
-                height: 0.5,
-                color: Colors.black12,
-              ),
-            )
-          ],
-        );
-    }else if (periodo == 9 && _disciplina.periodo == 0) {
-      return
-        Column(
-          children: <Widget>[
-            ListTile(
-              title: Text(_disciplina.nome, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.black87),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-              child: Container(
-                height: 0.5,
-                color: Colors.black12,
-              ),
-            )
-          ],
-        );
-    }else if ( _disciplina.periodo == periodo){
-      return
-        Column(
-          children: <Widget>[
-            ListTile(
-              title: Text(_disciplina.nome, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.black87),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-              child: Container(
-                height: 0.5,
-                color: Colors.black12,
-              ),
-            )
-          ],
-        );
+  Widget _selectSubject(){
+    if(period == 0){
+      return _createTileSubject();
+    }else if (period == 9 && _subject.period == 0) {
+      return _createTileSubject();
+    }else if ( _subject.period == period){
+      return _createTileSubject();
     }else {
       return Container();
     }
   }
 
+  Widget _createTileSubject(){
+    return
+      Column(
+        children: <Widget>[
+          ListTile(
+            title: Text(_subject.name, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.black87),),
+            onTap: () => print("${_subject.name}, ${_subject.period}, ${_subject.id}"),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+            child: Container(
+              height: 0.5,
+              color: Colors.black12,
+            ),
+          )
+        ],
+      );
+  }
+
   @override
   Widget build(BuildContext context) => Column(
     children: <Widget>[
-      _buildDisciplina(),
+      _selectSubject(),
     ],
   );
 }

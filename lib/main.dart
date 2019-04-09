@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart';
 import 'package:project/screens/home.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/screens/about.dart';
@@ -13,7 +13,12 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'InfoProvas',
-      theme: Style.mainTheme,
+      theme: ThemeData(
+        brightness: Style.mainTheme.brightness,
+        primaryColor: Style.mainTheme.primaryColor,
+        accentColor: Style.mainTheme.accentColor,
+        accentColorBrightness: Brightness.light
+      ),
       home: Home(),
       routes: <String, WidgetBuilder>{
         'about': (context) => About(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/about.dart';
 import 'package:project/styles/style.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             text: "Sobre",
             icon: Icons.help,
             onPressed: (){
-              Navigator.pushNamed(context, 'about');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => About()));
             },
           )
         ]

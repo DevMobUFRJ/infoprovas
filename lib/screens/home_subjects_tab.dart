@@ -1,41 +1,52 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:project/model/subject.dart';
 import 'package:project/styles/style.dart';
 import 'subject_tile.dart';
-import 'package:project/repository/subject_repository.dart';
 
 class SubjectsTab extends StatefulWidget {
+  List<Subject> _subject = <Subject>[];
+  SubjectsTab(this._subject);
+
   @override
-  _SubjectsTabState createState() => _SubjectsTabState();
+  _SubjectsTabState createState() => _SubjectsTabState(_subject);
 }
 
 class _SubjectsTabState extends State<SubjectsTab> {
   List<Subject> _subject = <Subject>[];
 
-  @override
-  void initState() {
-    super.initState();
-    listenForSubject();
-  }
+  _SubjectsTabState(this._subject);
 
   int _selectedPeriod = 0;
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return loadingSubjectTiles();
+  }
+
+  Widget loadingSubjectTiles() {
+    return _subject.isEmpty
+        ? Center(child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
+          ))
+        : Container(
         child: Column(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: selectorPeriod(),
-      ),
-      Flexible(
-        child: ListView.builder(
-          itemCount: _subject.length,
-          itemBuilder: (context, index) => subjectTile(_subject[index], _selectedPeriod),
-        ),
-      )
-    ]));
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: selectorPeriod(),
+          ),
+          Flexible(
+            child: Center(child: ListView.builder(
+              itemCount: _subject.length,
+              itemBuilder: (context, index) =>
+                  subjectTile(_subject[index], _selectedPeriod),
+
+            )),
+          )
+        ]));
   }
 
   Widget selectorPeriod() {
@@ -78,9 +89,8 @@ class _SubjectsTabState extends State<SubjectsTab> {
                                       },
                                       children: new List<Widget>.generate(10,
                                           (int index) {
-                                            return selectorText(index);
-                                          }
-                                        ),
+                                        return selectorText(index);
+                                      }),
                                     ),
                                   ),
                                 ],
@@ -90,52 +100,32 @@ class _SubjectsTabState extends State<SubjectsTab> {
                     }))));
   }
 
-  void listenForSubject() async {
-    final Stream<Subject> stream = await getSubject();
-    stream.listen((Subject subject) => setState(() => _subject.add(subject)));
-  }
-
   Widget selectorText(int selectedPeriod) {
     if (selectedPeriod == 0) {
-      return new Center(
-        child: new Text("Todas as Disciplinas",
-            style: new TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
-                color: Colors.black)),
-      );
+      return myText("Todas as Disciplinas", FontWeight.w600, Colors.black,
+          fontSize: 16.0);
     } else if (selectedPeriod == 9) {
-      return new Center(
-        child: new Text("Eletivas",
-            style: new TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
-                color: Colors.black)),
-      );
+      return myText("Eletivas", FontWeight.w600, Colors.black, fontSize: 16.0);
     } else {
-      return new Center(
-        child: new Text("$selectedPeriodº Periodo",
-            style: new TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
-                color: Colors.black)),
-      );
+      return myText("$selectedPeriodº Periodo", FontWeight.w600, Colors.black,
+          fontSize: 16.0);
     }
+  }
+
+  Widget myText(String text, FontWeight fontWeight, Color colors,
+      {double fontSize}) {
+    return Text(text,
+        style: new TextStyle(
+            fontWeight: fontWeight, fontSize: fontSize, color: colors));
   }
 
   Widget cupertinoText(int selectedPeriod) {
     if (selectedPeriod == 0) {
-      return Text("Todas as Disciplinas",
-          style:
-              new TextStyle(fontWeight: FontWeight.w700, color: Colors.white));
+      return myText("Todas as Disciplinas", FontWeight.w700, Colors.white);
     } else if (selectedPeriod == 9) {
-      return Text("Eletivas",
-          style:
-              new TextStyle(fontWeight: FontWeight.w700, color: Colors.white));
+      return myText("Eletivas", FontWeight.w700, Colors.white);
     } else {
-      return Text("$selectedPeriodº Periodo",
-          style:
-              new TextStyle(fontWeight: FontWeight.w700, color: Colors.white));
+      return myText("$selectedPeriodº Periodo", FontWeight.w700, Colors.white);
     }
   }
 }
