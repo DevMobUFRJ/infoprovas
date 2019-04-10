@@ -29,6 +29,7 @@ class _ProfessorTabState extends State<ProfessorTab> {
             valueColor: AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
           ))
         : ListView.builder(
+            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
             itemCount: _professor.length,
             itemBuilder: (context, index) => ProfessorTile(_professor[index]),
           );
