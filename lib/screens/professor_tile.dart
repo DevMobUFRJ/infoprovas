@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../model/professor.dart';
+import 'package:project/model/professor.dart';
 
 class ProfessorTile extends StatelessWidget {
   final Professor _professor;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/styles/style.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:project/styles/github_icon.dart';
+import 'package:project/styles/facebook_icon.dart';
 
 class About extends StatelessWidget {
   _launchURL(String url) async {
@@ -29,12 +31,9 @@ class About extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    GestureDetector(
-                      child: Image.asset(
-                        "assets/devmob-logo.png",
-                        width: 80,
-                      ),
-                      onTap: () => _launchURL("http://facebook.com/devmobufrj"),
+                    Image.asset(
+                      "assets/devmob-logo.png",
+                      width: 80,
                     ),
                   ],
                 ),
@@ -102,24 +101,19 @@ class About extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     IconButton(
-                      icon: Icon(Icons.filter_1),
-                      disabledColor: Colors.black54,
-                      color: Colors.black54,
-                      iconSize: 40,
-                      onPressed: () => _launchURL("http://facebook.com/devmobufrj")
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.filter_2),
+                        icon: Icon(Facebook.facebook),
                         disabledColor: Colors.black54,
                         color: Colors.black54,
                         iconSize: 40,
-                        onPressed: () => print("botao 2")),
+                        onPressed: () =>
+                            _launchURL("http://facebook.com/devmobufrj")),
                     IconButton(
-                        icon: Icon(Icons.filter_3),
+                        icon: Icon(Git.github),
                         disabledColor: Colors.black54,
                         color: Colors.black54,
                         iconSize: 40,
-                        onPressed: () => print("botao 3")),
+                        onPressed: () =>
+                            _launchURL("https://github.com/DevMobUFRJ")),
                   ],
                 )
               ]),
