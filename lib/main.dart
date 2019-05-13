@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       home: Home(),
       routes: <String, WidgetBuilder>{
         'about': (context) => About(),
-        'savedtests': (context) => SavedTests(),
       },
     );
   }

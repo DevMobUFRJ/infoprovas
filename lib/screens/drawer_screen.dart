@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/screens/about.dart';
 import 'package:project/styles/style.dart';
+import 'package:project/screens/home.dart';
+import 'package:project/screens/saved_tests.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class DrawerScreen extends StatefulWidget {
 class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
-    return  Drawer(
+    return Drawer(
       child: Column(
         children: <Widget>[
           Row(
@@ -27,13 +29,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Text("Curso",
+                      Text(
+                        "Curso",
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 13.0,
                         ),
                       ),
-                      Text("Ciência da Computação",
+                      Text(
+                        "Ciência da Computação",
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.white,
@@ -53,30 +57,35 @@ class _DrawerScreenState extends State<DrawerScreen> {
           _ItemDrawer(
             text: "Provas Salvas",
             icon: Icons.save_alt,
-            onPressed: () => Navigator.pushNamed(context, 'savedtests'),
+            onPressed: () => openSavedTestsScreen(),
           ),
-          _ItemDrawer(
-            text: "Enviar Prova",
-            icon: Icons.note_add,
-            onPressed: () => Navigator.pushNamed(context, 'send'),
+          Expanded(
+            child: Container(),
+          ), //Spacer
+          Divider(
+            color: Colors.black45,
+            height: 0,
           ),
-          Expanded(child: Container(),), //Spacer
-          Divider(color: Colors.black45, height: 0,),
           _ItemDrawer(
             text: "Sobre",
             icon: Icons.help,
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => About()));
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => About()));
             },
-          )
-        ]
+          ),
+        ],
       ),
     );
   }
+
+  void openSavedTestsScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SavedTests()));
+  }
 }
 
-
-class _ItemDrawer extends StatelessWidget{
+class _ItemDrawer extends StatelessWidget {
   final IconData icon;
   final String text;
   final VoidCallback onPressed;
@@ -96,9 +105,7 @@ class _ItemDrawer extends StatelessWidget{
       ),
       title: Text(
         text,
-        style: TextStyle(
-            color: Colors.black54
-        ),
+        style: TextStyle(color: Colors.black54),
       ),
       onTap: onPressed,
     );

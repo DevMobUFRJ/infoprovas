@@ -11,12 +11,15 @@ dependencies:
     sdk: flutter
   #flutter_pdf_viewer: ^0.0.7
   http: ^0.12.0
-  cloud_firestore: ^0.9.0
-  flutter_document_picker: ^1.4.0
-  cupertino_icons: ^0.1.2
-  url_launcher: ^4.2.0
-  bubble_tab_indicator: ^0.1.4
   mysql1: ^0.16.3
+  flutter_custom_tabs: ^0.6.0
+  url_launcher: ^5.0.1
+
+  sqflite: ^1.1.0
+  path_provider: ^1.1.0
+
+  cupertino_icons: ^0.1.2
+  bubble_tab_indicator: ^0.1.4
 
 dev_dependencies:
   flutter_test:

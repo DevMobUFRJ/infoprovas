@@ -20,6 +20,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   List<Subject> _subject = <Subject>[];
   List<Professor> _professor = <Professor>[];
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -28,66 +29,76 @@ class HomeState extends State<Home> {
     listenForSubject();
   }
 
+  void onItemTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
     return MaterialApp(
       home: Scaffold(
-          drawer: DrawerScreen(),
-          backgroundColor: Colors.white,
-          appBar: new AppBar(
-            centerTitle: true,
-            backgroundColor: Style.mainTheme.primaryColor,
-            title: Text("InfoProvas"),
-            elevation: 0.0,
-          ),
-          body: DefaultTabController(
-              length: 2,
-              child: Column(
-                children: <Widget>[
-                  Material(
-                    elevation: 2.0,
-                    child: Container(
-                      color: Style.mainTheme.primaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: width / 12.5, right: width / 12.5),
-                              child: TabBar(
-                                indicatorSize: TabBarIndicatorSize.label,
-                                indicator: BubbleTabIndicator(
-                                    indicatorColor: Colors.white,
-                                    indicatorHeight: 20.0,
-                                    tabBarIndicatorSize:
-                                        TabBarIndicatorSize.label),
-                                unselectedLabelColor: Colors.white,
-                                labelColor: Style.mainTheme.primaryColor,
-                                tabs: [
-                                  new Tab(child: Text("Disciplinas")),
-                                  new Tab(child: Text("Professores")),
-                                ],
-                              ),
+        drawer: DrawerScreen(),
+        backgroundColor: Colors.white,
+        appBar: new AppBar(
+          centerTitle: true,
+          backgroundColor: Style.mainTheme.primaryColor,
+          title: Text("InfoProvas"),
+          elevation: 0.0,
+        ),
+        body: DefaultTabController(
+          length: 2,
+          child: Column(
+            children: <Widget>[
+              Material(
+                elevation: 2.0,
+                child: Container(
+                  color: Style.mainTheme.primaryColor,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: width / 12.5,
+                            right: width / 12.5,
+                          ),
+                          child: TabBar(
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicator: BubbleTabIndicator(
+                              indicatorColor: Colors.white,
+                              indicatorHeight: 20.0,
+                              tabBarIndicatorSize: TabBarIndicatorSize.label,
                             ),
-                          ],
+                            unselectedLabelColor: Colors.white,
+                            labelColor: Style.mainTheme.primaryColor,
+                            tabs: [
+                              Tab(child: Text("Disciplinas")),
+                              Tab(child: Text("Professores")),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        SubjectsTab(_subject),
-                        ProfessorTab(_professor),
                       ],
                     ),
-                  )
-                ],
-              ))),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    SubjectsTab(_subject),
+                    ProfessorTab(_professor),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

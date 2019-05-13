@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project/model/subject.dart';
 import 'package:project/styles/style.dart';
-import 'subject_tile.dart';
+import 'package:project/widgets/subject_tile.dart';
 
 class SubjectsTab extends StatefulWidget {
   List<Subject> _subject = <Subject>[];
