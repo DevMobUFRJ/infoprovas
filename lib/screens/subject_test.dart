@@ -39,8 +39,8 @@ class _SubjectTestState extends State<SubjectTest>
         title: Text("${widget._subject.name}"),
         elevation: 0,
       ),
-      body: DefaultTabController(
-        length: 2,
+      body: _types.isEmpty ? Center(child: CircularProgressIndicator()): DefaultTabController(
+        length: _types.length,
         child: Column(
           children: <Widget>[
             Material(
@@ -66,11 +66,7 @@ class _SubjectTestState extends State<SubjectTest>
                           ),
                           unselectedLabelColor: Colors.white,
                           labelColor: Style.mainTheme.primaryColor,
-                          tabs: <Widget>[
-                            Tab(child: Text("Prova 1")),
-                            Tab(child: Text("Prova 2")),
-                          ],
-                          //tabs: _types.map((type) => Text(type)).toList(),
+                          tabs: _types.map((type) => Tab(child: Text(type))).toList(),
                         ),
                       ),
                     ],
@@ -80,10 +76,7 @@ class _SubjectTestState extends State<SubjectTest>
             ),
             Expanded(
               child: TabBarView(
-                children: [
-                  SubjectTestTab(_tests),
-                  SubjectTestTab(_tests),
-                ],
+                children: _types.map((type) => SubjectTestTab(_tests.where((Test t) => t.type == type).toList())).toList(),
               ),
             ),
           ],
@@ -94,13 +87,17 @@ class _SubjectTestState extends State<SubjectTest>
 
   void listenForTests() async {
     final Stream<Test> stream = await getTests(widget._subject.id);
-    stream.listen((Test test) => setState(() {
-      _tests.add(test);
-      if (_types != null) {
-        if (!_types.contains(test.type)) {
-          _types.add(test.type);
-        }
-      }
-    }));
+    stream.listen(
+      (Test test) => setState(
+            () {
+              _tests.add(test);
+              if (_types != null) {
+                if (!_types.contains(test.type)) {
+                  _types.add(test.type);
+                }
+              }
+            },
+          ),
+    );
   }
 }
