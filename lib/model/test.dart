@@ -11,14 +11,6 @@ class Test {
   Test(this.id, this.year, this.semester, this.professorName, this.type,
       this.subject);
 
-//  Test.map(dynamic obj) {
-//    this.id = obj['idTest'];
-//    this.year = obj['year'];
-//    this.semester = obj['semester'];
-//    this.professorName = obj['professorName'];
-//    this.type = obj['type'];
-//  }
-
   // Transforma a classe em um map
   // saida: map que contém o valor pra cada campo da classe
   Map<String, dynamic> toMap() {
@@ -49,6 +41,13 @@ class Test {
   Test.fromJSON(Map<String, dynamic> jsonMap)
       : id = int.parse(jsonMap['provaID']),
         professorName = jsonMap['nomeProfessor'],
+        type = jsonMap['nome'],
+        year = int.parse(jsonMap['ano']),
+        semester = int.parse(jsonMap['periodo']);
+
+  Test.fromProfessorJSON(Map<String, dynamic> jsonMap)
+      : id = int.parse(jsonMap['provaID']),
+        subject = jsonMap['disciplina'],
         type = jsonMap['nome'],
         year = int.parse(jsonMap['ano']),
         semester = int.parse(jsonMap['periodo']);

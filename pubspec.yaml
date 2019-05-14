@@ -31,9 +31,9 @@ flutter:
   fonts:
     - family : facebook
       fonts:
-        - asset: assets/fonts/FbIcon.ttf
+        - asset: assets/fonts/fb_icon.ttf
     - family : github
       fonts:
-        - asset : assets/fonts/GitIcon.ttf
+        - asset : assets/fonts/git_icon.ttf
 
   uses-material-design: true

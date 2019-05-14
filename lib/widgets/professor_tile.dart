@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/model/professor.dart';
+import 'package:project/screens/professor_test.dart';
 
 class ProfessorTile extends StatelessWidget {
   final Professor _professor;
@@ -16,7 +17,10 @@ class ProfessorTile extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, color: Colors.black87),
                 ),
-                onTap: () => print("${_professor.name}, ${_professor.id}"),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfessorTest(_professor))),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
