@@ -1,48 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:project/model/subject.dart';
+import 'package:project/screens/subject_test.dart';
 
-class subjectTile extends StatelessWidget {
+class SubjectTile extends StatelessWidget {
   int period;
   final Subject _subject;
-  subjectTile(this._subject, this.period);
+  SubjectTile(this._subject, this.period);
 
-  Widget _selectSubject(){
-    if(period == 0){
-      return _createTileSubject();
-    }else if (period == 9 && _subject.period == 0) {
-      return _createTileSubject();
-    }else if ( _subject.period == period){
-      return _createTileSubject();
-    }else {
+  Widget _selectSubject(Subject _subject) {
+    if (period == 0) {
+      return CreateTileSubject(_subject);
+    } else if (period == 9 && _subject.period == 0) {
+      return CreateTileSubject(_subject);
+    } else if (_subject.period == period) {
+      return CreateTileSubject(_subject);
+    } else {
       return Container();
     }
   }
 
-  Widget _createTileSubject(){
-    return
-      Column(
-        children: <Widget>[
-          ListTile(
-            title: Text(_subject.name, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.black87),),
-            onTap: () => print("${_subject.name}, ${_subject.period}, ${_subject.id}"),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0,right: 8.0),
-            child: Container(
-              height: 0.5,
-              color: Colors.black12,
-            ),
-          )
-        ],
-      );
-  }
-
   @override
   Widget build(BuildContext context) => Column(
-    children: <Widget>[
-      _selectSubject(),
-    ],
-  );
+        children: <Widget>[
+          _selectSubject(_subject),
+        ],
+      );
 }
 
+class CreateTileSubject extends StatelessWidget {
+  Subject _subject;
+
+  CreateTileSubject(this._subject);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          title: Text(
+            _subject.name,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, color: Colors.black87),
+          ),
+          onTap: () {
+//            print("${_subject.name}, ${_subject.period}, ${_subject.id}");
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectTest(_subject)));
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          child: Container(
+            height: 0.5,
+            color: Colors.black12,
+          ),
+        )
+      ],
+    );
+  }
+}
 

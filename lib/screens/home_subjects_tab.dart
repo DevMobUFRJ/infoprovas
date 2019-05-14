@@ -45,7 +45,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
                     physics: ScrollPhysics(parent: BouncingScrollPhysics()),
                     itemCount: _subject.length,
                     itemBuilder: (context, index) =>
-                        subjectTile(_subject[index], _selectedPeriod),
+                        SubjectTile(_subject[index], _selectedPeriod),
                   )),
             )
           ]));

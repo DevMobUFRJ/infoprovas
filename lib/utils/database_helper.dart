@@ -48,7 +48,7 @@ class DatabaseHelper {
 
   // salva uma nova prova no sqlite
   // entrada: Test que contém informações da prova salva que o usuario deseja salvar
-  // saida: retorna um int 0 caso falhe ou 1 caso seja bem sucedido
+  // saida: retorna um int -> 0 caso falhe ou 1 caso seja bem sucedido
   Future<int> saveTest(Test test) async {
     var databaseClient = await database;
     int result = await databaseClient.insert('$savedTestsTable', test.toMap());
@@ -64,6 +64,7 @@ class DatabaseHelper {
     return testList;
   }
 
+  // pega o ultimo id de prova por ordem crescente, ou seja, maior id
   Future<Test> getLastTest() async {
     var databaseClient = await database;
     var tests = await databaseClient.rawQuery("SELECT * FROM $savedTestsTable");
@@ -77,6 +78,9 @@ class DatabaseHelper {
         await databaseClient.rawQuery("SELECT COUNT(*) FROM $savedTestsTable"));
   }
 
+  // pega as informações da prova pelo seu id
+  // entrada: id da prova
+  // saida: o primeiro valor que possui id igual ao do id da entrada
   Future<Test> getTest(int id) async {
     var databaseClient = await database;
     var tests = await databaseClient
@@ -85,12 +89,16 @@ class DatabaseHelper {
     return Test.fromMap(tests.first);
   }
 
+  // remove uma prova da database pelo seu id
+  // entrada: id da prova (de acordo com o id do prova da api)
+  // saida: retorna um int -> 0 caso falhe, 1 caso bem sucedido
   Future<int> deleteTest(int id) async {
     var databaseClient = await database;
     return await databaseClient
         .delete(savedTestsTable, where: "$columnIdTest = ?", whereArgs: [id]);
   }
 
+  // fecha a conexão com o sqlite
   Future close() async {
     var databaseClient = await database;
     return await databaseClient.close();

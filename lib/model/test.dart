@@ -8,7 +8,8 @@ class Test {
   int id, year, semester;
   String professorName, type, subject;
 
-  Test(this.id, this.year, this.semester, this.professorName, this.type, this.subject);
+  Test(this.id, this.year, this.semester, this.professorName, this.type,
+      this.subject);
 
 //  Test.map(dynamic obj) {
 //    this.id = obj['idTest'];
@@ -42,4 +43,13 @@ class Test {
     this.type = map['type'];
     this.subject = map['subject'];
   }
+
+  // Salva os campos do json (api) no objeto Test
+  // entrada: map de json da api
+  Test.fromJSON(Map<String, dynamic> jsonMap)
+      : id = int.parse(jsonMap['provaID']),
+        professorName = jsonMap['nomeProfessor'],
+        type = jsonMap['nome'],
+        year = int.parse(jsonMap['ano']),
+        semester = int.parse(jsonMap['periodo']);
 }
