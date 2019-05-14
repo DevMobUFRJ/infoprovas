@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:project/model/test.dart';
+import 'package:project/model/exam.dart';
 
 // Faz a conexão com o sqflite que contém as provas salvas pelo usuário.
 // Facilitar o usuário a visualizar as provas salvas no seu dispositivo.
@@ -12,13 +12,13 @@ class DatabaseHelper {
   factory DatabaseHelper() => _instance;
   static Database _database;
 
-  final String savedTestsTable = "savedTests";
-  final String columnIdTest = "idTest";
+  final String savedExamsTable = "savedExams";
+  final String columnIdExam = "idExam";
   final String columnProfName = "professorName";
-  final String columnTestType = "type";
-  final String columnTestYear = "year";
-  final String columnTestSemester = "semester";
-  final String columnTestSubject = "subject";
+  final String columnExamType = "type";
+  final String columnExamYear = "year";
+  final String columnExamSemester = "semester";
+  final String columnExamSubject = "subject";
 
   // cria database caso não estiver sido criado ainda
   Future<Database> get database async {
@@ -42,60 +42,60 @@ class DatabaseHelper {
   // cria a tabela de provas salvas se não tiver criado ainda
   void _onCreate(Database db, int version) async {
     db.execute(
-        "CREATE TABLE $savedTestsTable($columnIdTest INTEGER PRIMARY KEY, $columnProfName TEXT,"
-        " $columnTestType TEXT, $columnTestYear INTEGER, $columnTestSemester INTEGER, $columnTestSubject TEXT)");
+        "CREATE TABLE $savedExamsTable($columnIdExam INTEGER PRIMARY KEY, $columnProfName TEXT,"
+        " $columnExamType TEXT, $columnExamYear INTEGER, $columnExamSemester INTEGER, $columnExamSubject TEXT)");
   }
 
   // salva uma nova prova no sqlite
-  // entrada: Test que contém informações da prova salva que o usuario deseja salvar
+  // entrada: Exam que contém informações da prova salva que o usuario deseja salvar
   // saida: retorna um int -> 0 caso falhe ou 1 caso seja bem sucedido
-  Future<int> saveTest(Test test) async {
+  Future<int> saveExam(Exam exam) async {
     var databaseClient = await database;
-    int result = await databaseClient.insert('$savedTestsTable', test.toMap());
+    int result = await databaseClient.insert('$savedExamsTable', exam.toMap());
     return result;
   }
 
   // pega todas as provas salvas
   // saida: retorna uma lista de provas salvas
-  Future<List<Test>> getSavedTests() async {
+  Future<List<Exam>> getSavedExams() async {
     var databaseClient = await database;
-    var tests = await databaseClient.rawQuery("SELECT * FROM $savedTestsTable");
-    List<Test> testList = tests.map((t) => Test.fromMap(t)).toList();
-    return testList;
+    var exams = await databaseClient.rawQuery("SELECT * FROM $savedExamsTable");
+    List<Exam> examList = exams.map((e) => Exam.fromMap(e)).toList();
+    return examList;
   }
 
   // pega o ultimo id de prova por ordem crescente, ou seja, maior id
-  Future<Test> getLastTest() async {
+  Future<Exam> getLastExam() async {
     var databaseClient = await database;
-    var tests = await databaseClient.rawQuery("SELECT * FROM $savedTestsTable");
-    return Test.fromMap(tests.last);
+    var exams = await databaseClient.rawQuery("SELECT * FROM $savedExamsTable");
+    return Exam.fromMap(exams.last);
   }
 
   // retorna o número de provas salvas
   Future<int> getCount() async {
     var databaseClient = await database;
     return Sqflite.firstIntValue(
-        await databaseClient.rawQuery("SELECT COUNT(*) FROM $savedTestsTable"));
+        await databaseClient.rawQuery("SELECT COUNT(*) FROM $savedExamsTable"));
   }
 
   // pega as informações da prova pelo seu id
   // entrada: id da prova
   // saida: o primeiro valor que possui id igual ao do id da entrada
-  Future<Test> getTest(int id) async {
+  Future<Exam> getExam(int id) async {
     var databaseClient = await database;
-    var tests = await databaseClient
-        .rawQuery("SELECT * FROM $savedTestsTable WHERE $columnIdTest = $id");
-    if (tests.length == 0) return null;
-    return Test.fromMap(tests.first);
+    var exams = await databaseClient
+        .rawQuery("SELECT * FROM $savedExamsTable WHERE $columnIdExam = $id");
+    if (exams.length == 0) return null;
+    return Exam.fromMap(exams.first);
   }
 
   // remove uma prova da database pelo seu id
   // entrada: id da prova (de acordo com o id do prova da api)
   // saida: retorna um int -> 0 caso falhe, 1 caso bem sucedido
-  Future<int> deleteTest(int id) async {
+  Future<int> deleteExam(int id) async {
     var databaseClient = await database;
     return await databaseClient
-        .delete(savedTestsTable, where: "$columnIdTest = ?", whereArgs: [id]);
+        .delete(savedExamsTable, where: "$columnIdExam = ?", whereArgs: [id]);
   }
 
   // fecha a conexão com o sqlite

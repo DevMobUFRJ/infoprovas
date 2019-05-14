@@ -4,28 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:project/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:project/model/subject.dart';
-import 'package:project/model/test.dart';
-import 'package:project/repository/subject_test_repository.dart';
-import 'package:project/screens/subject_test_tab.dart';
+import 'package:project/model/exam.dart';
+import 'package:project/repository/subject_exam_repository.dart';
+import 'package:project/screens/subject_exam_tab.dart';
 
-class SubjectTest extends StatefulWidget {
+class SubjectExam extends StatefulWidget {
   Subject _subject;
 
-  SubjectTest(this._subject);
+  SubjectExam(this._subject);
 
   @override
-  _SubjectTestState createState() => _SubjectTestState();
+  _SubjectExamState createState() => _SubjectExamState();
 }
 
-class _SubjectTestState extends State<SubjectTest>
+class _SubjectExamState extends State<SubjectExam>
     with TickerProviderStateMixin {
-  List<Test> _tests = <Test>[];
+  List<Exam> _exams = <Exam>[];
   List<String> _types = [];
 
   @override
   void initState() {
     super.initState();
-    listenForTests();
+    listenForExams();
   }
 
   @override
@@ -76,7 +76,7 @@ class _SubjectTestState extends State<SubjectTest>
             ),
             Expanded(
               child: TabBarView(
-                children: _types.map((type) => SubjectTestTab(_tests.where((Test t) => t.type == type).toList())).toList(),
+                children: _types.map((type) => SubjectExamTab(_exams.where((Exam e) => e.type == type).toList())).toList(),
               ),
             ),
           ],
@@ -85,15 +85,15 @@ class _SubjectTestState extends State<SubjectTest>
     );
   }
 
-  void listenForTests() async {
-    final Stream<Test> stream = await getTests(widget._subject.id);
+  void listenForExams() async {
+    final Stream<Exam> stream = await getSubjectExams(widget._subject.id);
     stream.listen(
-      (Test test) => setState(
+      (Exam exam) => setState(
             () {
-              _tests.add(test);
+              _exams.add(exam);
               if (_types != null) {
-                if (!_types.contains(test.type)) {
-                  _types.add(test.type);
+                if (!_types.contains(exam.type)) {
+                  _types.add(exam.type);
                 }
               }
             },

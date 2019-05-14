@@ -1,33 +1,31 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:project/model/professor.dart';
-import 'package:project/repository/professor_test_repository.dart';
-import 'package:project/screens/professor_test_tab.dart';
-import 'package:project/screens/subject_test_tab.dart';
+import 'package:project/repository/professor_exam_repository.dart';
+import 'package:project/screens/professor_exam_tab.dart';
 import 'package:project/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
-import 'package:project/model/test.dart';
-import 'package:project/widgets/professor_test_tile.dart';
+import 'package:project/model/exam.dart';
 
-class ProfessorTest extends StatefulWidget {
+class ProfessorExam extends StatefulWidget {
   Professor _professor;
 
-  ProfessorTest(this._professor);
+  ProfessorExam(this._professor);
 
   @override
-  _ProfessorTestState createState() => _ProfessorTestState();
+  _ProfessorExamState createState() => _ProfessorExamState();
 }
 
-class _ProfessorTestState extends State<ProfessorTest>
+class _ProfessorExamState extends State<ProfessorExam>
     with TickerProviderStateMixin {
-  List<Test> _tests = <Test>[];
+  List<Exam> _exams = <Exam>[];
   List<String> _types = [];
-  Map<String, Test> map;
+  Map<String, Exam> map;
 
   @override
   void initState() {
     super.initState();
-    listenForTests();
+    listenForExams();
   }
 
   @override
@@ -83,7 +81,7 @@ class _ProfessorTestState extends State<ProfessorTest>
                   ),
                   Expanded(
                     child: TabBarView(
-                      children: _types.map((type) => ProfessorTestTab(_tests.where((Test t) => t.type == type).toList())).toList(),
+                      children: _types.map((type) => ProfessorExamTab(_exams.where((Exam e) => e.type == type).toList())).toList(),
                     ),
                   ),
                 ],
@@ -92,15 +90,15 @@ class _ProfessorTestState extends State<ProfessorTest>
     );
   }
 
-  void listenForTests() async {
-    final Stream<Test> stream = await getProfessorTests(widget._professor.id);
+  void listenForExams() async {
+    final Stream<Exam> stream = await getProfessorExams(widget._professor.id);
     stream.listen(
-      (Test test) => setState(
+      (Exam exam) => setState(
             () {
-              _tests.add(test);
+              _exams.add(exam);
               if (_types != null) {
-                if (!_types.contains(test.type)) {
-                  _types.add(test.type);
+                if (!_types.contains(exam.type)) {
+                  _types.add(exam.type);
                 }
               }
             },

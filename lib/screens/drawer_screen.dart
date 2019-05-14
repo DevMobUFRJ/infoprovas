@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/screens/about.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/screens/home.dart';
-import 'package:project/screens/saved_tests.dart';
+import 'package:project/screens/saved_exams.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -57,7 +57,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
           _ItemDrawer(
             text: "Provas Salvas",
             icon: Icons.save_alt,
-            onPressed: () => openSavedTestsScreen(),
+            onPressed: () => openSavedExamsScreen(),
           ),
           Expanded(
             child: Container(),
@@ -79,9 +79,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
     );
   }
 
-  void openSavedTestsScreen() {
+  void openSavedExamsScreen() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SavedTests()));
+        context, MaterialPageRoute(builder: (context) => SavedExams()));
   }
 }
 

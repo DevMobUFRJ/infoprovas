@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project/styles/style.dart';
-import 'package:project/model/test.dart';
+import 'package:project/model/exam.dart';
 
-class TestView extends StatefulWidget {
-  Test _test;
+class ExamView extends StatefulWidget {
+  Exam _exam;
 
-  TestView(this._test);
+  ExamView(this._exam);
 
   @override
-  _TestViewState createState() => _TestViewState();
+  _ExamViewState createState() => _ExamViewState();
 }
 
-class _TestViewState extends State<TestView> {
+class _ExamViewState extends State<ExamView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

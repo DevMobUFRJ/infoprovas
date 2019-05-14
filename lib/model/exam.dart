@@ -4,11 +4,11 @@
 // nome do Professor e tipo (Prova 1, Prova 2, etc).
 // Serve pra facilitar quando o usuário desejar salvar a prova
 // e assim mostrar na tela "Provas salvas"
-class Test {
+class Exam {
   int id, year, semester;
   String professorName, type, subject;
 
-  Test(this.id, this.year, this.semester, this.professorName, this.type,
+  Exam(this.id, this.year, this.semester, this.professorName, this.type,
       this.subject);
 
   // Transforma a classe em um map
@@ -27,7 +27,7 @@ class Test {
 
   // Salva os campos do map em cada variável da classe
   // entrada: um mapa (tabela do sqflite)
-  Test.fromMap(Map<String, dynamic> map) {
+  Exam.fromMap(Map<String, dynamic> map) {
     this.id = map['idTest'];
     this.year = map['year'];
     this.semester = map['semester'];
@@ -36,16 +36,18 @@ class Test {
     this.subject = map['subject'];
   }
 
-  // Salva os campos do json (api) no objeto Test
-  // entrada: map de json da api
-  Test.fromJSON(Map<String, dynamic> jsonMap)
+  // Salva os campos do json (api) no objeto Exam
+  // entrada: map de json da api -> provas de cada disciplina
+  Exam.fromSubjectJSON(Map<String, dynamic> jsonMap)
       : id = int.parse(jsonMap['provaID']),
         professorName = jsonMap['nomeProfessor'],
         type = jsonMap['nome'],
         year = int.parse(jsonMap['ano']),
         semester = int.parse(jsonMap['periodo']);
 
-  Test.fromProfessorJSON(Map<String, dynamic> jsonMap)
+  // Salva os campos do json (api) no objeto Exam
+  // entrada: map de json da api -> provas de cada professor
+  Exam.fromProfessorJSON(Map<String, dynamic> jsonMap)
       : id = int.parse(jsonMap['provaID']),
         subject = jsonMap['disciplina'],
         type = jsonMap['nome'],

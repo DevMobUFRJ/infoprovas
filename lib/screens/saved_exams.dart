@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:project/styles/style.dart';
-import 'package:project/model/test.dart';
-import 'package:project/widgets/test_tile.dart';
+import 'package:project/model/exam.dart';
+import 'package:project/widgets/exam_tile.dart';
 import 'package:project/utils/database_helper.dart';
 
-class SavedTests extends StatefulWidget {
+class SavedExams extends StatefulWidget {
   @override
-  _SavedTestsState createState() => _SavedTestsState();
+  _SavedExamsState createState() => _SavedExamsState();
 }
 
-class _SavedTestsState extends State<SavedTests> {
+class _SavedExamsState extends State<SavedExams> {
 
   // função pra teste, salva uma nova prova na database
-  void saveNewTest() async {
-    List<Test> list = await DatabaseHelper.internal().getSavedTests();
-    Test test;
+  void saveNewExam() async {
+    List<Exam> list = await DatabaseHelper.internal().getSavedExams();
+    Exam exam;
     if (list.length == 0) {
-      test = Test(1, 2015, 1, "Adriano", "Prova 1", "Computação 1");
+      exam = Exam(1, 2015, 1, "Adriano", "Prova 1", "Computação 1");
     } else {
-      Test lastTest = await DatabaseHelper.internal().getLastTest();
-      test = Test(lastTest.id + 1, lastTest.year + 1, 1, "Adriano", "Prova 1",
+      Exam lastExam = await DatabaseHelper.internal().getLastExam();
+      exam = Exam(lastExam.id + 1, lastExam.year + 1, 1, "Adriano", "Prova 1",
           "Computação 1");
     }
-    await DatabaseHelper.internal().saveTest(test);
+    await DatabaseHelper.internal().saveExam(exam);
     setState(() {});
   }
 
@@ -39,7 +39,7 @@ class _SavedTestsState extends State<SavedTests> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Style.mainTheme.primaryColor,
-        onPressed: saveNewTest,
+        onPressed: saveNewExam,
       ),
     );
   }
@@ -54,15 +54,15 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
-      future: DatabaseHelper.internal().getSavedTests(),
+      future: DatabaseHelper.internal().getSavedExams(),
       builder: (_, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
             physics: ScrollPhysics(parent: BouncingScrollPhysics()),
             itemCount: snapshot.data.length,
             itemBuilder: (_, int index) {
-              Test test = snapshot.data[index];
-              return TestTile(test);
+              Exam exam = snapshot.data[index];
+              return ExamTile(exam);
             },
           );
         } else {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/model/subject.dart';
-import 'package:project/screens/subject_test.dart';
+import 'package:project/screens/subject_exam.dart';
 
 class SubjectTile extends StatelessWidget {
   int period;
@@ -44,7 +44,7 @@ class CreateTileSubject extends StatelessWidget {
           ),
           onTap: () {
 //            print("${_subject.name}, ${_subject.period}, ${_subject.id}");
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectTest(_subject)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectExam(_subject)));
           },
         ),
         Padding(

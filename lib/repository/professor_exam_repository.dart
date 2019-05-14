@@ -1,8 +1,11 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:project/model/test.dart';
+import 'package:project/model/exam.dart';
 
-Future<Stream<Test>> getProfessorTests(int id) async {
+// pega as provas de um determinado professor
+// entrada: id do professor
+// saida: stream de provas, basicamente uma "lista" de provas
+Future<Stream<Exam>> getProfessorExams(int id) async {
   final String url = 'http://infoprovas.esy.es/api.php?tipo=professor&id=$id';
 
   final client = new http.Client();
@@ -12,5 +15,5 @@ Future<Stream<Test>> getProfessorTests(int id) async {
       .transform(utf8.decoder)
       .transform(json.decoder)
       .expand((data) => (data as List))
-      .map((data) => Test.fromProfessorJSON(data));
+      .map((data) => Exam.fromProfessorJSON(data));
 }
