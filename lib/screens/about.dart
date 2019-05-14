@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/styles/github_icon.dart';
@@ -47,6 +48,7 @@ class About extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: ListView(
+                physics: ScrollPhysics(parent: BouncingScrollPhysics()),
                 children: [
                   Row(
                     mainAxisSize: MainAxisSize.max,

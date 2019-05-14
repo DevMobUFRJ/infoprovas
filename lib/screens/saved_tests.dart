@@ -58,6 +58,7 @@ class _BodyState extends State<Body> {
       builder: (_, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
             itemCount: snapshot.data.length,
             itemBuilder: (_, int index) {
               Test test = snapshot.data[index];
