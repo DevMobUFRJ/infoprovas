@@ -19,7 +19,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   _SubjectsTabState(this._subject);
 
-  int _selectedPeriod = 0;
+  int _selectedPeriod = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +42,11 @@ class _SubjectsTabState extends State<SubjectsTab> {
             Flexible(
               child: Center(
                   child: ListView.builder(
-                    physics: ScrollPhysics(parent: BouncingScrollPhysics()),
-                    itemCount: _subject.length,
-                    itemBuilder: (context, index) =>
-                        SubjectTile(_subject[index], _selectedPeriod),
-                  )),
+                physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+                itemCount: _subject.length,
+                itemBuilder: (context, index) =>
+                    SubjectTile(_subject[index], _selectedPeriod),
+              )),
             )
           ]));
   }
@@ -61,7 +61,6 @@ class _SubjectsTabState extends State<SubjectsTab> {
                 color: Style.mainTheme.primaryColor),
             child: new SizedBox(
                 width: double.infinity,
-                // height: double.infinity,
                 child: CupertinoButton(
                     child: cupertinoText(_selectedPeriod),
                     padding:
@@ -122,12 +121,30 @@ class _SubjectsTabState extends State<SubjectsTab> {
   }
 
   Widget cupertinoText(int selectedPeriod) {
+    String text;
+
     if (selectedPeriod == 0) {
-      return myText("Todas as Disciplinas", FontWeight.w700, Colors.white);
+      text = "Todas as Disciplinas";
     } else if (selectedPeriod == 9) {
-      return myText("Eletivas", FontWeight.w700, Colors.white);
+      text = "Eletivas";
     } else {
-      return myText("$selectedPeriodº Periodo", FontWeight.w700, Colors.white);
+      text = "$selectedPeriodº Periodo";
     }
+
+    return Stack(
+      children: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          child: myText(text, FontWeight.w700, Colors.white),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Container(
+            alignment: Alignment.centerRight,
+            child: Icon(Icons.arrow_drop_down, color: Colors.white),
+          ),
+        ),
+      ],
+    );
   }
 }
