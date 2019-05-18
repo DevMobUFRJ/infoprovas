@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/model/exam.dart';
+import 'package:project/utils/database_helper.dart';
 
 class ExamView extends StatefulWidget {
   Exam _exam;
@@ -12,6 +13,12 @@ class ExamView extends StatefulWidget {
 }
 
 class _ExamViewState extends State<ExamView> {
+
+  void saveExam() async {
+    // TODO: resolver o problema de já ter prova salva com mesmo id
+    await DatabaseHelper.internal().saveExam(widget._exam);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +28,13 @@ class _ExamViewState extends State<ExamView> {
         title: Text("InfoProvas"),
         elevation: 0.0,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.save, color: Colors.white,), onPressed: null)
+          IconButton(
+            icon: Icon(
+              Icons.save,
+              color: Colors.white,
+            ),
+            onPressed: saveExam,
+          )
         ],
       ),
       body: Container(),

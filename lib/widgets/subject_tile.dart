@@ -43,7 +43,6 @@ class CreateTileSubject extends StatelessWidget {
             style: TextStyle(fontSize: 20, color: Colors.black87),
           ),
           onTap: () {
-//            print("${_subject.name}, ${_subject.period}, ${_subject.id}");
             Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectExam(_subject)));
           },
         ),

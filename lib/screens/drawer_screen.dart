@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/screens/about.dart';
 import 'package:project/styles/style.dart';
-import 'package:project/screens/home.dart';
 import 'package:project/screens/saved_exams.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -48,11 +47,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
               ),
             ],
-          ),
-          _ItemDrawer(
-            text: "Provas",
-            icon: Icons.library_books,
-            onPressed: () => Navigator.pop(context),
           ),
           _ItemDrawer(
             text: "Provas Salvas",

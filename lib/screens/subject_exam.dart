@@ -90,6 +90,7 @@ class _SubjectExamState extends State<SubjectExam>
     stream.listen(
       (Exam exam) => setState(
             () {
+              exam.subject = widget._subject.name;
               _exams.add(exam);
               if (_types != null) {
                 if (!_types.contains(exam.type)) {

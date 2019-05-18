@@ -10,22 +10,6 @@ class SavedExams extends StatefulWidget {
 }
 
 class _SavedExamsState extends State<SavedExams> {
-
-  // função pra teste, salva uma nova prova na database
-  void saveNewExam() async {
-    List<Exam> list = await DatabaseHelper.internal().getSavedExams();
-    Exam exam;
-    if (list.length == 0) {
-      exam = Exam(1, 2015, 1, "Adriano", "Prova 1", "Computação 1");
-    } else {
-      Exam lastExam = await DatabaseHelper.internal().getLastExam();
-      exam = Exam(lastExam.id + 1, lastExam.year + 1, 1, "Adriano", "Prova 1",
-          "Computação 1");
-    }
-    await DatabaseHelper.internal().saveExam(exam);
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,13 +18,14 @@ class _SavedExamsState extends State<SavedExams> {
         title: Text("Provas Salvas"),
         backgroundColor: Style.mainTheme.primaryColor,
         elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.white),
+            onPressed: null,
+          ),
+        ],
       ),
       body: Body(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Style.mainTheme.primaryColor,
-        onPressed: saveNewExam,
-      ),
     );
   }
 }
@@ -57,14 +42,22 @@ class _BodyState extends State<Body> {
       future: DatabaseHelper.internal().getSavedExams(),
       builder: (_, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
-            itemCount: snapshot.data.length,
-            itemBuilder: (_, int index) {
-              Exam exam = snapshot.data[index];
-              return ExamTile(exam);
-            },
-          );
+          if (snapshot.data.length > 0) {
+            return ListView.builder(
+              physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+              itemCount: snapshot.data.length,
+              itemBuilder: (_, int index) {
+                Exam exam = snapshot.data[index];
+                return ExamTile(exam);
+              },
+            );
+          } else {
+            return Center(
+              child: Container(
+                child: Text("Não há provas salvas"),
+              ),
+            );
+          }
         } else {
           return Center(
             child: CircularProgressIndicator(),

@@ -14,8 +14,8 @@ class ExamTile extends StatefulWidget {
 class _ExamTileState extends State<ExamTile> {
 
   // função de teste, deleta a prova ao clicar no item
-  void _deleteExam() {
-    DatabaseHelper.internal().deleteExam(widget._exam.id);
+  void _deleteExam() async {
+    await DatabaseHelper.internal().deleteExam(widget._exam.id);
   }
 
   @override
