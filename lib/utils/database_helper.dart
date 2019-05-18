@@ -51,8 +51,12 @@ class DatabaseHelper {
   // saida: retorna um int -> 0 caso falhe ou 1 caso seja bem sucedido
   Future<int> saveExam(Exam exam) async {
     var databaseClient = await database;
-    int result = await databaseClient.insert('$savedExamsTable', exam.toMap());
-    return result;
+    try {
+      int result = await databaseClient.insert('$savedExamsTable', exam.toMap());
+      return result;
+    } catch (e) {
+      return 0;
+    }
   }
 
   // pega todas as provas salvas
@@ -83,8 +87,9 @@ class DatabaseHelper {
   // saida: o primeiro valor que possui id igual ao do id da entrada
   Future<Exam> getExam(int id) async {
     var databaseClient = await database;
-    var exams = await databaseClient
-        .rawQuery("SELECT * FROM $savedExamsTable WHERE $columnIdExam = $id");
+    var exams = await databaseClient.rawQuery(
+        "SELECT $columnIdExam, $columnProfName, $columnExamType, $columnExamYear, $columnExamSemester, $columnExamSubject FROM $savedExamsTable WHERE $columnIdExam = $id");
+
     if (exams.length == 0) return null;
     return Exam.fromMap(exams.first);
   }
