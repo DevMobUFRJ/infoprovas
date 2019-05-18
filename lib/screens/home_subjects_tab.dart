@@ -78,7 +78,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
                                   Expanded(
                                     child: CupertinoPicker(
                                       scrollController:
-                                          new FixedExtentScrollController(
+                                          FixedExtentScrollController(
                                         initialItem: _selectedPeriod,
                                       ),
                                       itemExtent: 48.0,
@@ -88,7 +88,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
                                           _selectedPeriod = index;
                                         });
                                       },
-                                      children: new List<Widget>.generate(10,
+                                      children: List<Widget>.generate(10,
                                           (int index) {
                                         return selectorText(index);
                                       }),
@@ -115,9 +115,11 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   Widget myText(String text, FontWeight fontWeight, Color colors,
       {double fontSize}) {
-    return Text(text,
-        style: new TextStyle(
-            fontWeight: fontWeight, fontSize: fontSize, color: colors));
+    return Center(
+      child: Text(text,
+          style: new TextStyle(
+              fontWeight: fontWeight, fontSize: fontSize, color: colors)),
+    );
   }
 
   Widget cupertinoText(int selectedPeriod) {
