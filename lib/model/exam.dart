@@ -8,14 +8,18 @@ class Exam {
   int id, year, semester;
   String professorName, type, subject;
 
-  Exam(this.id, this.year, this.semester, this.professorName, this.type,
+  Exam(this.id, this.year, this.semester, this.type, this.professorName,
       this.subject);
+
+  @override
+  String toString() =>
+      "Id: $id, ano: $year, semestre: $semester, professor: $professorName, tipo: $type, disciplina: $subject";
 
   // Transforma a classe em um map
   // saida: map que contém o valor pra cada campo da classe
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    map['idTest'] = id;
+    map['idExam'] = id;
     map['year'] = year;
     map['semester'] = semester;
     map['professorName'] = professorName;
@@ -28,7 +32,7 @@ class Exam {
   // Salva os campos do map em cada variável da classe
   // entrada: um mapa (tabela do sqflite)
   Exam.fromMap(Map<String, dynamic> map) {
-    this.id = map['idTest'];
+    this.id = map['idExam'];
     this.year = map['year'];
     this.semester = map['semester'];
     this.professorName = map['professorName'];
@@ -37,20 +41,12 @@ class Exam {
   }
 
   // Salva os campos do json (api) no objeto Exam
-  // entrada: map de json da api -> provas de cada disciplina
-  Exam.fromSubjectJSON(Map<String, dynamic> jsonMap)
+  // entrada: map de json da api
+  Exam.fromJSON(Map<String, dynamic> jsonMap)
       : id = int.parse(jsonMap['provaID']),
         professorName = jsonMap['nomeProfessor'],
         type = jsonMap['nome'],
         year = int.parse(jsonMap['ano']),
-        semester = int.parse(jsonMap['periodo']);
-
-  // Salva os campos do json (api) no objeto Exam
-  // entrada: map de json da api -> provas de cada professor
-  Exam.fromProfessorJSON(Map<String, dynamic> jsonMap)
-      : id = int.parse(jsonMap['provaID']),
-        subject = jsonMap['disciplina'],
-        type = jsonMap['nome'],
-        year = int.parse(jsonMap['ano']),
-        semester = int.parse(jsonMap['periodo']);
+        semester = int.parse(jsonMap['periodo']),
+        subject = jsonMap['disciplina'];
 }

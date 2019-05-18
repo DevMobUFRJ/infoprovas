@@ -15,5 +15,5 @@ Future<Stream<Exam>> getSubjectExams(int id) async {
       .transform(utf8.decoder)
       .transform(json.decoder)
       .expand((data) => (data as List))
-      .map((data) => Exam.fromSubjectJSON(data));
+      .map((data) => Exam.fromJSON(data));
 }
