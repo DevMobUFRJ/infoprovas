@@ -49,13 +49,13 @@ class DatabaseHelper {
   // salva uma nova prova no sqlite
   // entrada: Exam que contém informações da prova salva que o usuario deseja salvar
   // saida: retorna um int -> 0 caso falhe ou 1 caso seja bem sucedido
-  Future<int> saveExam(Exam exam) async {
+  Future<bool> saveExam(Exam exam) async {
     var databaseClient = await database;
     try {
-      int result = await databaseClient.insert('$savedExamsTable', exam.toMap());
-      return result;
+      await databaseClient.insert('$savedExamsTable', exam.toMap());
+      return true;
     } catch (e) {
-      return 0;
+      return false;
     }
   }
 

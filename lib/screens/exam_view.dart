@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:project/styles/style.dart';
 import 'package:project/model/exam.dart';
 import 'package:project/utils/database_helper.dart';
+import 'package:project/screens/saved_exams.dart';
+
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ExamView extends StatefulWidget {
   Exam _exam;
@@ -15,13 +18,33 @@ class ExamView extends StatefulWidget {
 class _ExamViewState extends State<ExamView> {
 
   void saveExam() async {
-    // TODO: resolver o problema de já ter prova salva com mesmo id
-    await DatabaseHelper.internal().saveExam(widget._exam);
+    if (await DatabaseHelper.internal().saveExam(widget._exam))
+      showSnackBar();
+    else {
+      // TODO: implementar abrir prova salva
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SavedExams()));
+    }
+  }
+
+  void showSnackBar() {
+    String message = "Prova salva com sucesso";
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Text(message),
+        ),
+        backgroundColor: Style.mainTheme.primaryColor,
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Style.mainTheme.primaryColor,
