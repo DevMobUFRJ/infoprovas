@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:project/styles/style.dart';
-import 'package:project/model/professor.dart';
-import 'package:project/widgets/professor_tile.dart';
+import 'package:infoprovas/styles/style.dart';
+import 'package:infoprovas/model/professor.dart';
+import 'package:infoprovas/widgets/professor_tile.dart';
 
 class ProfessorTab extends StatefulWidget {
   List<Professor> _professor = <Professor>[];

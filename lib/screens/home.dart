@@ -1,16 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/screens/home_professor_tab.dart';
-import 'package:project/screens/home_subjects_tab.dart';
-import 'package:project/screens/drawer_screen.dart';
-import 'package:project/styles/style.dart';
+import 'package:infoprovas/screens/home_professor_tab.dart';
+import 'package:infoprovas/screens/home_subjects_tab.dart';
+import 'package:infoprovas/screens/drawer_screen.dart';
+import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
-import 'package:project/repository/professor_repository.dart';
-import 'package:project/repository/subject_repository.dart';
-import 'package:project/model/professor.dart';
-import 'package:project/model/subject.dart';
+import 'package:infoprovas/repository/professor_repository.dart';
+import 'package:infoprovas/repository/subject_repository.dart';
+import 'package:infoprovas/model/professor.dart';
+import 'package:infoprovas/model/subject.dart';
 
 class Home extends StatefulWidget {
   @override

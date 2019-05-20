@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:project/model/subject.dart';
-import 'package:project/styles/style.dart';
-import 'package:project/widgets/subject_tile.dart';
+import 'package:infoprovas/model/subject.dart';
+import 'package:infoprovas/styles/style.dart';
+import 'package:infoprovas/widgets/subject_tile.dart';
 
 class SubjectsTab extends StatefulWidget {
   List<Subject> _subject = <Subject>[];
@@ -19,7 +19,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   _SubjectsTabState(this._subject);
 
-  int _selectedPeriod = 0;
+  int _selectedPeriod = 1;
 
   @override
   Widget build(BuildContext context) {

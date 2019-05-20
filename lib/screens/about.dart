@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:project/styles/style.dart';
-import 'package:project/styles/github_icon.dart';
-import 'package:project/styles/facebook_icon.dart';
+import 'package:infoprovas/styles/style.dart';
+import 'package:infoprovas/styles/github_icon.dart';
+import 'package:infoprovas/styles/facebook_icon.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 
 class About extends StatelessWidget {

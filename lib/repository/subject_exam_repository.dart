@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:project/model/exam.dart';
+import 'package:infoprovas/model/exam.dart';
 
 // pega as provas de uma determinada disciplina
 // entrada: id da disciplina

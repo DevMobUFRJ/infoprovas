@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project/styles/style.dart';
-import 'package:project/model/exam.dart';
-import 'package:project/widgets/subject_exam_tile.dart';
+import 'package:infoprovas/styles/style.dart';
+import 'package:infoprovas/model/exam.dart';
+import 'package:infoprovas/widgets/subject_exam_tile.dart';
 
 class SubjectExamTab extends StatefulWidget {
   List<Exam> _exams = <Exam>[];

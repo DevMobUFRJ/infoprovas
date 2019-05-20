@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:project/model/exam.dart';
+import 'package:infoprovas/model/exam.dart';
 
 // Faz a conexão com o sqflite que contém as provas salvas pelo usuário.
 // Facilitar o usuário a visualizar as provas salvas no seu dispositivo.

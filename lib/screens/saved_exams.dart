@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project/styles/style.dart';
-import 'package:project/model/exam.dart';
-import 'package:project/widgets/exam_tile.dart';
-import 'package:project/utils/database_helper.dart';
+import 'package:infoprovas/styles/style.dart';
+import 'package:infoprovas/model/exam.dart';
+import 'package:infoprovas/widgets/exam_tile.dart';
+import 'package:infoprovas/utils/database_helper.dart';
 
 class SavedExams extends StatefulWidget {
   @override

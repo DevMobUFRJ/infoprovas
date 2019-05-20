@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project/model/exam.dart';
-import 'package:project/screens/exam_view.dart';
+import 'package:infoprovas/model/exam.dart';
+import 'package:infoprovas/screens/exam_view.dart';
 
 class ProfessorExamTile extends StatefulWidget {
   final Exam _exam;

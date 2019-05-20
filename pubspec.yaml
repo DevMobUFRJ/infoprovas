@@ -1,5 +1,5 @@
-name: project
-description: A new Flutter project.
+name: infoprovas
+description: Repositório de provas do DCC-UFRJ.
 
 version: 1.0.0+1
 
@@ -9,14 +9,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  #flutter_pdf_viewer: ^0.0.7
+
+  flutter_full_pdf_viewer: ^1.0.4
   http: ^0.12.0
   mysql1: ^0.16.3
   flutter_custom_tabs: ^0.6.0
   url_launcher: ^5.0.1
 
   sqflite: ^1.1.0
-  path_provider: ^1.1.0
+  path_provider: ^0.5.0
 
   cupertino_icons: ^0.1.2
   bubble_tab_indicator: ^0.1.4

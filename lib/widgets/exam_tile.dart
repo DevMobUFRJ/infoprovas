@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project/model/exam.dart';
-import 'package:project/utils/database_helper.dart';
+import 'package:infoprovas/model/exam.dart';
+import 'package:infoprovas/utils/database_helper.dart';
 
 class ExamTile extends StatefulWidget {
   final Exam _exam;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project/screens/home.dart';
-import 'package:project/styles/style.dart';
-import 'package:project/screens/about.dart';
-import 'package:project/screens/saved_exams.dart';
+import 'package:infoprovas/screens/home.dart';
+import 'package:infoprovas/styles/style.dart';
+import 'package:infoprovas/screens/about.dart';
+import 'package:infoprovas/screens/saved_exams.dart';
 
 void main() => runApp(new MyApp());
 
