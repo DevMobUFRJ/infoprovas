@@ -19,7 +19,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   _SubjectsTabState(this._subject);
 
-  int _selectedPeriod = 1;
+  int _selectedPeriod = 0;
 
   @override
   Widget build(BuildContext context) {

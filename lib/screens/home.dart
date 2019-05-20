@@ -102,12 +102,34 @@ class HomeState extends State<Home> {
 
   void listenForSubject() async {
     final Stream<Subject> stream = await getSubject();
-    stream.listen((Subject subject) => setState(() => _subject.add(subject)));
+    stream
+        .listen((Subject subject) => setState(() => _subject.add(subject)))
+        .onDone(() => _subject.sort(
+            (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
+  }
+
+  String removeAccent(String name) {
+    switch (name[0]) {
+      case "Á":
+        return "A" + name.substring(1);
+      case "É":
+        return "E" + name.substring(1);
+      case "Í":
+        return "I" + name.substring(1);
+      case "Ó":
+        return "O" + name.substring(1);
+      case "Ú":
+        return "U" + name.substring(1);
+      default:
+        return name;
+    }
   }
 
   void listenForProfessor() async {
     final Stream<Professor> stream = await getProfessor();
-    stream.listen(
-        (Professor professor) => setState(() => _professor.add(professor)));
+    stream
+        .listen(
+            (Professor professor) => setState(() => _professor.add(professor)))
+        .onDone(() => _professor.sort((a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
   }
 }
