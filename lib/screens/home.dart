@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:infoprovas/screens/home_professor_tab.dart';
 import 'package:infoprovas/screens/home_subjects_tab.dart';
 import 'package:infoprovas/screens/drawer_screen.dart';
@@ -10,6 +11,8 @@ import 'package:infoprovas/repository/professor_repository.dart';
 import 'package:infoprovas/repository/subject_repository.dart';
 import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/subject.dart';
+
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class Home extends StatefulWidget {
   @override
@@ -39,6 +42,7 @@ class HomeState extends State<Home> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: _scaffoldKey,
       drawer: DrawerScreen(),
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -101,10 +105,43 @@ class HomeState extends State<Home> {
 
   void listenForSubject() async {
     final Stream<Subject> stream = await getSubject();
-    stream
-        .listen((Subject subject) => setState(() => _subject.add(subject)))
-        .onDone(() => _subject.sort(
-            (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
+    try {
+      stream
+          .listen((Subject subject) => setState(() => _subject.add(subject)))
+          .onDone(() => _subject.sort(
+              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
+    } catch (e) {
+      onFailedConnection();
+    }
+  }
+
+  void listenForProfessor() async {
+    final Stream<Professor> stream = await getProfessor();
+    try {
+      stream
+          .listen((Professor professor) =>
+              setState(() => _professor.add(professor)))
+          .onDone(() => _professor.sort(
+              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
+    } catch (e) {}
+  }
+
+  void onFailedConnection() {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Text("Não foi possível conectar a rede"),
+        ),
+        backgroundColor: Style.mainTheme.primaryColor,
+        duration: Duration(seconds: 30),
+        action: SnackBarAction(
+          label: "Tentar novamente",
+          textColor: Colors.white,
+          onPressed: () => print("é isto"),
+        ),
+      ),
+    );
   }
 
   String removeAccent(String name) {
@@ -122,13 +159,5 @@ class HomeState extends State<Home> {
       default:
         return name;
     }
-  }
-
-  void listenForProfessor() async {
-    final Stream<Professor> stream = await getProfessor();
-    stream
-        .listen(
-            (Professor professor) => setState(() => _professor.add(professor)))
-        .onDone(() => _professor.sort((a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
   }
 }
