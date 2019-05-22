@@ -6,6 +6,7 @@ import 'package:infoprovas/screens/professor_exam_tab.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:infoprovas/model/exam.dart';
+import 'package:infoprovas/widgets/shorten_text.dart';
 
 class ProfessorExam extends StatefulWidget {
   Professor _professor;
@@ -64,7 +65,7 @@ class _ProfessorExamState extends State<ProfessorExam>
                             unselectedLabelColor: Colors.white,
                             labelColor: Style.mainTheme.primaryColor,
                             tabs: _types
-                                .map((type) => Tab(child: Text(type)))
+                                .map((type) => Tab(child: ShortenText(type)))
                                 .toList(),
                           ),
                         ],

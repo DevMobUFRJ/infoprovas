@@ -23,7 +23,7 @@ class _ViewExamTileState extends State<ViewExamTile> {
           leading: Container(
             height: 50,
             width: 50,
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               //color: Style.mainTheme.primaryColor,
               color: Style.mainTheme.primaryColor,
@@ -38,7 +38,7 @@ class _ViewExamTileState extends State<ViewExamTile> {
               ),
             ),
           ),
-          title: FormatTitle(widget._tileType),
+          title: formatTitle(widget._tileType),
           onTap: () {
             Navigator.push(
                 context,
@@ -54,7 +54,7 @@ class _ViewExamTileState extends State<ViewExamTile> {
     return "${year.substring(2, 4)}.${semester}";
   }
 
-  Widget FormatTitle(String tileType) {
+  Widget formatTitle(String tileType) {
     if (tileType.compareTo("professor") == 0) {
       return Text(
         "${widget._exam.subject}",

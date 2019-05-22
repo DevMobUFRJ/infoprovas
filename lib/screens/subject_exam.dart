@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
@@ -7,6 +6,7 @@ import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/repository/subject_exam_repository.dart';
 import 'package:infoprovas/screens/subject_exam_tab.dart';
+import 'package:infoprovas/widgets/shorten_text.dart';
 
 class SubjectExam extends StatefulWidget {
   Subject _subject;
@@ -64,7 +64,7 @@ class _SubjectExamState extends State<SubjectExam>
                             unselectedLabelColor: Colors.white,
                             labelColor: Style.mainTheme.primaryColor,
                             tabs: _types
-                                .map((type) => Tab(child: Text(type)))
+                                .map((type) => Tab(child: ShortenText(type)))
                                 .toList(),
                           ),
                         ],
@@ -84,6 +84,7 @@ class _SubjectExamState extends State<SubjectExam>
               ),
             ),
     );
+
   }
 
   void listenForExams() async {
