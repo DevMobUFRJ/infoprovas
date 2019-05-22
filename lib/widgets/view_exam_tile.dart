@@ -30,7 +30,7 @@ class _ViewExamTileState extends State<ViewExamTile> {
             ),
             child: Center(
               child: Text(
-                DateFormat("${widget._exam.year}", "${widget._exam.semester}"),
+                dateFormat("${widget._exam.year}", "${widget._exam.semester}"),
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class _ViewExamTileState extends State<ViewExamTile> {
     );
   }
 
-  String DateFormat(String year, String semester) {
+  String dateFormat(String year, String semester) {
     return "${year.substring(2, 4)}.${semester}";
   }
 

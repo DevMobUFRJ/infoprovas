@@ -13,7 +13,6 @@ class _SavedExamsState extends State<SavedExams> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Provas Salvas"),
         backgroundColor: Style.mainTheme.primaryColor,

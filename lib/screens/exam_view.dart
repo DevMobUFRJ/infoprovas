@@ -103,7 +103,10 @@ class _ExamViewState extends State<ExamView> {
         ? Scaffold(
             key: _scaffoldKey,
             body: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
+              ),
             ),
           )
         : PDFViewerScaffold(
