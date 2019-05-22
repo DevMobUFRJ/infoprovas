@@ -30,7 +30,7 @@ class _ProfessorExamState extends State<ProfessorExam>
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -48,40 +48,36 @@ class _ProfessorExamState extends State<ProfessorExam>
                   Material(
                     elevation: 2.0,
                     child: Container(
+                      width: screenWidth,
                       color: Style.mainTheme.primaryColor,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: width / 12.5,
-                                right: width / 12.5,
-                              ),
-                              child: TabBar(
-                                indicatorSize: TabBarIndicatorSize.label,
-                                indicator: BubbleTabIndicator(
-                                  indicatorColor: Colors.white,
-                                  indicatorHeight: 20.0,
-                                  tabBarIndicatorSize:
-                                      TabBarIndicatorSize.label,
-                                ),
-                                unselectedLabelColor: Colors.white,
-                                labelColor: Style.mainTheme.primaryColor,
-                                tabs: _types
-                                    .map((type) => Tab(child: Text(type)))
-                                    .toList(),
-                              ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TabBar(
+                            isScrollable: true,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicator: BubbleTabIndicator(
+                              indicatorColor: Colors.white,
+                              indicatorHeight: 20.0,
+                              tabBarIndicatorSize: TabBarIndicatorSize.label,
                             ),
-                          ],
-                        ),
+                            unselectedLabelColor: Colors.white,
+                            labelColor: Style.mainTheme.primaryColor,
+                            tabs: _types
+                                .map((type) => Tab(child: Text(type)))
+                                .toList(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   Expanded(
                     child: TabBarView(
-                      children: _types.map((type) => ProfessorExamTab(_exams.where((Exam e) => e.type == type).toList())).toList(),
+                      children: _types
+                          .map((type) => ProfessorExamTab(_exams
+                              .where((Exam e) => e.type == type)
+                              .toList()))
+                          .toList(),
                     ),
                   ),
                 ],
