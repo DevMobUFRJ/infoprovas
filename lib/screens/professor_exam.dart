@@ -89,18 +89,20 @@ class _ProfessorExamState extends State<ProfessorExam>
 
   void listenForExams() async {
     final Stream<Exam> stream = await getProfessorExams(widget._professor.id);
-    stream.listen(
-      (Exam exam) => setState(
-            () {
-              exam.professorName = widget._professor.name;
-              _exams.add(exam);
-              if (_types != null) {
-                if (!_types.contains(exam.type)) {
-                  _types.add(exam.type);
-                }
-              }
-            },
-          ),
-    );
+    stream
+        .listen(
+          (Exam exam) => setState(
+                () {
+                  exam.professorName = widget._professor.name;
+                  _exams.add(exam);
+                  if (_types != null) {
+                    if (!_types.contains(exam.type)) {
+                      _types.add(exam.type);
+                    }
+                  }
+                },
+              ),
+        )
+        .onDone(() => _exams.sort((a, b) => (b.year).compareTo(a.year)));
   }
 }

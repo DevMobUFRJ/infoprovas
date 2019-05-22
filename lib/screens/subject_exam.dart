@@ -84,23 +84,24 @@ class _SubjectExamState extends State<SubjectExam>
               ),
             ),
     );
-
   }
 
   void listenForExams() async {
     final Stream<Exam> stream = await getSubjectExams(widget._subject.id);
-    stream.listen(
-      (Exam exam) => setState(
-            () {
-              exam.subject = widget._subject.name;
-              _exams.add(exam);
-              if (_types != null) {
-                if (!_types.contains(exam.type)) {
-                  _types.add(exam.type);
-                }
-              }
-            },
-          ),
-    );
+    stream
+        .listen(
+          (Exam exam) => setState(
+                () {
+                  exam.subject = widget._subject.name;
+                  _exams.add(exam);
+                  if (_types != null) {
+                    if (!_types.contains(exam.type)) {
+                      _types.add(exam.type);
+                    }
+                  }
+                },
+              ),
+        )
+        .onDone(() => _exams.sort((a, b) => (b.year).compareTo(a.year)));
   }
 }
