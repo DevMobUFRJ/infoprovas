@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/model/exam.dart';
-import 'package:infoprovas/widgets/professor_exam_tile.dart';
+import 'package:infoprovas/widgets/view_exam_tile.dart';
 
 class ProfessorExamTab extends StatefulWidget {
   List<Exam> _exams = <Exam>[];
@@ -24,7 +24,7 @@ class _ProfessorExamTabState extends State<ProfessorExamTab> {
         : ListView.builder(
       physics: ScrollPhysics(parent: BouncingScrollPhysics()),
       itemCount: widget._exams.length,
-      itemBuilder: (context, index) => ProfessorExamTile(widget._exams[index]),
+      itemBuilder: (context, index) => ViewExamTile(widget._exams[index],"professor"),
     );
   }
 }
