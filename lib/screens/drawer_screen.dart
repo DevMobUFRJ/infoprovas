@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infoprovas/screens/about.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/screens/saved_exams.dart';
+import 'package:infoprovas/screens/settings.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -53,11 +54,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
             icon: Icons.save_alt,
             onPressed: () => openSavedExamsScreen(),
           ),
+          _ItemDrawer(
+            text: "Configurações",
+            icon: Icons.settings,
+            onPressed: () => openSettingsScreen(),
+          ),
           Expanded(
             child: Container(),
           ), //Spacer
           Divider(
-            color: Colors.black45,
             height: 0,
           ),
           _ItemDrawer(
@@ -76,6 +81,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
   void openSavedExamsScreen() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => SavedExams()));
+  }
+  void openSettingsScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Settings()));
   }
 }
 
@@ -99,7 +108,6 @@ class _ItemDrawer extends StatelessWidget {
       ),
       title: Text(
         text,
-        style: TextStyle(color: Colors.black54),
       ),
       onTap: onPressed,
     );

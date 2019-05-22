@@ -15,7 +15,7 @@ class ProfessorTile extends StatelessWidget {
                 title: Text(
                   _professor.name,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.black87),
+                  style: TextStyle(fontSize: 20),
                 ),
                 onTap: () => Navigator.push(
                     context,

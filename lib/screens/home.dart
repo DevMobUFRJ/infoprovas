@@ -44,7 +44,6 @@ class HomeState extends State<Home> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerScreen(),
-      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Style.mainTheme.primaryColor,

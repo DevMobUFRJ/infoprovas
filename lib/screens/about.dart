@@ -35,8 +35,7 @@ class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: new AppBar(
+      appBar: AppBar(
         backgroundColor: Style.mainTheme.accentColor,
         title: Text("Sobre"),
         elevation: 2.0,
@@ -68,19 +67,17 @@ class About extends StatelessWidget {
                     "Nome da Pessoa / Nomeie Outra Pessoa",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.black54,
                       fontSize: 15,
                     ),
                   ),
                   Divider(
-                    color: Colors.black45,
                     height: 28,
                   ),
                   Text(
                     "Infoprovas",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Style.mainTheme.primaryColorDark,
+                      color: Style.mainTheme.primaryColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -103,7 +100,7 @@ class About extends StatelessWidget {
                     "DevMob",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Style.mainTheme.primaryColorDark,
+                      color: Style.mainTheme.primaryColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -125,16 +122,12 @@ class About extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(Facebook.facebook),
-                        disabledColor: Colors.black54,
-                        color: Colors.black54,
                         iconSize: 40,
                         onPressed: () => _launchURL(
                             context, "http://facebook.com/devmobufrj"),
                       ),
                       IconButton(
                         icon: Icon(Git.github),
-                        disabledColor: Colors.black54,
-                        color: Colors.black54,
                         iconSize: 40,
                         onPressed: () => _launchURL(
                             context, "https://github.com/DevMobUFRJ"),
