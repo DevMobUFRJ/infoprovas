@@ -20,7 +20,13 @@ class ProfessorExam extends StatefulWidget {
 class _ProfessorExamState extends State<ProfessorExam>
     with TickerProviderStateMixin {
   List<Exam> _exams = <Exam>[];
-  List<String> _types = [];
+  List<String> _types = [
+    "Prova 1",
+    "Prova 2",
+    "Prova 3",
+    "Prova Final",
+    "2ª Chamada",
+  ];
   Map<String, Exam> map;
 
   @override
@@ -103,6 +109,6 @@ class _ProfessorExamState extends State<ProfessorExam>
                 },
               ),
         )
-        .onDone(() => _exams.sort((a, b) => (b.year).compareTo(a.year)));
+        .onDone(() => _exams.sort((a, b) => (b.year).compareTo(a.year) + (b.semester).compareTo(a.semester)));
   }
 }
