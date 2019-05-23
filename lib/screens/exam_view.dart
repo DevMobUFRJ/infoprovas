@@ -35,7 +35,7 @@ class _ExamViewState extends State<ExamView> {
   }
 
   Future<File> createFileOfPdfUrl() async {
-    final url = "https://infoprovas.dcc.ufrj.br/provas/${widget._exam.id}.pdf";
+    final url = "http://infoprovas.esy.es/provas/${widget._exam.id}.pdf";
     final filename = url.substring(url.lastIndexOf("/") + 1);
 
     HttpClient client = new HttpClient();
