@@ -7,6 +7,7 @@ import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/repository/subject_exam_repository.dart';
 import 'package:infoprovas/screens/subject_exam_tab.dart';
 import 'package:infoprovas/widgets/shorten_text.dart';
+import 'package:infoprovas/utils/sort_types_list.dart';
 
 class SubjectExam extends StatefulWidget {
   Subject _subject;
@@ -20,7 +21,7 @@ class SubjectExam extends StatefulWidget {
 class _SubjectExamState extends State<SubjectExam>
     with TickerProviderStateMixin {
   List<Exam> _exams = <Exam>[];
-  List<dynamic> _types = [];
+  List<String> _types = [];
 
   @override
   void initState() {
@@ -88,78 +89,20 @@ class _SubjectExamState extends State<SubjectExam>
   void listenForExams() async {
     final Stream<Exam> stream = await getSubjectExams(widget._subject.id);
     stream
-        .listen(
-      (Exam exam) => setState(
-            () {
-              exam.subject = widget._subject.name;
-              _exams.add(exam);
-              if (_types != null) {
-                if (!_types.contains(exam.type)) {
-                  _types.add(exam.type);
+        .listen((Exam exam) => setState(
+              () {
+                exam.subject = widget._subject.name;
+                _exams.add(exam);
+                if (_types != null) {
+                  if (!_types.contains(exam.type)) {
+                    _types.add(exam.type);
+                  }
                 }
-              }
-            },
-          ),
-    )
+              },
+            ))
         .onDone(() {
-      _types = orderTypesList();
-
-      _exams.sort((a, b) =>
-          (b.year).compareTo(a.year) + (b.semester).compareTo(a.semester));
-    });
-  }
-
-  // ATENÇÃO GAMBIARRA !!!
-  // ordenando lista de tipos de prova
-  List<dynamic> orderTypesList() {
-    List<dynamic> tempList = [];
-    tempList.length = _types.length;
-
-    for (int i = 0; i < _types.length; i++) {
-      switch (_types[i]) {
-        case "Prova 1":
-          tempList[i] = 0;
-          break;
-        case "Prova 2":
-          tempList[i] = 1;
-          break;
-        case "Prova 3":
-          tempList[i] = 2;
-          break;
-        case "Prova Final":
-          tempList[i] = 3;
-          break;
-        case "2ª Chamada":
-          tempList[i] = 4;
-          break;
-        case "Outros":
-          tempList[i] = 5;
-          break;
-      }
-    }
-    tempList.sort();
-    for (int i = 0; i < tempList.length; i++) {
-      switch (tempList[i]) {
-        case 0:
-          tempList[i] = "Prova 1";
-          break;
-        case 1:
-          tempList[i] = "Prova 2";
-          break;
-        case 2:
-          tempList[i] = "Prova 3";
-          break;
-        case 3:
-          tempList[i] = "Prova Final";
-          break;
-        case 4:
-          tempList[i] = "2ª Chamada";
-          break;
-        case 5:
-          tempList[i] = "Outros";
-          break;
-      }
-    }
-    return tempList;
+          sortTypesList(_types);
+          _exams.sort((a, b) => (b.year).compareTo(a.year) + (b.semester).compareTo(a.semester));
+        });
   }
 }
