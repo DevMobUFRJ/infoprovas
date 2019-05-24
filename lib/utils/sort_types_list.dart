@@ -1,9 +1,20 @@
+// Função que ordena a lista de tipos de prova
+// entrada: lista de strings -> sendo cada string um tipo de prova.
+// saida: lista ordenada.
 void sortTypesList(List<String> typesList) =>
     typesList.sort((it, other) => compare(it, other));
 
+// Função que compara se `it` é "maior" que `other`, retorna um inteiro.
+// entrada: 2 strings -> it e other são 2 tipos de prova.
+// saida: int positivo se it é maior que other, 0 caso int = other, int negativo
+// caso it for menor que other.
 int compare(String it, String other) =>
     evaluateType(it).compareTo(evaluateType(other));
 
+// Função que "enumera" o tipo da prova por nível de importância,
+// sendo 0 mais importante e crescentemente diminuindo a importância.
+// entrada: String -> tipo de prova.
+// saida: um inteiro para cada tipo de prova.
 int evaluateType(String examType) {
   switch (examType) {
     case "Prova 1":
