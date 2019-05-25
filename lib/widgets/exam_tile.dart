@@ -5,6 +5,7 @@ import 'package:infoprovas/utils/database_helper.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infoprovas/screens/exam_view.dart';
 import 'package:infoprovas/styles/style.dart';
+import 'package:infoprovas/widgets/shorten_text.dart';
 
 class ExamTile extends StatefulWidget {
   final Exam _exam;
@@ -90,8 +91,11 @@ class _ExamTileState extends State<ExamTile> {
                 ),
               ),
             ),
-            title: Text(
-              "${widget._exam.subject}",
+            title: Row(
+              children: <Widget>[
+                ShortenText(widget._exam.type),
+                Text(" - ${widget._exam.subject}"),
+              ],
             ),
             subtitle: Text("${widget._exam.professorName}"),
             onTap: openExamView,
