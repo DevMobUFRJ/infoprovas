@@ -13,7 +13,7 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ExamView extends StatefulWidget {
-  Exam _exam;
+  final Exam _exam;
 
   ExamView(this._exam);
 
@@ -23,6 +23,7 @@ class ExamView extends StatefulWidget {
 
 class _ExamViewState extends State<ExamView> {
   String pathPDF = "";
+  bool isSaved = false;
 
   @override
   void initState() {
@@ -30,6 +31,11 @@ class _ExamViewState extends State<ExamView> {
     createFileOfPdfUrl().then((f) {
       setState(() {
         pathPDF = f.path;
+      });
+    });
+    isExamSaved().then((result) {
+      setState(() {
+        isSaved = result;
       });
     });
   }
@@ -50,25 +56,15 @@ class _ExamViewState extends State<ExamView> {
     return file;
   }
 
+  Future<bool> isExamSaved() async =>
+      await DatabaseHelper.internal().getExam(widget._exam.id) != null;
+
   void saveExam() async {
     // TODO: implementar salvar prova no dispositivo
     if (await DatabaseHelper.internal().saveExam(widget._exam)) {
       _launchURL(context,
           "https://infoprovas.dcc.ufrj.br/provaDownload.php?idProva=${widget._exam.id}");
     }
-  }
-
-  void showSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Text(message),
-        ),
-        backgroundColor: Style.mainTheme.primaryColor,
-        duration: Duration(seconds: 3),
-      ),
-    );
   }
 
   Future<void> _launchURL(BuildContext context, String url) async {
@@ -117,13 +113,15 @@ class _ExamViewState extends State<ExamView> {
               title: Text("InfoProvas"),
               elevation: 0.0,
               actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.save,
-                    color: Colors.white,
-                  ),
-                  onPressed: saveExam,
-                )
+                isSaved
+                    ? Container()
+                    : IconButton(
+                        icon: Icon(
+                          Icons.save,
+                          color: Colors.white,
+                        ),
+                        onPressed: saveExam,
+                      )
               ],
             ),
             path: pathPDF,
