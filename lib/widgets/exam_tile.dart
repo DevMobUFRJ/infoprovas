@@ -8,8 +8,11 @@ import 'package:infoprovas/styles/style.dart';
 
 class ExamTile extends StatefulWidget {
   final Exam _exam;
+  final void Function(String) updateExamList;
+  final void Function(String) showSnackBar;
 
-  ExamTile(this._exam);
+  ExamTile(this._exam, {Key key, this.updateExamList, this.showSnackBar})
+      : super(key: key);
 
   @override
   _ExamTileState createState() => _ExamTileState();
@@ -18,7 +21,9 @@ class ExamTile extends StatefulWidget {
 class _ExamTileState extends State<ExamTile> {
   // remove prova do sqflite
   void _deleteExam() async {
-    await DatabaseHelper.internal().deleteExam(widget._exam.id);
+    await DatabaseHelper.internal()
+        .deleteExam(widget._exam.id)
+        .then((value) => widget.updateExamList(widget._exam.subject));
   }
 
   // abre tela de visualização da prova
@@ -27,17 +32,39 @@ class _ExamTileState extends State<ExamTile> {
         MaterialPageRoute(builder: (context) => ExamView(widget._exam)));
   }
 
+  // abre caixa de dialogo de confirmação pra deletar prova
+  showAlertDialog() {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text('Tem certeza que deseja deletar a prova?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Não'),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            FlatButton(
+              child: Text('Sim'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                _deleteExam();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
       key: Key(widget._exam.id.toString()),
       direction: Axis.horizontal,
       dismissal: SlidableDismissal(
+        onWillDismiss: (actionType) => showAlertDialog(),
         child: SlidableDrawerDismissal(),
-        onDismissed: (actionType) {
-          // TODO: implementar snackbar por deletar prova (no ListTile tambem)
-          _deleteExam();
-        },
       ),
       actionPane: SlidableScrollActionPane(),
       actionExtentRatio: 0.2,
@@ -68,17 +95,17 @@ class _ExamTileState extends State<ExamTile> {
             ),
             subtitle: Text("${widget._exam.professorName}"),
             onTap: openExamView,
+            onLongPress: () => widget.showSnackBar(
+                "Deslize o item para a esquerda para ver mais informações"),
           ),
         ),
       ),
       secondaryActions: <Widget>[
         IconSlideAction(
-          caption: 'Remover',
+          caption: 'Deletar',
           color: Colors.red[400],
           icon: Icons.delete,
-          onTap: () {
-            _deleteExam();
-          },
+          onTap: () => showAlertDialog(),
         ),
       ],
     );

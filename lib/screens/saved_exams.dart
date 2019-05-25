@@ -4,15 +4,13 @@ import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/widgets/exam_tile.dart';
 import 'package:infoprovas/utils/database_helper.dart';
 
-class SavedExams extends StatefulWidget {
-  @override
-  _SavedExamsState createState() => _SavedExamsState();
-}
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class _SavedExamsState extends State<SavedExams> {
+class SavedExams extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Provas Salvas"),
         backgroundColor: Style.mainTheme.primaryColor,
@@ -35,6 +33,25 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  // atualiza a lista de provas e mostra snackbar de prova removida
+  updateExamList(String subject) async {
+    setState(() {});
+    showSnackBar("Prova de $subject removida");
+  }
+
+  showSnackBar(String message) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Text(message),
+        ),
+        backgroundColor: Style.mainTheme.primaryColor,
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
@@ -47,7 +64,11 @@ class _BodyState extends State<Body> {
               itemCount: snapshot.data.length,
               itemBuilder: (_, int index) {
                 Exam exam = snapshot.data[index];
-                return ExamTile(exam);
+                return ExamTile(
+                  exam,
+                  updateExamList: updateExamList,
+                  showSnackBar: showSnackBar,
+                );
               },
             );
           } else {
