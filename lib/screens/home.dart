@@ -22,19 +22,12 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   List<Subject> _subject = <Subject>[];
   List<Professor> _professor = <Professor>[];
-  int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
     listenForProfessor();
     listenForSubject();
-  }
-
-  void onItemTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
   }
 
   @override
@@ -133,11 +126,16 @@ class HomeState extends State<Home> {
           child: Text("Não foi possível conectar a rede"),
         ),
         backgroundColor: Style.mainTheme.primaryColor,
-        duration: Duration(seconds: 30),
+        duration: Duration(minutes: 5),
         action: SnackBarAction(
           label: "Tentar novamente",
           textColor: Colors.white,
-          onPressed: () => print("é isto"),
+          onPressed: () {
+            setState(() {
+              listenForProfessor();
+              listenForSubject();
+            });
+          },
         ),
       ),
     );

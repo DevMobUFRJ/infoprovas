@@ -19,7 +19,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   _SubjectsTabState(this._subject);
 
-  int _selectedPeriod = 1;
+  int _selectedPeriod = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100.0)),
                 color: Style.mainTheme.primaryColor),
-            child: new SizedBox(
+            child: SizedBox(
                 width: double.infinity,
                 child: CupertinoButton(
                     child: cupertinoText(_selectedPeriod),
@@ -103,21 +103,21 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   Widget selectorText(int selectedPeriod) {
     if (selectedPeriod == 0) {
-      return myText("Todas as Disciplinas", FontWeight.w600, Colors.black,
+      return cupertinoPickerText("Todas as Disciplinas", FontWeight.w600, Colors.black,
           fontSize: 16.0);
     } else if (selectedPeriod == 9) {
-      return myText("Eletivas", FontWeight.w600, Colors.black, fontSize: 16.0);
+      return cupertinoPickerText("Eletivas", FontWeight.w600, Colors.black, fontSize: 16.0);
     } else {
-      return myText("$selectedPeriodº Periodo", FontWeight.w600, Colors.black,
+      return cupertinoPickerText("$selectedPeriodº Periodo", FontWeight.w600, Colors.black,
           fontSize: 16.0);
     }
   }
 
-  Widget myText(String text, FontWeight fontWeight, Color colors,
+  Widget cupertinoPickerText(String text, FontWeight fontWeight, Color colors,
       {double fontSize}) {
     return Center(
       child: Text(text,
-          style: new TextStyle(
+          style: TextStyle(
               fontWeight: fontWeight, fontSize: fontSize, color: colors)),
     );
   }
@@ -137,7 +137,7 @@ class _SubjectsTabState extends State<SubjectsTab> {
       children: <Widget>[
         Container(
           alignment: Alignment.center,
-          child: myText(text, FontWeight.w700, Colors.white),
+          child: cupertinoPickerText(text, FontWeight.w700, Colors.white),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 20),
