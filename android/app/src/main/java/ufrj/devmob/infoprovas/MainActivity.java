@@ -1,4 +1,4 @@
-package com.yourcompany.project;
+package ufrj.devmob.infoprovas;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
