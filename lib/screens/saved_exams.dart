@@ -15,12 +15,6 @@ class SavedExams extends StatelessWidget {
         title: Text("Provas Salvas"),
         backgroundColor: Style.mainTheme.primaryColor,
         elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
-            onPressed: null,
-          ),
-        ],
       ),
       body: Body(),
     );
