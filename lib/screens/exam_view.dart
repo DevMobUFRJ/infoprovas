@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/utils/database_helper.dart';
-import 'package:infoprovas/screens/saved_exams.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:path_provider/path_provider.dart';
@@ -64,6 +63,9 @@ class _ExamViewState extends State<ExamView> {
     if (await DatabaseHelper.internal().saveExam(widget._exam)) {
       _launchURL(context,
           "https://infoprovas.dcc.ufrj.br/provaDownload.php?idProva=${widget._exam.id}");
+      setState(() {
+        isSaved = true;
+      });
     }
   }
 
