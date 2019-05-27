@@ -23,6 +23,7 @@ class _ProfessorExamState extends State<ProfessorExam>
   List<Exam> _exams = <Exam>[];
   List<String> _types = [];
   Map<String, Exam> map;
+  bool hasFailed = false;
 
   @override
   void initState() {
@@ -42,7 +43,9 @@ class _ProfessorExamState extends State<ProfessorExam>
         elevation: 0,
       ),
       body: _types.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? hasFailed
+              ? Center(child: Text("Não há provas deste professor"))
+              : Center(child: CircularProgressIndicator())
           : DefaultTabController(
               length: _types.length,
               child: Column(
@@ -90,21 +93,27 @@ class _ProfessorExamState extends State<ProfessorExam>
 
   void listenForExams() async {
     final Stream<Exam> stream = await getProfessorExams(widget._professor.id);
-    stream
-        .listen((Exam exam) => setState(
-              () {
-                exam.professorName = widget._professor.name;
-                _exams.add(exam);
-                if (_types != null) {
-                  if (!_types.contains(exam.type)) {
-                    _types.add(exam.type);
-                  }
-                }
-              },
-            ))
-        .onDone(() {
-          sortTypesList(_types);
-          _exams.sort((a, b) => (b.year).compareTo(a.year) + (b.semester).compareTo(a.semester));
+    stream.toList().then((examList) {
+      if (examList.isEmpty) {
+        setState(() {
+          hasFailed = true;
         });
+      } else {
+        setState(() {
+          examList.forEach((exam) {
+            exam.professorName = widget._professor.name;
+            _exams.add(exam);
+            if (_types != null) {
+              if (!_types.contains(exam.type)) {
+                _types.add(exam.type);
+              }
+            }
+          });
+        });
+        sortTypesList(_types);
+        _exams.sort((a, b) =>
+            (b.year).compareTo(a.year) + (b.semester).compareTo(a.semester));
+      }
+    });
   }
 }
