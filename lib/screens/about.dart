@@ -63,8 +63,7 @@ class About extends StatelessWidget {
                     height: 8.0,
                   ),
                   Text(
-                    "App desenvolvido por DevMob UFRJ\n"
-                    "Nome da Pessoa / Nomeie Outra Pessoa",
+                    "App desenvolvido por DevMob UFRJ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
