@@ -49,4 +49,9 @@ class Exam {
         year = int.parse(jsonMap['ano']),
         semester = int.parse(jsonMap['periodo']),
         subject = jsonMap['disciplina'];
+
+  int compareTo(other) {
+    int yearComparison = other.year.compareTo(this.year);
+    return yearComparison == 0 ? other.semester.compareTo(this.semester) : yearComparison;
+  }
 }

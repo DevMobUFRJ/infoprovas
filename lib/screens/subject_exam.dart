@@ -109,8 +109,7 @@ class _SubjectExamState extends State<SubjectExam>
           });
         });
         sortTypesList(_types);
-        _exams.sort((a, b) =>
-            (b.year).compareTo(a.year) + (b.semester).compareTo(a.semester));
+        _exams.sort((a, b) => a.compareTo(b));
       }
     });
   }
