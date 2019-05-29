@@ -3,6 +3,7 @@ import 'package:infoprovas/screens/about.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/screens/saved_exams.dart';
 import 'package:infoprovas/screens/settings.dart';
+import 'package:infoprovas/screens/contact.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -59,6 +60,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
             icon: Icons.settings,
             onPressed: () => openSettingsScreen(),
           ),
+          _ItemDrawer(
+            text: "Fale Conosco",
+            icon: Icons.message,
+            onPressed: () => openContactScreen(),
+          ),
           Expanded(
             child: Container(),
           ), //Spacer
@@ -82,9 +88,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => SavedExams()));
   }
+
   void openSettingsScreen() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Settings()));
+  }
+
+  openContactScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ContactScreen()));
   }
 }
 
