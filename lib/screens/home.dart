@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:infoprovas/screens/home_professor_tab.dart';
 import 'package:infoprovas/screens/home_subjects_tab.dart';
@@ -32,6 +33,7 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -50,34 +52,26 @@ class HomeState extends State<Home> {
             Material(
               elevation: 2.0,
               child: Container(
+                width: screenWidth,
                 color: Style.mainTheme.primaryColor,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: width / 12.5,
-                          right: width / 12.5,
-                        ),
-                        child: TabBar(
-                          indicatorSize: TabBarIndicatorSize.label,
-                          indicator: BubbleTabIndicator(
-                            indicatorColor: Colors.white,
-                            indicatorHeight: 20.0,
-                            tabBarIndicatorSize: TabBarIndicatorSize.label,
-                          ),
-                          unselectedLabelColor: Colors.white,
-                          labelColor: Style.mainTheme.primaryColor,
-                          tabs: [
-                            Tab(child: Text("Disciplinas")),
-                            Tab(child: Text("Professores")),
-                          ],
-                        ),
+                child: Column(
+                  children: <Widget>[
+                    TabBar(
+                      isScrollable: true,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicator: BubbleTabIndicator(
+                        indicatorColor: Colors.white,
+                        indicatorHeight: 20.0,
+                        tabBarIndicatorSize: TabBarIndicatorSize.label,
                       ),
-                    ],
-                  ),
+                      unselectedLabelColor: Colors.white,
+                      labelColor: Style.mainTheme.primaryColor,
+                      tabs: [
+                        Tab(child: Text("Disciplinas")),
+                        Tab(child: Text("Professores")),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
