@@ -56,14 +56,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
             onPressed: () => openSavedExamsScreen(),
           ),
           _ItemDrawer(
+            text: "Fale Conosco",
+            icon: Icons.feedback,
+            onPressed: () => openContactScreen(),
+          ),
+          _ItemDrawer(
             text: "Configurações",
             icon: Icons.settings,
             onPressed: () => openSettingsScreen(),
-          ),
-          _ItemDrawer(
-            text: "Fale Conosco",
-            icon: Icons.message,
-            onPressed: () => openContactScreen(),
           ),
           Expanded(
             child: Container(),
