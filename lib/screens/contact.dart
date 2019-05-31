@@ -24,6 +24,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   final _emailSubject = TextEditingController();
   final _emailBody = TextEditingController();
+  String _dropDownSelected = "Outros";
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,23 @@ class _ContactScreenState extends State<ContactScreen> {
             padding: EdgeInsets.all(10),
             child: Column(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Categoria",style: TextStyle(fontSize: 16),),
+                      DropdownButton(
+                        items: _dropDownItem(),
+                        value: _dropDownSelected,
+                        onChanged: (value) {
+                          _dropDownSelected = value;
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 TextFormField(
                   keyboardType: TextInputType.multiline,
                   controller: _emailSubject,
@@ -74,7 +92,7 @@ class _ContactScreenState extends State<ContactScreen> {
         backgroundColor: Style.mainTheme.primaryColor,
         onPressed: () {
           print("enviando...");
-          _sendEmail("devmob@dcc.ufrj.br", _emailSubject.text, _emailBody.text);
+          _sendEmail("devmob@dcc.ufrj.br", "[${_dropDownSelected}] InfoProvas - ${_emailSubject.text}", _emailBody.text);
         },
         child: Icon(
           Icons.send,
@@ -82,5 +100,14 @@ class _ContactScreenState extends State<ContactScreen> {
         ),
       ),
     );
+  }
+  List<DropdownMenuItem<String>> _dropDownItem() {
+    List<String> optionsList = ["Bugs", "Opiniões", "Outros"];
+    return optionsList
+        .map((value) => DropdownMenuItem(
+      value: value,
+      child: Text(value),
+    ))
+        .toList();
   }
 }
