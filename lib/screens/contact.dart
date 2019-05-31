@@ -22,45 +22,59 @@ class _ContactScreenState extends State<ContactScreen> {
     }
   }
 
+  final _emailSubject = TextEditingController();
+  final _emailBody = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Style.mainTheme.accentColor,
         title: Text("Fale Conosco"),
-        elevation: 2.0,
+        elevation: 0.0,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: "Assunto",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(),
+      body: ListView(
+        physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  controller: _emailSubject,
+                  decoration: InputDecoration(
+                    alignLabelWithHint: false,
+                    labelText: "Assunto",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(padding: EdgeInsets.all(5)),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: "Mensagem",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(),
+                Padding(padding: EdgeInsets.all(5)),
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  minLines: 8,
+                  maxLines: null,
+                  controller: _emailBody,
+                  decoration: InputDecoration(
+                    labelText: "Mensagem",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Style.mainTheme.primaryColor,
         onPressed: () {
           print("enviando...");
-          _sendEmail("devmob@dcc.ufrj.br", "assunto", "corpo");
+          _sendEmail("devmob@dcc.ufrj.br", _emailSubject.text, _emailBody.text);
         },
         child: Icon(
           Icons.send,
