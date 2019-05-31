@@ -10,17 +10,21 @@ Future<Stream<Exam>> getSubjectExams(int id) async {
   final String url = 'http://infoprovas.esy.es/api.php?tipo=disciplina&id=$id';
 
   final client = new http.Client();
-  final streamedRest = await client.send(http.Request('get', Uri.parse(url)));
 
-  return streamedRest.stream
-      .transform(utf8.decoder)
-      .transform(json.decoder)
-      .expand((data) {
-        try {
-          return data as List;
-        } catch (e) {
-          return [];
-        }
-  })
-      .map((data) => Exam.fromJSON(data));
+  try {
+    final http.StreamedResponse streamedRest =
+        await client.send(http.Request('get', Uri.parse(url)));
+    return streamedRest.stream
+        .transform(utf8.decoder)
+        .transform(json.decoder)
+        .expand((data) {
+      try {
+        return data as List;
+      } catch (e) {
+        return [];
+      }
+    }).map((data) => Exam.fromJSON(data));
+  } catch (e) {
+    return null;
+  }
 }
