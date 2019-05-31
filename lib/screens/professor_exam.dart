@@ -9,6 +9,8 @@ import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/widgets/shorten_text.dart';
 import 'package:infoprovas/utils/sort_types_list.dart';
 
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class ProfessorExam extends StatefulWidget {
   Professor _professor;
 
@@ -36,6 +38,7 @@ class _ProfessorExamState extends State<ProfessorExam>
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Style.mainTheme.primaryColor,
@@ -93,26 +96,52 @@ class _ProfessorExamState extends State<ProfessorExam>
 
   void listenForExams() async {
     final Stream<Exam> stream = await getProfessorExams(widget._professor.id);
-    stream.toList().then((examList) {
-      if (examList.isEmpty) {
-        setState(() {
-          hasFailed = true;
-        });
-      } else {
-        setState(() {
-          examList.forEach((exam) {
-            exam.professorName = widget._professor.name;
-            _exams.add(exam);
-            if (_types != null) {
-              if (!_types.contains(exam.type)) {
-                _types.add(exam.type);
-              }
-            }
+    try {
+      stream.toList().then((examList) {
+        if (examList.isEmpty) {
+          setState(() {
+            hasFailed = true;
           });
-        });
-        sortTypesList(_types);
-        _exams.sort((a, b) => a.compareTo(b));
-      }
-    });
+        } else {
+          setState(() {
+            examList.forEach((exam) {
+              exam.professorName = widget._professor.name;
+              _exams.add(exam);
+              if (_types != null) {
+                if (!_types.contains(exam.type)) {
+                  _types.add(exam.type);
+                }
+              }
+            });
+          });
+          sortTypesList(_types);
+          _exams.sort((a, b) => a.compareTo(b));
+        }
+      });
+    } catch (e) {
+      onFailedConnection();
+    }
+  }
+
+  onFailedConnection() {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Text("Não foi possível conectar a rede"),
+        ),
+        backgroundColor: Style.mainTheme.primaryColor,
+        duration: Duration(minutes: 5),
+        action: SnackBarAction(
+          label: "Tentar novamente",
+          textColor: Colors.white,
+          onPressed: () {
+            setState(() {
+              listenForExams();
+            });
+          },
+        ),
+      ),
+    );
   }
 }
