@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:infoprovas/model/exam.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infoprovas/screens/exam_view.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/widgets/shorten_text.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ExamTile extends StatefulWidget {
   final Exam _exam;
@@ -24,7 +27,22 @@ class _ExamTileState extends State<ExamTile> {
   void _deleteExam() async {
     await DatabaseHelper.internal()
         .deleteExam(widget._exam.id)
-        .then((value) => widget.updateExamList(widget._exam.subject));
+        .then((value) => value == 1 ? deleteFile() : null)
+        .then((result) => result == null
+            ? null
+            : widget.updateExamList(widget._exam.subject));
+  }
+
+  // remove arquivo da prova do dispositivo
+  Future<FileSystemEntity> deleteFile() async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    String filename = "${widget._exam.id}.pdf";
+    File file = File('$dir/$filename');
+    try {
+      return file.delete(recursive: true);
+    } catch (e) {
+      return null;
+    }
   }
 
   // abre tela de visualização da prova
