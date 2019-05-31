@@ -42,11 +42,14 @@ class _ContactScreenState extends State<ContactScreen> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 5,right: 5,bottom: 5),
+                  padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("Categoria",style: TextStyle(fontSize: 16),),
+                      Text(
+                        "Categoria",
+                        style: TextStyle(fontSize: 16),
+                      ),
                       DropdownButton(
                         items: _dropDownItem(),
                         value: _dropDownSelected,
@@ -90,10 +93,10 @@ class _ContactScreenState extends State<ContactScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Style.mainTheme.primaryColor,
-        onPressed: () {
-          print("enviando...");
-          _sendEmail("devmob@dcc.ufrj.br", "[${_dropDownSelected}] InfoProvas - ${_emailSubject.text}", _emailBody.text);
-        },
+        onPressed: () => _sendEmail(
+            "devmob@dcc.ufrj.br",
+            "[${_dropDownSelected}] InfoProvas - ${_emailSubject.text}",
+            _emailBody.text),
         child: Icon(
           Icons.send,
           color: Colors.white,
@@ -101,13 +104,16 @@ class _ContactScreenState extends State<ContactScreen> {
       ),
     );
   }
+
   List<DropdownMenuItem<String>> _dropDownItem() {
     List<String> optionsList = ["Bugs", "Opiniões", "Outros"];
     return optionsList
-        .map((value) => DropdownMenuItem(
-      value: value,
-      child: Text(value),
-    ))
+        .map(
+          (value) => DropdownMenuItem(
+                value: value,
+                child: Text(value),
+              ),
+        )
         .toList();
   }
 }
