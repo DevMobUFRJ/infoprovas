@@ -4,7 +4,7 @@ import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:infoprovas/model/subject.dart';
 
-Future<Stream<Subject>> getSubject() async {
+Future<List<Subject>> getSubject() async {
   final String url = 'https://infoprovas.dcc.ufrj.br/api.php?tipo=disciplinas';
 
   try {
@@ -16,7 +16,7 @@ Future<Stream<Subject>> getSubject() async {
 
     final streamedRest = await ioClient.get(url);
     List<dynamic> subjects = json.decode(utf8.decode(streamedRest.bodyBytes));
-    return Stream.fromIterable(subjects.map((data) => Subject.fromJSON(data)));
+    return subjects.map((data) => Subject.fromJSON(data)).toList();
   } catch (e) {
     return null;
   }

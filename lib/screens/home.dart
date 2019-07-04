@@ -90,25 +90,22 @@ class HomeState extends State<Home> {
   }
 
   void listenForSubject() async {
-    final Stream<Subject> stream = await getSubject();
     try {
-      stream
-          .listen((Subject subject) => setState(() => _subject.add(subject)))
-          .onDone(() => _subject.sort(
-              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
+      _subject.addAll(await getSubject());
+      _subject.sort(
+              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
+      setState((){});
     } catch (e) {
       onFailedConnection();
     }
   }
 
   void listenForProfessor() async {
-    final Stream<Professor> stream = await getProfessor();
     try {
-      stream
-          .listen((Professor professor) =>
-              setState(() => _professor.add(professor)))
-          .onDone(() => _professor.sort(
-              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name))));
+      _professor.addAll(await getProfessor());
+      _professor.sort(
+              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
+      setState((){});
     } catch (e) {}
   }
 

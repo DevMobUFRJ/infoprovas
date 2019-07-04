@@ -4,8 +4,8 @@ import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:infoprovas/model/professor.dart';
 
-Future<Stream<Professor>> getProfessor() async {
-  final String url = 'http://infoprovas.esy.es/api.php?tipo=professores';
+Future<List<Professor>> getProfessor() async {
+  final String url = 'https://infoprovas.dcc.ufrj.br/api.php?tipo=professores';
 
   try {
     HttpClient httpClient = HttpClient()
@@ -16,8 +16,7 @@ Future<Stream<Professor>> getProfessor() async {
 
     final streamedRest = await ioClient.get(url);
     List<dynamic> subjects = json.decode(utf8.decode(streamedRest.bodyBytes));
-    return Stream.fromIterable(
-        subjects.map((data) => Professor.fromJSON(data)));
+    return subjects.map((data) => Professor.fromJSON(data)).toList();
   } catch (e) {
     return null;
   }
