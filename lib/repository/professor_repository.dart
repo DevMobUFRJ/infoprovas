@@ -15,8 +15,8 @@ Future<List<Professor>> getProfessor() async {
     IOClient ioClient = IOClient(httpClient);
 
     final streamedRest = await ioClient.get(url);
-    List<dynamic> subjects = json.decode(utf8.decode(streamedRest.bodyBytes));
-    return subjects.map((data) => Professor.fromJSON(data)).toList();
+    List<dynamic> professors = json.decode(utf8.decode(streamedRest.bodyBytes));
+    return professors.map((data) => Professor.fromJSON(data)).toList();
   } catch (e) {
     return null;
   }

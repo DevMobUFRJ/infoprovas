@@ -20,8 +20,8 @@ Future<Stream<Exam>> getExams(int id, String type) async {
     IOClient ioClient = IOClient(httpClient);
 
     final streamedRest = await ioClient.get(url);
-    List<dynamic> subjects = json.decode(utf8.decode(streamedRest.bodyBytes));
-    return Stream.fromIterable(subjects.map((data) => Exam.fromJSON(data)));
+    List<dynamic> exams = json.decode(utf8.decode(streamedRest.bodyBytes));
+    return Stream.fromIterable(exams.map((data) => Exam.fromJSON(data)));
   } on SocketException {
     return null;
   } catch (e) {
