@@ -53,17 +53,26 @@ class _DrawerScreenState extends State<DrawerScreen> {
           _ItemDrawer(
             text: "Provas Salvas",
             icon: Icons.save_alt,
-            onPressed: () => openSavedExamsScreen(),
+            onPressed: () {
+              Navigator.of(context).pop();
+              openSavedExamsScreen();
+            },
           ),
           _ItemDrawer(
             text: "Fale Conosco",
             icon: Icons.feedback,
-            onPressed: () => openContactScreen(),
+            onPressed: () {
+              Navigator.of(context).pop();
+              openContactScreen();
+            },
           ),
           _ItemDrawer(
             text: "Configurações",
             icon: Icons.settings,
-            onPressed: () => openSettingsScreen(),
+            onPressed: () {
+              Navigator.of(context).pop();
+              openSettingsScreen();
+            },
           ),
           Expanded(
             child: Container(),
