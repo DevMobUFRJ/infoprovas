@@ -22,6 +22,7 @@ class ExamView extends StatefulWidget {
 class _ExamViewState extends State<ExamView> {
   String pathPDF = "";
   bool isSaved = false;
+  bool saving = false;
   bool connectionFailed = false;
 
   @override
@@ -93,16 +94,48 @@ class _ExamViewState extends State<ExamView> {
   // salva a prova no sqlite e caso seja bem sucedido, chamará a função
   // para baixar o arquivo.
   void saveExam() async {
+    setState(() {
+      saving = true;
+    });
     if (await DatabaseHelper.internal().saveExam(widget._exam)) {
       await downloadFile(false).then((f) {
         setState(() {
           if (f != null) isSaved = true;
+          saving = false;
         });
       });
     } else {
       setState(() {
         isSaved = false;
       });
+    }
+  }
+
+  Widget actionButton() {
+    if (isSaved) {
+      return IconButton(
+          icon: Icon(
+            Icons.check,
+            color: Colors.white,
+          ),
+          onPressed: null);
+    } else if (saving) {
+      return IconButton(
+          icon: CircularProgressIndicator(
+            strokeWidth: 1.0,
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
+          onPressed: null);
+    } else {
+      return IconButton(
+        icon: Icon(
+          Icons.save,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          saveExam();
+        },
+      );
     }
   }
 
@@ -149,20 +182,7 @@ class _ExamViewState extends State<ExamView> {
               title: Text("InfoProvas"),
               elevation: 0.0,
               actions: <Widget>[
-                isSaved
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                        ),
-                        onPressed: null)
-                    : IconButton(
-                        icon: Icon(
-                          Icons.save,
-                          color: Colors.white,
-                        ),
-                        onPressed: saveExam,
-                      )
+                actionButton(),
               ],
             ),
             path: pathPDF,
