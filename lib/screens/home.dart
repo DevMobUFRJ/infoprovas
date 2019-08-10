@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,6 +13,7 @@ import 'package:infoprovas/repository/professor_repository.dart';
 import 'package:infoprovas/repository/subject_repository.dart';
 import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/subject.dart';
+import 'package:infoprovas/widgets/subject_tile.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -34,7 +36,6 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -44,6 +45,17 @@ class HomeState extends State<Home> {
         backgroundColor: Style.mainTheme.primaryColor,
         title: Text("InfoProvas"),
         elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: MySearch( _subject, _professor ),
+              );
+            },
+          ),
+        ],
       ),
       body: DefaultTabController(
         length: 2,
@@ -150,5 +162,69 @@ class HomeState extends State<Home> {
       default:
         return name;
     }
+  }
+}
+
+class MySearch extends SearchDelegate<Subject> {
+
+  final List<Subject> subject;
+  final List<Professor> professor;
+
+  MySearch(this.subject,this.professor);
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    assert( theme != null);
+    return theme.copyWith(
+      hintColor: Colors.white,
+      cursorColor: Color.fromARGB(2500, 255, 255, 255),
+      primaryColor: Style.mainTheme.primaryColor,
+      primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.white),
+      primaryColorBrightness: Brightness.light,
+      textTheme: theme.textTheme.copyWith(title: theme.textTheme.title.copyWith(color: theme.primaryTextTheme.title.color)),
+      primaryTextTheme: theme.textTheme,
+    );
+  }
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () => close(context, null),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+
+    final results = subject.where((a)=> a.name.toLowerCase().contains(query)).toList();
+    //results.add(professor.where((a)=> a.name.toLowerCase().contains(query)).toList());
+
+    print(results.length);
+
+    return results.length == subject.length ? Center(child:Text("Sem resultados",style: TextStyle(color: Colors.black54),))
+    : ListView.builder(
+      itemBuilder: (context, index) =>
+          SubjectTile(results[index], 0),
+          itemCount: results.length,
+    );
   }
 }
