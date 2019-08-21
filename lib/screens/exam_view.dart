@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/utils/database_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
+import 'package:infoprovas/utils/main_functions.dart';
 import 'package:path_provider/path_provider.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -111,6 +114,28 @@ class _ExamViewState extends State<ExamView> {
     }
   }
 
+  // compartilha o arquivo da prova (mesmo se não for prova salva)
+  // utilizando a biblioteca esys_flutter_share
+  void shareExam() async {
+    String url = "";
+    if (isSaved) {
+      url =
+      "/data/user/0/ufrj.devmob.infoprovas/app_flutter/${widget._exam.id}.pdf";
+    } else {
+      String dir = (await getTemporaryDirectory()).path;
+      url = "$dir/${widget._exam.id}.pdf";
+      print(url);
+    }
+    String text = "${widget._exam.type} de ${widget._exam.subject} de ${widget._exam.year}-${widget._exam.semester}"
+        "\nBaixe o app InfoProvas para encontrar mais provas.\nLink: https://play.google.com/store/apps/details?id=ufrj.devmob.infoprovas";
+    final ByteData bytes = await rootBundle.load(url);
+    await Share.file(
+        'infoprovas pdf',
+        "${getShortType(widget._exam.type).toLowerCase()}_${(widget._exam.year).toString().substring(2, 4)}_${widget._exam.semester}.pdf",
+        bytes.buffer.asUint8List(),
+        'application/pdf', text: text);
+  }
+
   Widget actionButton() {
     if (isSaved) {
       return IconButton(
@@ -137,6 +162,16 @@ class _ExamViewState extends State<ExamView> {
         },
       );
     }
+  }
+
+  Widget shareButton() {
+    return IconButton(
+      icon: Icon(
+        Icons.share,
+        color: Colors.white,
+      ),
+      onPressed: shareExam,
+    );
   }
 
   @override
@@ -182,6 +217,7 @@ class _ExamViewState extends State<ExamView> {
               title: Text("InfoProvas"),
               elevation: 0.0,
               actions: <Widget>[
+                shareButton(),
                 actionButton(),
               ],
             ),
