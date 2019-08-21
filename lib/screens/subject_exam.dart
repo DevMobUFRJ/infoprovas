@@ -6,13 +6,12 @@ import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/repository/subject_exam_repository.dart';
 import 'package:infoprovas/screens/subject_exam_tab.dart';
-import 'package:infoprovas/widgets/shorten_text.dart';
-import 'package:infoprovas/utils/sort_types_list.dart';
+import 'package:infoprovas/utils/main_functions.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class SubjectExam extends StatefulWidget {
-  Subject _subject;
+  final Subject _subject;
 
   SubjectExam(this._subject);
 
@@ -70,7 +69,7 @@ class _SubjectExamState extends State<SubjectExam>
                             unselectedLabelColor: Colors.white,
                             labelColor: Style.mainTheme.primaryColor,
                             tabs: _types
-                                .map((type) => Tab(child: ShortenText(type)))
+                                .map((type) => Tab(child: Text(getShortType(type))))
                                 .toList(),
                           ),
                         ],

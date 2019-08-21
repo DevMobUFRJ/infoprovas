@@ -7,7 +7,7 @@ import 'package:infoprovas/utils/database_helper.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:infoprovas/screens/exam_view.dart';
 import 'package:infoprovas/styles/style.dart';
-import 'package:infoprovas/widgets/shorten_text.dart';
+import 'package:infoprovas/utils/main_functions.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ExamTile extends StatefulWidget {
@@ -111,7 +111,7 @@ class _ExamTileState extends State<ExamTile> {
             ),
             title: Row(
               children: <Widget>[
-                ShortenText(widget._exam.type),
+                Text(getShortType(widget._exam.type)),
                 Text(" - ${widget._exam.subject}"),
               ],
             ),

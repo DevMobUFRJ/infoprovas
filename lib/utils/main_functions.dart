@@ -33,3 +33,14 @@ int evaluateType(String examType) {
       return -1;
   }
 }
+
+Map<String, String> types = {
+  "Prova 1": "P1",
+  "Prova 2": "P2",
+  "Prova 3": "P3",
+  "Prova Final": "PF",
+  "2ª Chamada" : "2ªCH",
+  "Outros" : "Outros",
+};
+
+String getShortType(String type) => types[type] ?? "Default";

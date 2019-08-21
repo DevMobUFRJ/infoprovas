@@ -50,9 +50,8 @@ class _ViewExamTileState extends State<ViewExamTile> {
     );
   }
 
-  String dateFormat(String year, String semester) {
-    return "${year.substring(2, 4)}.${semester}";
-  }
+  String dateFormat(String year, String semester) =>
+      "${year.substring(2, 4)}.$semester";
 
   Widget formatTitle(String tileType) {
     if (tileType.compareTo("professor") == 0) {
