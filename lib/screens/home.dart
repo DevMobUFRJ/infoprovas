@@ -1,19 +1,19 @@
 import 'dart:async';
-import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:infoprovas/model/search_item.dart';
 import 'package:infoprovas/screens/home_professor_tab.dart';
 import 'package:infoprovas/screens/home_subjects_tab.dart';
 import 'package:infoprovas/screens/drawer_screen.dart';
+import 'package:infoprovas/screens/search.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:infoprovas/repository/professor_repository.dart';
 import 'package:infoprovas/repository/subject_repository.dart';
 import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/subject.dart';
-import 'package:infoprovas/widgets/subject_tile.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -25,6 +25,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   List<Subject> _subject = <Subject>[];
   List<Professor> _professor = <Professor>[];
+  List<SearchItem> _searchList = <SearchItem>[];
 
   @override
   void initState() {
@@ -49,9 +50,13 @@ class HomeState extends State<Home> {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
+              populateSearchList();
               showSearch(
                 context: context,
-                delegate: MySearch( _subject, _professor ),
+                delegate: SearchPage(
+                    professor: _professor,
+                    searchList: _searchList,
+                    subject: _subject),
               );
             },
           ),
@@ -99,6 +104,14 @@ class HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  void populateSearchList() {
+    _searchList.clear();
+    _subject.forEach((subject) =>
+        _searchList.add(SearchItem(name: subject.name, type: "subject")));
+    _professor.forEach((professor) =>
+        _searchList.add(SearchItem(name: professor.name, type: "professor")));
   }
 
   void listenForSubject() async {
@@ -162,69 +175,5 @@ class HomeState extends State<Home> {
       default:
         return name;
     }
-  }
-}
-
-class MySearch extends SearchDelegate<Subject> {
-
-  final List<Subject> subject;
-  final List<Professor> professor;
-
-  MySearch(this.subject,this.professor);
-
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    assert(context != null);
-    final ThemeData theme = Theme.of(context);
-    assert( theme != null);
-    return theme.copyWith(
-      hintColor: Colors.white,
-      cursorColor: Color.fromARGB(2500, 255, 255, 255),
-      primaryColor: Style.mainTheme.primaryColor,
-      primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.white),
-      primaryColorBrightness: Brightness.light,
-      textTheme: theme.textTheme.copyWith(title: theme.textTheme.title.copyWith(color: theme.primaryTextTheme.title.color)),
-      primaryTextTheme: theme.textTheme,
-    );
-  }
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () => close(context, null),
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Container();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-
-    final results = subject.where((a)=> a.name.toLowerCase().contains(query)).toList();
-    //results.add(professor.where((a)=> a.name.toLowerCase().contains(query)).toList());
-
-    print(results.length);
-
-    return results.length == subject.length ? Center(child:Text("Sem resultados",style: TextStyle(color: Colors.black54),))
-    : ListView.builder(
-      itemBuilder: (context, index) =>
-          SubjectTile(results[index], 0),
-          itemCount: results.length,
-    );
   }
 }
