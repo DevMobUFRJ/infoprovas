@@ -1,21 +1,22 @@
 import 'dart:async';
-import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:infoprovas/model/professor.dart';
 
-Future<Stream<Professor>> getProfessor() async {
-  final String url = 'http://infoprovas.esy.es/api.php?tipo=professores';
-
-  final client = http.Client();
+Future<List<Professor>> getProfessor() async {
+  final String url = 'https://infoprovas.dcc.ufrj.br/api.php?tipo=professores';
 
   try {
-    final http.StreamedResponse streamedRest =
-        await client.send(http.Request('get', Uri.parse(url)));
-    return streamedRest.stream
-        .transform(utf8.decoder)
-        .transform(json.decoder)
-        .expand((data) => (data as List))
-        .map((data) => Professor.fromJSON(data));
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+
+    IOClient ioClient = IOClient(httpClient);
+
+    final streamedRest = await ioClient.get(url);
+    List<dynamic> professors = json.decode(utf8.decode(streamedRest.bodyBytes));
+    return professors.map((data) => Professor.fromJSON(data)).toList();
   } catch (e) {
     return null;
   }

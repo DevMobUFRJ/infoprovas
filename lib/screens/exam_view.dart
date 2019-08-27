@@ -71,7 +71,7 @@ class _ExamViewState extends State<ExamView> {
       return file;
     }
     try {
-      String url = "http://infoprovas.esy.es/provas/${widget._exam.id}.pdf";
+      String url = "https://infoprovas.dcc.ufrj.br/provas/${widget._exam.id}.pdf";
       final filename = url.substring(url.lastIndexOf("/") + 1);
 
       HttpClient client = new HttpClient();

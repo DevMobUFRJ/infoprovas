@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/professor.dart';
-import 'package:infoprovas/repository/professor_exam_repository.dart';
+import 'package:infoprovas/repository/exam_repository.dart';
 import 'package:infoprovas/screens/professor_exam_tab.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
@@ -94,7 +94,7 @@ class _ProfessorExamState extends State<ProfessorExam>
   }
 
   void listenForExams() async {
-    final Stream<Exam> stream = await getProfessorExams(widget._professor.id);
+    final Stream<Exam> stream = await getExams(widget._professor.id, "professor");
     try {
       stream.toList().then((examList) {
         if (examList.isEmpty) {

@@ -4,7 +4,7 @@ import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/model/exam.dart';
-import 'package:infoprovas/repository/subject_exam_repository.dart';
+import 'package:infoprovas/repository/exam_repository.dart';
 import 'package:infoprovas/screens/subject_exam_tab.dart';
 import 'package:infoprovas/utils/main_functions.dart';
 
@@ -92,7 +92,7 @@ class _SubjectExamState extends State<SubjectExam>
   }
 
   void listenForExams() async {
-    final Stream<Exam> stream = await getSubjectExams(widget._subject.id);
+    final Stream<Exam> stream = await getExams(widget._subject.id, "disciplina");
     try {
       stream.toList().then((examList) {
         if (examList.isEmpty) {

@@ -1,7 +1,7 @@
 name: infoprovas
 description: Repositório de provas do DCC-UFRJ.
 
-version: 0.2.0+4
+version: 1.0.1+6
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
