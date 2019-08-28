@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:infoprovas/model/search_item.dart';
 import 'package:infoprovas/screens/home_professor_tab.dart';
 import 'package:infoprovas/screens/home_subjects_tab.dart';
 import 'package:infoprovas/screens/drawer_screen.dart';
+import 'package:infoprovas/screens/search.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:infoprovas/repository/professor_repository.dart';
@@ -23,6 +25,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   List<Subject> _subject = <Subject>[];
   List<Professor> _professor = <Professor>[];
+  List<SearchItem> _searchList = <SearchItem>[];
 
   @override
   void initState() {
@@ -34,7 +37,6 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -44,6 +46,21 @@ class HomeState extends State<Home> {
         backgroundColor: Style.mainTheme.primaryColor,
         title: Text("InfoProvas"),
         elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              populateSearchList();
+              showSearch(
+                context: context,
+                delegate: SearchPage(
+                    professor: _professor,
+                    searchList: _searchList,
+                    subject: _subject),
+              );
+            },
+          ),
+        ],
       ),
       body: DefaultTabController(
         length: 2,
@@ -87,6 +104,14 @@ class HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  void populateSearchList() {
+    _searchList.clear();
+    _subject.forEach((subject) =>
+        _searchList.add(SearchItem(name: subject.name, type: "subject")));
+    _professor.forEach((professor) =>
+        _searchList.add(SearchItem(name: professor.name, type: "professor")));
   }
 
   void listenForSubject() async {
