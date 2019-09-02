@@ -7,9 +7,10 @@ O aplicativo conta com as funcionalidades tradicionais do site, de listar, visua
 * Acesso offline às provas salvas
 * Tema escuro
 
-Funcionalidades previstas:
-[ ] Caixa de busca de disciplinas/professores
-[ ] Compartilhamento do arquivo da prova (enviar via email, telegram etc)
+## Funcionalidades previstas
+
+- [x] Caixa de busca de disciplinas/professores
+- [x] Compartilhamento do arquivo da prova (enviar via email, telegram etc)
 
 ## Instalação
 
