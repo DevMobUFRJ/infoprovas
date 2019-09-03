@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:flutter/widgets.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/utils/database_helper.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:infoprovas/utils/main_functions.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -71,7 +73,7 @@ class _ExamViewState extends State<ExamView> {
       return file;
     }
     try {
-      String url = "https://infoprovas.dcc.ufrj.br/provas/${widget._exam.id}.pdf";
+      String url = "http://infoprovas.esy.es/provas/${widget._exam.id}.pdf";
       final filename = url.substring(url.lastIndexOf("/") + 1);
 
       HttpClient client = new HttpClient();
@@ -120,41 +122,44 @@ class _ExamViewState extends State<ExamView> {
     String url = "";
     if (isSaved) {
       url =
-      "/data/user/0/ufrj.devmob.infoprovas/app_flutter/${widget._exam.id}.pdf";
+          "/data/user/0/ufrj.devmob.infoprovas/app_flutter/${widget._exam.id}.pdf";
     } else {
       String dir = (await getTemporaryDirectory()).path;
       url = "$dir/${widget._exam.id}.pdf";
-      print(url);
     }
-    String text = "${widget._exam.type} de ${widget._exam.subject} de ${widget._exam.year}-${widget._exam.semester}"
+    String text =
+        "${widget._exam.type} de ${widget._exam.subject} de ${widget._exam.year}-${widget._exam.semester}"
         "\nBaixe o app InfoProvas para encontrar mais provas.\nLink: https://play.google.com/store/apps/details?id=ufrj.devmob.infoprovas";
     final ByteData bytes = await rootBundle.load(url);
     await Share.file(
         'infoprovas pdf',
         "${getShortType(widget._exam.type).toLowerCase()}_${(widget._exam.year).toString().substring(2, 4)}_${widget._exam.semester}.pdf",
         bytes.buffer.asUint8List(),
-        'application/pdf', text: text);
+        'application/pdf',
+        text: text);
   }
 
   Widget actionButton() {
     if (isSaved) {
-      return IconButton(
-          icon: Icon(
-            Icons.check,
-            color: Colors.white,
-          ),
-          onPressed: null);
+      return Tooltip(
+        verticalOffset: 0,
+        message: "Prova salva",
+        preferBelow: false,
+        child: IconButton(
+            icon: Icon(OMIcons.cloudDone, color: Colors.white),
+            onPressed: null),
+      );
     } else if (saving) {
       return IconButton(
           icon: CircularProgressIndicator(
-            strokeWidth: 1.0,
+            strokeWidth: 2.0,
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
           onPressed: null);
     } else {
       return IconButton(
         icon: Icon(
-          Icons.save,
+          OMIcons.cloudDownload,
           color: Colors.white,
         ),
         onPressed: () {
@@ -165,12 +170,13 @@ class _ExamViewState extends State<ExamView> {
   }
 
   Widget shareButton() {
-    return IconButton(
-      icon: Icon(
-        Icons.share,
-        color: Colors.white,
+    return Tooltip(
+      message: "Compartilhar",
+      verticalOffset: 0,
+      child: IconButton(
+        icon: Icon(OMIcons.share, color: Colors.white),
+        onPressed: shareExam,
       ),
-      onPressed: shareExam,
     );
   }
 
@@ -191,7 +197,14 @@ class _ExamViewState extends State<ExamView> {
                   ],
                 ),
                 body: Center(
-                  child: Text("Não foi possível conectar a rede"),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(OMIcons.cloudOff),
+                      Text("Não foi possível conectar a rede"),
+                    ],
+                  ),
                 ),
               )
             : Scaffold(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -26,6 +27,7 @@ class HomeState extends State<Home> {
   List<Subject> _subject = <Subject>[];
   List<Professor> _professor = <Professor>[];
   List<SearchItem> _searchList = <SearchItem>[];
+  String title = "InfoProvas";
 
   @override
   void initState() {
@@ -48,7 +50,7 @@ class HomeState extends State<Home> {
         elevation: 0.0,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.search, color: Colors.white),
             onPressed: () {
               populateSearchList();
               showSearch(
@@ -117,9 +119,9 @@ class HomeState extends State<Home> {
   void listenForSubject() async {
     try {
       _subject.addAll(await getSubject());
-      _subject.sort(
-              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
-      setState((){});
+      _subject
+          .sort((a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
+      setState(() {});
     } catch (e) {
       onFailedConnection();
     }
@@ -128,9 +130,9 @@ class HomeState extends State<Home> {
   void listenForProfessor() async {
     try {
       _professor.addAll(await getProfessor());
-      _professor.sort(
-              (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
-      setState((){});
+      _professor
+          .sort((a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
+      setState(() {});
     } catch (e) {}
   }
 
@@ -139,7 +141,10 @@ class HomeState extends State<Home> {
       SnackBar(
         content: Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Não foi possível conectar a rede"),
+          child: Text(
+            "Não foi possível conectar a rede",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         backgroundColor: Style.mainTheme.primaryColor,
         duration: Duration(minutes: 5),

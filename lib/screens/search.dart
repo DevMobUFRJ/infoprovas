@@ -4,13 +4,15 @@ import 'package:infoprovas/model/search_item.dart';
 import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/widgets/search_tile.dart';
+import 'package:floating_search_bar/floating_search_bar.dart';
 
 class SearchPage extends SearchDelegate<SearchItem> {
   final List<SearchItem> searchList;
   final List<Professor> professor;
   final List<Subject> subject;
 
-  SearchPage({this.searchList, this.professor,this.subject});
+  SearchPage({this.searchList, this.professor, this.subject});
+
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -34,7 +36,7 @@ class SearchPage extends SearchDelegate<SearchItem> {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: Icon(Icons.clear, color: Colors.white,),
         onPressed: () {
           query = '';
         },
@@ -45,10 +47,10 @@ class SearchPage extends SearchDelegate<SearchItem> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(Icons.arrow_back, color: Colors.white,),
       onPressed: () {
-          close(context, null);
-        },
+        close(context, null);
+      },
     );
   }
 
@@ -62,24 +64,32 @@ class SearchPage extends SearchDelegate<SearchItem> {
     return returnList();
   }
 
-  Widget returnList(){
-    var results = searchList.where((a) => a.name.toLowerCase().contains(query)).toList();
+  Widget returnList() {
+    var results =
+        searchList.where((a) => a.name.toLowerCase().contains(query)).toList();
 
     return results.length == 0 || results.length == searchList.length
         ? Center(
-      child: Text(
-        "Sem resultados",
-        style: TextStyle(color: Colors.black54),
-      ),
-    )
+            child: Text("Sem resultados"),
+          )
         : ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) => SearchTile(
-        name: results[index].name,
-        type: results[index].type,
-        professor: identical(results[index].type,"professor") ? professor.where((professor)=> identical(results[index].name, professor.name)).first : null ,
-        subject: identical(results[index].type, "subject") ? subject.where((subject) => identical(results[index].name, subject.name)).first : null,
-      ),
-    );
+            itemCount: results.length,
+            itemBuilder: (context, index) => SearchTile(
+              name: results[index].name,
+              type: results[index].type,
+              professor: identical(results[index].type, "professor")
+                  ? professor
+                      .where((professor) =>
+                          identical(results[index].name, professor.name))
+                      .first
+                  : null,
+              subject: identical(results[index].type, "subject")
+                  ? subject
+                      .where((subject) =>
+                          identical(results[index].name, subject.name))
+                      .first
+                  : null,
+            ),
+          );
   }
 }

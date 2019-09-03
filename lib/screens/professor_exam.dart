@@ -11,7 +11,7 @@ import 'package:infoprovas/utils/main_functions.dart';
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ProfessorExam extends StatefulWidget {
-  Professor _professor;
+  final Professor _professor;
 
   ProfessorExam(this._professor);
 
@@ -71,7 +71,8 @@ class _ProfessorExamState extends State<ProfessorExam>
                             unselectedLabelColor: Colors.white,
                             labelColor: Style.mainTheme.primaryColor,
                             tabs: _types
-                                .map((type) => Tab(child: Text(getShortType(type))))
+                                .map((type) =>
+                                    Tab(child: Text(getShortType(type))))
                                 .toList(),
                           ),
                         ],
@@ -94,7 +95,8 @@ class _ProfessorExamState extends State<ProfessorExam>
   }
 
   void listenForExams() async {
-    final Stream<Exam> stream = await getExams(widget._professor.id, "professor");
+    final Stream<Exam> stream =
+        await getExams(widget._professor.id, "professor");
     try {
       stream.toList().then((examList) {
         if (examList.isEmpty) {
@@ -127,7 +129,10 @@ class _ProfessorExamState extends State<ProfessorExam>
       SnackBar(
         content: Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Não foi possível conectar a rede"),
+          child: Text(
+            "Não foi possível conectar a rede",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         backgroundColor: Style.mainTheme.primaryColor,
         duration: Duration(minutes: 5),

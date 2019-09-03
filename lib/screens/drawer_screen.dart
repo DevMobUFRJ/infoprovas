@@ -4,6 +4,8 @@ import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/screens/saved_exams.dart';
 import 'package:infoprovas/screens/settings.dart';
 import 'package:infoprovas/screens/contact.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:infoprovas/widgets/drawer_item.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -50,7 +52,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
               ),
             ],
           ),
-          _ItemDrawer(
+          DrawerItem(
             text: "Provas Salvas",
             icon: Icons.save_alt,
             onPressed: () {
@@ -58,17 +60,17 @@ class _DrawerScreenState extends State<DrawerScreen> {
               openSavedExamsScreen();
             },
           ),
-          _ItemDrawer(
+          DrawerItem(
             text: "Fale Conosco",
-            icon: Icons.feedback,
+            icon: OMIcons.feedback,
             onPressed: () {
               Navigator.of(context).pop();
               openContactScreen();
             },
           ),
-          _ItemDrawer(
+          DrawerItem(
             text: "Configurações",
-            icon: Icons.settings,
+            icon: OMIcons.settings,
             onPressed: () {
               Navigator.of(context).pop();
               openSettingsScreen();
@@ -80,9 +82,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
           Divider(
             height: 0,
           ),
-          _ItemDrawer(
+          DrawerItem(
             text: "Sobre",
-            icon: Icons.help,
+            icon: OMIcons.info,
             onPressed: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => About()));
@@ -106,31 +108,5 @@ class _DrawerScreenState extends State<DrawerScreen> {
   openContactScreen() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => ContactScreen()));
-  }
-}
-
-class _ItemDrawer extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final VoidCallback onPressed;
-
-  _ItemDrawer({
-    this.icon,
-    this.text,
-    this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: Style.mainTheme.primaryColor,
-      ),
-      title: Text(
-        text,
-      ),
-      onTap: onPressed,
-    );
   }
 }

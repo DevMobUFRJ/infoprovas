@@ -69,7 +69,8 @@ class _SubjectExamState extends State<SubjectExam>
                             unselectedLabelColor: Colors.white,
                             labelColor: Style.mainTheme.primaryColor,
                             tabs: _types
-                                .map((type) => Tab(child: Text(getShortType(type))))
+                                .map((type) =>
+                                    Tab(child: Text(getShortType(type))))
                                 .toList(),
                           ),
                         ],
@@ -92,7 +93,8 @@ class _SubjectExamState extends State<SubjectExam>
   }
 
   void listenForExams() async {
-    final Stream<Exam> stream = await getExams(widget._subject.id, "disciplina");
+    final Stream<Exam> stream =
+        await getExams(widget._subject.id, "disciplina");
     try {
       stream.toList().then((examList) {
         if (examList.isEmpty) {
@@ -125,7 +127,10 @@ class _SubjectExamState extends State<SubjectExam>
       SnackBar(
         content: Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Não foi possível conectar a rede"),
+          child: Text(
+            "Não foi possível conectar a rede",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         backgroundColor: Style.mainTheme.primaryColor,
         duration: Duration(minutes: 5),

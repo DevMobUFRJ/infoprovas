@@ -7,18 +7,14 @@ import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/widgets/subject_tile.dart';
 
 class SubjectsTab extends StatefulWidget {
-  List<Subject> _subject = <Subject>[];
+  final List<Subject> _subject;
   SubjectsTab(this._subject);
 
   @override
-  _SubjectsTabState createState() => _SubjectsTabState(_subject);
+  _SubjectsTabState createState() => _SubjectsTabState();
 }
 
 class _SubjectsTabState extends State<SubjectsTab> {
-  List<Subject> _subject = <Subject>[];
-
-  _SubjectsTabState(this._subject);
-
   int _selectedPeriod = 0;
 
   @override
@@ -27,28 +23,33 @@ class _SubjectsTabState extends State<SubjectsTab> {
   }
 
   Widget loadingSubjectTiles() {
-    return _subject.isEmpty
+    return widget._subject.isEmpty
         ? Center(
             child: CircularProgressIndicator(
-            valueColor:
-                AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
-          ))
-        : Container(
-            child: Column(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: selectorPeriod(),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
             ),
-            Flexible(
-              child: Center(
-                  child: ListView.builder(
-                physics: ScrollPhysics(parent: BouncingScrollPhysics()),
-                itemCount: _subject.length,
-                itemBuilder: (context, index) =>
-                    SubjectTile(_subject[index], _selectedPeriod),
-              )),
-            )
-          ]));
+          )
+        : Container(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: selectorPeriod(),
+                ),
+                Expanded(
+                  child: Center(
+                    child: ListView.builder(
+                      physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+                      itemCount: widget._subject.length,
+                      itemBuilder: (context, index) =>
+                          SubjectTile(widget._subject[index], _selectedPeriod),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 
   Widget selectorPeriod() {
@@ -103,12 +104,15 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   Widget selectorText(int selectedPeriod) {
     if (selectedPeriod == 0) {
-      return cupertinoPickerText("Todas as Disciplinas", FontWeight.w600, Colors.black,
+      return cupertinoPickerText(
+          "Todas as Disciplinas", FontWeight.w600, Colors.black,
           fontSize: 16.0);
     } else if (selectedPeriod == 9) {
-      return cupertinoPickerText("Eletivas", FontWeight.w600, Colors.black, fontSize: 16.0);
+      return cupertinoPickerText("Eletivas", FontWeight.w600, Colors.black,
+          fontSize: 16.0);
     } else {
-      return cupertinoPickerText("$selectedPeriodº Periodo", FontWeight.w600, Colors.black,
+      return cupertinoPickerText(
+          "$selectedPeriodº Periodo", FontWeight.w600, Colors.black,
           fontSize: 16.0);
     }
   }

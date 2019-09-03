@@ -126,7 +126,7 @@ class _ExamTileState extends State<ExamTile> {
         IconSlideAction(
           caption: 'Deletar',
           color: Colors.red[400],
-          icon: Icons.delete,
+          icon: Icons.delete_outline,
           onTap: () => showAlertDialog(),
         ),
       ],
@@ -134,6 +134,5 @@ class _ExamTileState extends State<ExamTile> {
   }
 }
 
-String dateFormat(String year, String semester) {
-  return "${year.substring(2, 4)}.${semester}";
-}
+String dateFormat(String year, String semester) =>
+    "${year.substring(2, 4)}.$semester";
