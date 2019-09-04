@@ -95,7 +95,7 @@ class _ContactScreenState extends State<ContactScreen> {
         backgroundColor: Style.mainTheme.primaryColor,
         onPressed: () => _sendEmail(
             "devmob@dcc.ufrj.br",
-            "[${_dropDownSelected}] InfoProvas - ${_emailSubject.text}",
+            "$_dropDownSelected InfoProvas - $_emailSubject.text",
             _emailBody.text),
         child: Icon(
           Icons.send,

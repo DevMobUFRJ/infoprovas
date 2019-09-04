@@ -47,8 +47,12 @@ class _ExamTileState extends State<ExamTile> {
 
   // abre tela de visualização da prova
   void openExamView() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ExamView(widget._exam)));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ExamView(widget._exam),
+      ),
+    );
   }
 
   // abre caixa de dialogo de confirmação pra deletar prova
@@ -79,7 +83,9 @@ class _ExamTileState extends State<ExamTile> {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      key: Key(widget._exam.id.toString()),
+      key: Key(
+        widget._exam.id.toString(),
+      ),
       direction: Axis.horizontal,
       dismissal: SlidableDismissal(
         onWillDismiss: (actionType) => showAlertDialog(),

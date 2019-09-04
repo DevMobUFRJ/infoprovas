@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/screens/subject_exam.dart';
-import 'package:infoprovas/styles/style.dart';
 
 class SubjectTile extends StatelessWidget {
   final int period;
@@ -34,8 +33,10 @@ class CreateTileSubject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textStyleHero = Theme.of(context).textTheme.title.copyWith(
-        fontSize: 20, fontWeight: FontWeight.normal);
+    final TextStyle textStyleHero = Theme.of(context)
+        .textTheme
+        .title
+        .copyWith(fontSize: 20, fontWeight: FontWeight.normal);
 
     return Column(
       children: <Widget>[
@@ -49,8 +50,12 @@ class CreateTileSubject extends StatelessWidget {
             ),
           ),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SubjectExam(_subject)));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SubjectExam(_subject),
+              ),
+            );
           },
         ),
         Padding(

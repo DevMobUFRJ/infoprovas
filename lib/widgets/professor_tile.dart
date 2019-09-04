@@ -27,7 +27,7 @@ class ProfessorTile extends StatelessWidget {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ProfessorExam(_professor))),
+                      builder: (context) => ProfessorExam(_professor),),),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),

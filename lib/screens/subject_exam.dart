@@ -90,9 +90,11 @@ class _SubjectExamState extends State<SubjectExam>
                   Expanded(
                     child: TabBarView(
                       children: _types
-                          .map((type) => SubjectExamTab(_exams
-                              .where((Exam e) => e.type == type)
-                              .toList()))
+                          .map(
+                            (type) => SubjectExamTab(
+                              _exams.where((Exam e) => e.type == type).toList(),
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
@@ -106,27 +108,33 @@ class _SubjectExamState extends State<SubjectExam>
     final Stream<Exam> stream =
         await getExams(widget._subject.id, "disciplina");
     try {
-      stream.toList().then((examList) {
-        if (examList.isEmpty) {
-          setState(() {
-            hasFailed = true;
-          });
-        } else {
-          setState(() {
-            examList.forEach((exam) {
-              exam.subject = widget._subject.name;
-              _exams.add(exam);
-              if (_types != null) {
-                if (!_types.contains(exam.type)) {
-                  _types.add(exam.type);
-                }
-              }
+      stream.toList().then(
+        (examList) {
+          if (examList.isEmpty) {
+            setState(() {
+              hasFailed = true;
             });
-          });
-          sortTypesList(_types);
-          _exams.sort((a, b) => a.compareTo(b));
-        }
-      });
+          } else {
+            setState(
+              () {
+                examList.forEach(
+                  (exam) {
+                    exam.subject = widget._subject.name;
+                    _exams.add(exam);
+                    if (_types != null) {
+                      if (!_types.contains(exam.type)) {
+                        _types.add(exam.type);
+                      }
+                    }
+                  },
+                );
+              },
+            );
+            sortTypesList(_types);
+            _exams.sort((a, b) => a.compareTo(b));
+          }
+        },
+      );
     } catch (e) {
       onFailedConnection();
     }

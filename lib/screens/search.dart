@@ -4,7 +4,6 @@ import 'package:infoprovas/model/search_item.dart';
 import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/widgets/search_tile.dart';
-import 'package:floating_search_bar/floating_search_bar.dart';
 
 class SearchPage extends SearchDelegate<SearchItem> {
   final List<SearchItem> searchList;
@@ -12,7 +11,6 @@ class SearchPage extends SearchDelegate<SearchItem> {
   final List<Subject> subject;
 
   SearchPage({this.searchList, this.professor, this.subject});
-
 
   @override
   ThemeData appBarTheme(BuildContext context) {

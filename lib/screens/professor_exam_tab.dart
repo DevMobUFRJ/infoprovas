@@ -17,14 +17,16 @@ class _ProfessorExamTabState extends State<ProfessorExamTab> {
   Widget build(BuildContext context) {
     return widget._exams.isEmpty
         ? Center(
-        child: CircularProgressIndicator(
-          valueColor:
-          AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
-        ))
+            child: CircularProgressIndicator(
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
+            ),
+          )
         : ListView.builder(
-      physics: ScrollPhysics(parent: BouncingScrollPhysics()),
-      itemCount: widget._exams.length,
-      itemBuilder: (context, index) => ViewExamTile(widget._exams[index],"professor"),
-    );
+            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+            itemCount: widget._exams.length,
+            itemBuilder: (context, index) =>
+                ViewExamTile(widget._exams[index], "professor"),
+          );
   }
 }

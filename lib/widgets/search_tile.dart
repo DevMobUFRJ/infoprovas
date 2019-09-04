@@ -11,10 +11,7 @@ class SearchTile extends StatelessWidget {
   final Subject subject;
 
   SearchTile(
-      {@required this.name,
-      @required this.type,
-      this.professor,
-      this.subject});
+      {@required this.name, @required this.type, this.professor, this.subject});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +23,19 @@ class SearchTile extends StatelessWidget {
         if (identical(type, "professor")) {
           Navigator.of(context).pop();
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProfessorExam(professor)));
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfessorExam(professor),
+            ),
+          );
         } else if (identical(type, "subject")) {
           Navigator.of(context).pop();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => SubjectExam(subject)));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SubjectExam(subject),
+            ),
+          );
         }
       },
     );

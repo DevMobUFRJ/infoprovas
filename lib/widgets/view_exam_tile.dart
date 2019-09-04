@@ -25,7 +25,6 @@ class _ViewExamTileState extends State<ViewExamTile> {
             width: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              //color: Style.mainTheme.primaryColor,
               color: Style.mainTheme.primaryColor,
             ),
             child: Center(
@@ -41,9 +40,11 @@ class _ViewExamTileState extends State<ViewExamTile> {
           title: formatTitle(widget._tileType),
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ExamView(widget._exam)));
+              context,
+              MaterialPageRoute(
+                builder: (context) => ExamView(widget._exam),
+              ),
+            );
           },
         ),
       ),

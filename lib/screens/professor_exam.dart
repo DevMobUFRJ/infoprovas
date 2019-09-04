@@ -45,11 +45,12 @@ class _ProfessorExamState extends State<ProfessorExam>
         centerTitle: true,
         backgroundColor: Style.mainTheme.primaryColor,
         title: Hero(
-            tag: widget._professor.name,
-            child: Text(
-              "${widget._professor.name}",
-              style: textStyleHero,
-            )),
+          tag: widget._professor.name,
+          child: Text(
+            "${widget._professor.name}",
+            style: textStyleHero,
+          ),
+        ),
         elevation: 0,
       ),
       body: _types.isEmpty
@@ -79,8 +80,13 @@ class _ProfessorExamState extends State<ProfessorExam>
                             unselectedLabelColor: Colors.white,
                             labelColor: Style.mainTheme.primaryColor,
                             tabs: _types
-                                .map((type) =>
-                                    Tab(child: Text(getShortType(type))))
+                                .map(
+                                  (type) => Tab(
+                                    child: Text(
+                                      getShortType(type),
+                                    ),
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ],
@@ -90,9 +96,11 @@ class _ProfessorExamState extends State<ProfessorExam>
                   Expanded(
                     child: TabBarView(
                       children: _types
-                          .map((type) => ProfessorExamTab(_exams
-                              .where((Exam e) => e.type == type)
-                              .toList()))
+                          .map(
+                            (type) => ProfessorExamTab(
+                              _exams.where((Exam e) => e.type == type).toList(),
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
@@ -106,27 +114,33 @@ class _ProfessorExamState extends State<ProfessorExam>
     final Stream<Exam> stream =
         await getExams(widget._professor.id, "professor");
     try {
-      stream.toList().then((examList) {
-        if (examList.isEmpty) {
-          setState(() {
-            hasFailed = true;
-          });
-        } else {
-          setState(() {
-            examList.forEach((exam) {
-              exam.professorName = widget._professor.name;
-              _exams.add(exam);
-              if (_types != null) {
-                if (!_types.contains(exam.type)) {
-                  _types.add(exam.type);
-                }
-              }
+      stream.toList().then(
+        (examList) {
+          if (examList.isEmpty) {
+            setState(() {
+              hasFailed = true;
             });
-          });
-          sortTypesList(_types);
-          _exams.sort((a, b) => a.compareTo(b));
-        }
-      });
+          } else {
+            setState(
+              () {
+                examList.forEach(
+                  (exam) {
+                    exam.professorName = widget._professor.name;
+                    _exams.add(exam);
+                    if (_types != null) {
+                      if (!_types.contains(exam.type)) {
+                        _types.add(exam.type);
+                      }
+                    }
+                  },
+                );
+              },
+            );
+            sortTypesList(_types);
+            _exams.sort((a, b) => a.compareTo(b));
+          }
+        },
+      );
     } catch (e) {
       onFailedConnection();
     }

@@ -54,52 +54,54 @@ class _SubjectsTabState extends State<SubjectsTab> {
 
   Widget selectorPeriod() {
     return Material(
-        borderRadius: BorderRadius.all(Radius.circular(100.0)),
-        elevation: 3.0,
-        child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                color: Style.mainTheme.primaryColor),
-            child: SizedBox(
-                width: double.infinity,
-                child: CupertinoButton(
-                    child: cupertinoText(_selectedPeriod),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
-                    pressedOpacity: 0.5,
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 140.0,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: CupertinoPicker(
-                                      scrollController:
-                                          FixedExtentScrollController(
-                                        initialItem: _selectedPeriod,
-                                      ),
-                                      itemExtent: 48.0,
-                                      backgroundColor: Colors.white,
-                                      onSelectedItemChanged: (int index) {
-                                        setState(() {
-                                          _selectedPeriod = index;
-                                        });
-                                      },
-                                      children: List<Widget>.generate(10,
-                                          (int index) {
-                                        return selectorText(index);
-                                      }),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          });
-                    }))));
+      borderRadius: BorderRadius.all(Radius.circular(100.0)),
+      elevation: 3.0,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            color: Style.mainTheme.primaryColor),
+        child: SizedBox(
+          width: double.infinity,
+          child: CupertinoButton(
+            child: cupertinoText(_selectedPeriod),
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
+            pressedOpacity: 0.5,
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 140.0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: CupertinoPicker(
+                            scrollController: FixedExtentScrollController(
+                              initialItem: _selectedPeriod,
+                            ),
+                            itemExtent: 48.0,
+                            backgroundColor: Colors.white,
+                            onSelectedItemChanged: (int index) {
+                              setState(() {
+                                _selectedPeriod = index;
+                              });
+                            },
+                            children: List<Widget>.generate(10, (int index) {
+                              return selectorText(index);
+                            }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ),
+    );
   }
 
   Widget selectorText(int selectedPeriod) {

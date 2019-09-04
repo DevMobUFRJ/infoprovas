@@ -18,13 +18,17 @@ class _SubjectExamTabState extends State<SubjectExamTab> {
     return widget._exams.isEmpty
         ? Center(
             child: CircularProgressIndicator(
-            valueColor:
-                AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
-          ))
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Style.mainTheme.primaryColor),
+            ),
+          )
         : ListView.builder(
-            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+            physics: ScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
             itemCount: widget._exams.length,
-            itemBuilder: (context, index) => ViewExamTile(widget._exams[index],"prova"),
+            itemBuilder: (context, index) =>
+                ViewExamTile(widget._exams[index], "prova"),
           );
   }
 }
