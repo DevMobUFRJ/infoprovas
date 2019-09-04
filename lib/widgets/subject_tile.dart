@@ -28,22 +28,28 @@ class SubjectTile extends StatelessWidget {
 }
 
 class CreateTileSubject extends StatelessWidget {
-  Subject _subject;
-
+  final Subject _subject;
   CreateTileSubject(this._subject);
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle textStyleHero = Theme.of(context).textTheme.title.copyWith(
+        fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black);
+
     return Column(
       children: <Widget>[
         ListTile(
-          title: Text(
-            _subject.name,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20),
+          title: Hero(
+            tag: _subject.name,
+            child: Text(
+              _subject.name,
+              textAlign: TextAlign.center,
+              style: textStyleHero,
+            ),
           ),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectExam(_subject)));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SubjectExam(_subject)));
           },
         ),
         Padding(
@@ -57,4 +63,3 @@ class CreateTileSubject extends StatelessWidget {
     );
   }
 }
-

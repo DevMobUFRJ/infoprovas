@@ -34,12 +34,22 @@ class _SubjectExamState extends State<SubjectExam>
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
+    final TextStyle textStyleHero =
+        Theme.of(context).textTheme.title.copyWith(color: Colors.white);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Style.mainTheme.primaryColor,
-        title: Text("${widget._subject.name}"),
+        title: Hero(
+          tag: widget._subject.name,
+          child: Text(
+            "${widget._subject.name}",
+            style: textStyleHero,
+          ),
+        ),
         elevation: 0,
       ),
       body: _types.isEmpty
