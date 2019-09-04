@@ -13,7 +13,6 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
-
   void changeBrightness() {
     DynamicTheme.of(context).setBrightness(
         Theme.of(context).brightness == Brightness.dark
@@ -97,6 +96,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
             value: Theme.of(context).brightness == Brightness.dark,
             onChanged: onChanged,
             title: Text("Tema escuro"),
+            secondary: Icon(
+              OMIcons.brightness4,
+              color: Style.mainTheme.primaryColor,
+            ),
           ),
           Expanded(
             child: Container(),
