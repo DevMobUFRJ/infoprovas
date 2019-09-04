@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:infoprovas/screens/about.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/screens/saved_exams.dart';
-import 'package:infoprovas/screens/settings.dart';
 import 'package:infoprovas/screens/contact.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:infoprovas/widgets/drawer_item.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -13,6 +13,30 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+
+  void changeBrightness() {
+    DynamicTheme.of(context).setBrightness(
+        Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark);
+  }
+
+  void onChanged(bool value) {
+    setState(() {
+      changeBrightness();
+    });
+  }
+
+  void openSavedExamsScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SavedExams()));
+  }
+
+  void openContactScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ContactScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -68,13 +92,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
               openContactScreen();
             },
           ),
-          DrawerItem(
-            text: "Configurações",
-            icon: OMIcons.settings,
-            onPressed: () {
-              Navigator.of(context).pop();
-              openSettingsScreen();
-            },
+          Divider(),
+          SwitchListTile(
+            value: Theme.of(context).brightness == Brightness.dark,
+            onChanged: onChanged,
+            title: Text("Tema escuro"),
           ),
           Expanded(
             child: Container(),
@@ -93,20 +115,5 @@ class _DrawerScreenState extends State<DrawerScreen> {
         ],
       ),
     );
-  }
-
-  void openSavedExamsScreen() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SavedExams()));
-  }
-
-  void openSettingsScreen() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Settings()));
-  }
-
-  openContactScreen() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ContactScreen()));
   }
 }
