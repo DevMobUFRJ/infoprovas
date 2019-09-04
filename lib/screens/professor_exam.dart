@@ -36,12 +36,20 @@ class _ProfessorExamState extends State<ProfessorExam>
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
+    final TextStyle textStyleHero =
+        Theme.of(context).textTheme.title.copyWith(color: Colors.white);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Style.mainTheme.primaryColor,
-        title: Text("${widget._professor.name}"),
+        title: Hero(
+            tag: widget._professor.name,
+            child: Text(
+              "${widget._professor.name}",
+              style: textStyleHero,
+            )),
         elevation: 0,
       ),
       body: _types.isEmpty
