@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/screens/subject_exam.dart';
+import 'package:infoprovas/styles/style.dart';
 
 class SubjectTile extends StatelessWidget {
-  int period;
+  final int period;
   final Subject _subject;
   SubjectTile(this._subject, this.period);
 
@@ -34,7 +35,7 @@ class CreateTileSubject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle textStyleHero = Theme.of(context).textTheme.title.copyWith(
-        fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black);
+        fontSize: 20, fontWeight: FontWeight.normal);
 
     return Column(
       children: <Widget>[
