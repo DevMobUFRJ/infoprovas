@@ -17,12 +17,12 @@ class SearchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading:
-          identical(type, "professor") ? Icon(OMIcons.person) : Icon(OMIcons.book),
+      leading: identical(type, "professor")
+          ? Icon(OMIcons.person)
+          : Icon(OMIcons.book),
       title: Text(name),
       onTap: () {
         if (identical(type, "professor")) {
-          Navigator.of(context).pop();
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -30,7 +30,6 @@ class SearchTile extends StatelessWidget {
             ),
           );
         } else if (identical(type, "subject")) {
-          Navigator.of(context).pop();
           Navigator.push(
             context,
             MaterialPageRoute(

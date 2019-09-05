@@ -21,89 +21,115 @@ class Home extends StatefulWidget {
   State<StatefulWidget> createState() => HomeState();
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<Home> with TickerProviderStateMixin {
+  static String title = "InfoProvas";
+  bool isSearching = false;
+
   List<Subject> _subject = <Subject>[];
   List<Professor> _professor = <Professor>[];
   List<SearchItem> _searchList = <SearchItem>[];
-  String title = "InfoProvas";
 
-  @override
-  void initState() {
-    super.initState();
-    listenForProfessor();
-    listenForSubject();
+  TextEditingController _query = TextEditingController();
+  AnimationController _animationController;
+
+  Widget leading;
+
+  Widget actionAnimated() => AnimatedCrossFade(
+        firstChild: searchButton(),
+        secondChild: clearButton(),
+        crossFadeState:
+            isSearching ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+        duration: Duration(milliseconds: 500),
+      );
+
+  Widget searchButton() => IconButton(
+        icon: Icon(Icons.search, color: Colors.white),
+        onPressed: () {
+          _animationController.forward();
+          populateSearchList();
+          setState(() {
+            isSearching = true;
+            leading = backButton();
+          });
+        },
+      );
+
+  Widget clearButton() => IconButton(
+        icon: Icon(
+          Icons.close,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          _query.text = '';
+        },
+      );
+
+  Widget appBarTitle() => Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(title),
+        ],
+      );
+
+  Widget appBarContent() {
+    return AnimatedCrossFade(
+      firstChild: appBarTitle(),
+      secondChild: textField(),
+      duration: Duration(milliseconds: 500),
+      crossFadeState:
+          isSearching ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: DrawerScreen(),
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Style.mainTheme.primaryColor,
-        title: Text("InfoProvas"),
-        elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              populateSearchList();
-              showSearch(
-                context: context,
-                delegate: SearchPage(
-                    professor: _professor,
-                    searchList: _searchList,
-                    subject: _subject),
-              );
-            },
-          ),
-        ],
-      ),
-      body: DefaultTabController(
-        length: 2,
-        child: Column(
-          children: <Widget>[
-            Material(
-              elevation: 2.0,
-              child: Container(
-                width: screenWidth,
-                color: Style.mainTheme.primaryColor,
-                child: Column(
-                  children: <Widget>[
-                    TabBar(
-                      isScrollable: true,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      indicator: BubbleTabIndicator(
-                        indicatorColor: Colors.white,
-                        indicatorHeight: 20.0,
-                        tabBarIndicatorSize: TabBarIndicatorSize.label,
-                      ),
-                      unselectedLabelColor: Colors.white,
-                      labelColor: Style.mainTheme.primaryColor,
-                      tabs: [
-                        Tab(child: Text("Disciplinas")),
-                        Tab(child: Text("Professores")),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  SubjectsTab(_subject),
-                  ProfessorTab(_professor),
-                ],
-              ),
-            ),
-          ],
-        ),
+  Widget textField() {
+    return TextField(
+      onChanged: (value) {
+        setState(() {
+          SearchScreen(
+              query: _query.text,
+              subject: _subject,
+              professor: _professor,
+              searchList: _searchList);
+        });
+      },
+      controller: _query,
+      enabled: isSearching,
+      decoration: InputDecoration.collapsed(
+          hintStyle: TextStyle(color: Colors.white70), hintText: 'Busca'),
+      cursorColor: Colors.white,
+      style: TextStyle(
+        color: Colors.white,
       ),
     );
+  }
+
+  Widget menuButton() {
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: _animationController,
+        ),
+        onPressed: () {
+          _scaffoldKey.currentState.openDrawer();
+        });
+  }
+
+  Widget backButton() {
+    return IconButton(
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.menu_arrow,
+        progress: _animationController,
+      ),
+      onPressed: () => closeSearch(),
+    );
+  }
+
+  void closeSearch(){
+    _animationController.reverse();
+    setState(() {
+      isSearching = false;
+    });
   }
 
   void populateSearchList() {
@@ -117,9 +143,10 @@ class HomeState extends State<Home> {
   void listenForSubject() async {
     try {
       _subject.addAll(await getSubject());
-      _subject
-          .sort((a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
-      setState(() {});
+      setState(() {
+        _subject.sort(
+            (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
+      });
     } catch (e) {
       onFailedConnection();
     }
@@ -175,5 +202,96 @@ class HomeState extends State<Home> {
       default:
         return name;
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+    leading = menuButton();
+    listenForProfessor();
+    listenForSubject();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (isSearching) {
+          closeSearch();
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawer: DrawerScreen(),
+        appBar: AppBar(
+          backgroundColor: Style.mainTheme.primaryColor,
+          title: appBarContent(),
+          leading: isSearching ? backButton() : menuButton(),
+          elevation: 0.0,
+          actions: <Widget>[actionAnimated()],
+        ),
+        body: isSearching
+            ? SearchScreen(
+                searchList: _searchList,
+                professor: _professor,
+                subject: _subject,
+                query: _query.text,
+              )
+            : DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: <Widget>[
+                    Material(
+                      elevation: 2.0,
+                      child: Container(
+                        width: double.maxFinite,
+                        color: Style.mainTheme.primaryColor,
+                        child: Column(
+                          children: <Widget>[
+                            TabBar(
+                              isScrollable: true,
+                              indicatorSize: TabBarIndicatorSize.label,
+                              indicator: BubbleTabIndicator(
+                                indicatorColor: Colors.white,
+                                indicatorHeight: 20.0,
+                                tabBarIndicatorSize:
+                                    TabBarIndicatorSize.label,
+                              ),
+                              unselectedLabelColor: Colors.white,
+                              labelColor: Style.mainTheme.primaryColor,
+                              tabs: [
+                                Tab(child: Text("Disciplinas")),
+                                Tab(child: Text("Professores")),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          SubjectsTab(_subject),
+                          ProfessorTab(_professor),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
+    );
   }
 }
