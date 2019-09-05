@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infoprovas/screens/home.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:infoprovas/screens/about.dart';
+import 'package:infoprovas/screens/search.dart';
 
 void main() {
   runApp(new MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: [CustomLocalizationDelegate()],
           title: 'InfoProvas',
           theme: theme,
           home: Home(),

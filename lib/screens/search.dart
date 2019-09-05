@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/search_item.dart';
@@ -18,11 +20,10 @@ class SearchPage extends SearchDelegate<SearchItem> {
     final ThemeData theme = Theme.of(context);
     assert(theme != null);
     return theme.copyWith(
-      hintColor: Colors.white,
-      cursorColor: Color.fromARGB(2500, 255, 255, 255),
       primaryColor: Style.mainTheme.primaryColor,
       primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.white),
       primaryColorBrightness: theme.primaryColorBrightness,
+      hintColor: Style.mainTheme.hintColor,
       textTheme: theme.textTheme.copyWith(
           title: theme.textTheme.title
               .copyWith(color: theme.primaryTextTheme.title.color)),
@@ -90,4 +91,27 @@ class SearchPage extends SearchDelegate<SearchItem> {
             ),
           );
   }
+}
+
+class CustomLocalizationDelegate extends LocalizationsDelegate<MaterialLocalizations> {
+  const CustomLocalizationDelegate();
+
+  @override
+  bool isSupported(Locale locale) => locale.languageCode == 'pt';
+
+  @override
+  Future<MaterialLocalizations> load(Locale locale) => SynchronousFuture<MaterialLocalizations>(const CustomLocalization());
+
+  @override
+  bool shouldReload(CustomLocalizationDelegate old) => false;
+
+  @override
+  String toString() => 'CustomLocalization.delegate(pt_BR)';
+}
+
+class CustomLocalization extends DefaultMaterialLocalizations {
+  const CustomLocalization();
+
+  @override
+  String get searchFieldLabel => "Busca";
 }
