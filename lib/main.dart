@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: [CustomLocalizationDelegate()],
           title: 'InfoProvas',
           theme: theme,
           home: Home(),
