@@ -67,13 +67,15 @@ class _ExamViewState extends State<ExamView> {
   // não é possível retornar null caso o arquivo esteja salvo no dispositivo.
   Future<File> downloadFile(bool temp) async {
     if (isSaved) {
-      String url =
-          "/data/user/0/ufrj.devmob.infoprovas/app_flutter/${widget._exam.id}.pdf";
+      String dir = (await getApplicationDocumentsDirectory()).path;
+      String url = "$dir/${widget._exam.id}.pdf";
+//      String url =
+//          "/data/user/0/ufrj.devmob.infoprovas/app_flutter/${widget._exam.id}.pdf";
       File file = File(url);
       return file;
     }
     try {
-      String url = "http://infoprovas.esy.es/provas/${widget._exam.id}.pdf";
+      String url = "https://infoprovas.dcc.ufrj.br/provas/${widget._exam.id}.pdf";
       final filename = url.substring(url.lastIndexOf("/") + 1);
 
       HttpClient client = new HttpClient();
@@ -121,8 +123,10 @@ class _ExamViewState extends State<ExamView> {
   void shareExam() async {
     String url = "";
     if (isSaved) {
-      url =
-          "/data/user/0/ufrj.devmob.infoprovas/app_flutter/${widget._exam.id}.pdf";
+      String dir = (await getApplicationDocumentsDirectory()).path;
+      url = "$dir/${widget._exam.id}.pdf";
+//      url =
+//          "/data/user/0/ufrj.devmob.infoprovas/app_flutter/${widget._exam.id}.pdf";
     } else {
       String dir = (await getTemporaryDirectory()).path;
       url = "$dir/${widget._exam.id}.pdf";
@@ -132,7 +136,7 @@ class _ExamViewState extends State<ExamView> {
         "\nBaixe o app InfoProvas para encontrar mais provas.\nLink: https://play.google.com/store/apps/details?id=ufrj.devmob.infoprovas";
     final ByteData bytes = await rootBundle.load(url);
     await Share.file(
-        'infoprovas pdf',
+        'Compartilhar',
         "${getShortType(widget._exam.type).toLowerCase()}_${(widget._exam.year).toString().substring(2, 4)}_${widget._exam.semester}.pdf",
         bytes.buffer.asUint8List(),
         'application/pdf',
