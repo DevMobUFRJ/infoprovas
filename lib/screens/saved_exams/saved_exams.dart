@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/model/exam.dart';
-import 'package:infoprovas/widgets/exam_tile.dart';
+import 'package:infoprovas/screens/saved_exams/saved_exam_tile.dart';
 import 'package:infoprovas/utils/database_helper.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -58,7 +58,7 @@ class _BodyState extends State<Body> {
               itemCount: snapshot.data.length,
               itemBuilder: (_, int index) {
                 Exam exam = snapshot.data[index];
-                return ExamTile(
+                return SavedExamTile(
                   exam,
                   updateExamList: updateExamList,
                   showSnackBar: showSnackBar,

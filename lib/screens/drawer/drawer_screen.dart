@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/screens/about/about_screen.dart';
 import 'package:infoprovas/styles/style.dart';
-import 'package:infoprovas/screens/saved_exams.dart';
+import 'package:infoprovas/screens/saved_exams/saved_exams.dart';
 import 'package:infoprovas/screens/contact/contact_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:infoprovas/widgets/drawer_item.dart';
+import 'package:infoprovas/screens/drawer/drawer_item.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override

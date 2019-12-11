@@ -5,7 +5,7 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/repository/exam_repository.dart';
-import 'package:infoprovas/screens/subject_exam_tab.dart';
+import 'package:infoprovas/screens/subjects_tab/subject_exam_tab.dart';
 import 'package:infoprovas/utils/main_functions.dart';
 import 'package:infoprovas/widgets/centered_progress.dart';
 

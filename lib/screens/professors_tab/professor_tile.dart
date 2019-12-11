@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/professor.dart';
-import 'package:infoprovas/screens/professor_exam.dart';
+import 'package:infoprovas/screens/professors_tab/professor_exams.dart';
 
 class ProfessorTile extends StatelessWidget {
   final Professor _professor;

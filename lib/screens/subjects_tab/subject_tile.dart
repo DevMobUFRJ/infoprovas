@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/subject.dart';
-import 'package:infoprovas/screens/subject_exam.dart';
+import 'package:infoprovas/screens/subjects_tab/subject_exams.dart';
 
 class SubjectTile extends StatelessWidget {
   final int period;

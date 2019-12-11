@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/search_item.dart';
-import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/utils/app_provider.dart';
-import 'package:infoprovas/widgets/search_tile.dart';
+import 'package:infoprovas/screens/search/search_tile.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {

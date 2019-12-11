@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/model/exam.dart';
-import 'package:infoprovas/widgets/view_exam_tile.dart';
+import 'package:infoprovas/widgets/exam_tile.dart';
 
 class SubjectExamTab extends StatefulWidget {
   final List<Exam> _exams;
@@ -28,7 +28,7 @@ class _SubjectExamTabState extends State<SubjectExamTab> {
             ),
             itemCount: widget._exams.length,
             itemBuilder: (context, index) =>
-                ViewExamTile(widget._exams[index], "prova"),
+                ExamTile(widget._exams[index], "prova"),
           );
   }
 }

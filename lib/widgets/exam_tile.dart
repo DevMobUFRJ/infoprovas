@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/styles/style.dart';
-import 'package:infoprovas/screens/exam_view.dart';
+import 'package:infoprovas/screens/exam_view/exam_view.dart';
 
-class ViewExamTile extends StatefulWidget {
+class ExamTile extends StatefulWidget {
   final Exam _exam;
   final String _tileType;
 
-  ViewExamTile(this._exam, this._tileType);
+  ExamTile(this._exam, this._tileType);
 
   @override
-  _ViewExamTileState createState() => _ViewExamTileState();
+  _ExamTileState createState() => _ExamTileState();
 }
 
-class _ViewExamTileState extends State<ViewExamTile> {
+class _ExamTileState extends State<ExamTile> {
   @override
   Widget build(BuildContext context) {
     return Card(

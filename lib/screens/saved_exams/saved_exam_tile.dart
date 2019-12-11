@@ -5,24 +5,24 @@ import 'package:flutter/widgets.dart';
 import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/utils/database_helper.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:infoprovas/screens/exam_view.dart';
+import 'package:infoprovas/screens/exam_view/exam_view.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/utils/main_functions.dart';
 import 'package:path_provider/path_provider.dart';
 
-class ExamTile extends StatefulWidget {
+class SavedExamTile extends StatefulWidget {
   final Exam _exam;
   final void Function(String) updateExamList;
   final void Function(String) showSnackBar;
 
-  ExamTile(this._exam, {Key key, this.updateExamList, this.showSnackBar})
+  SavedExamTile(this._exam, {Key key, this.updateExamList, this.showSnackBar})
       : super(key: key);
 
   @override
-  _ExamTileState createState() => _ExamTileState();
+  _SavedExamTileState createState() => _SavedExamTileState();
 }
 
-class _ExamTileState extends State<ExamTile> {
+class _SavedExamTileState extends State<SavedExamTile> {
   // remove prova do sqflite
   void _deleteExam() async {
     await DatabaseHelper.internal()
