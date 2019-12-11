@@ -4,7 +4,7 @@ import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/widgets/view_exam_tile.dart';
 
 class SubjectExamTab extends StatefulWidget {
-  List<Exam> _exams = <Exam>[];
+  final List<Exam> _exams;
 
   SubjectExamTab(this._exams);
 

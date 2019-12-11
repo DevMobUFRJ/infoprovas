@@ -13,7 +13,7 @@ class _ContactScreenState extends State<ContactScreen> {
   // entrada: receiver -> destinatário, subject -> assunto
   // body -> corpo do email
   // TODO: tratar erro de não poder enviar
-  _sendEmail(String receiver, String subject, String body) async {
+  void _sendEmail(String receiver, String subject, String body) async {
     var url = 'mailto:$receiver?subject=$subject&body=$body';
     if (await canLaunch(url)) {
       await launch(url);
@@ -95,7 +95,7 @@ class _ContactScreenState extends State<ContactScreen> {
         backgroundColor: Style.mainTheme.primaryColor,
         onPressed: () => _sendEmail(
             "devmob@dcc.ufrj.br",
-            "$_dropDownSelected InfoProvas - $_emailSubject.text",
+            "$_dropDownSelected InfoProvas - ${_emailSubject.text}",
             _emailBody.text),
         child: Icon(
           Icons.send,

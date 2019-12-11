@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:infoprovas/model/search_item.dart';
-import 'package:infoprovas/screens/home_professor_tab.dart';
-import 'package:infoprovas/screens/home_subjects_tab.dart';
+import 'package:infoprovas/screens/professors_tab/home_professor_tab.dart';
+import 'package:infoprovas/screens/subjects_tab/home_subjects_tab.dart';
 import 'package:infoprovas/screens/drawer_screen.dart';
-import 'package:infoprovas/screens/search.dart';
+import 'package:infoprovas/screens/search_screen.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:infoprovas/repository/professor_repository.dart';
 import 'package:infoprovas/repository/subject_repository.dart';
 import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/subject.dart';
+import 'package:infoprovas/utils/app_provider.dart';
+import 'package:provider/provider.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -27,12 +29,82 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   List<Subject> _subject = <Subject>[];
   List<Professor> _professor = <Professor>[];
-  List<SearchItem> _searchList = <SearchItem>[];
 
   TextEditingController _query = TextEditingController();
   AnimationController _animationController;
 
   Widget leading;
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (isSearching) {
+          closeSearch();
+          return false;
+        }
+        return true;
+      },
+      child: ChangeNotifierProvider(
+        create: (_) => AppProvider(),
+        child: Scaffold(
+          key: _scaffoldKey,
+          drawer: DrawerScreen(),
+          appBar: AppBar(
+            backgroundColor: Style.mainTheme.primaryColor,
+            title: appBarContent(),
+            leading: isSearching ? backButton() : menuButton(),
+            elevation: 0.0,
+            actions: <Widget>[actionAnimated()],
+          ),
+          body: isSearching
+              ? SearchScreen(query: _query.text)
+              : DefaultTabController(
+                  length: 2,
+                  child: Column(
+                    children: <Widget>[
+                      Material(
+                        elevation: 2.0,
+                        child: Container(
+                          width: double.maxFinite,
+                          color: Style.mainTheme.primaryColor,
+                          child: Column(
+                            children: <Widget>[
+                              TabBar(
+                                isScrollable: true,
+                                indicatorSize: TabBarIndicatorSize.label,
+                                indicator: BubbleTabIndicator(
+                                  indicatorColor: Colors.white,
+                                  indicatorHeight: 20.0,
+                                  tabBarIndicatorSize:
+                                      TabBarIndicatorSize.label,
+                                ),
+                                unselectedLabelColor: Colors.white,
+                                labelColor: Style.mainTheme.primaryColor,
+                                tabs: [
+                                  Tab(child: Text("Disciplinas")),
+                                  Tab(child: Text("Professores")),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            SubjectsTab(),
+                            ProfessorTab(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
 
   Widget actionAnimated() => AnimatedCrossFade(
         firstChild: searchButton(),
@@ -45,8 +117,9 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   Widget searchButton() => IconButton(
         icon: Icon(Icons.search, color: Colors.white),
         onPressed: () {
+          AppProvider provider = Provider.of<AppProvider>(context);
           _animationController.forward();
-          populateSearchList();
+          provider.populateSearchList();
           setState(() {
             isSearching = true;
             leading = backButton();
@@ -86,11 +159,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     return TextField(
       onChanged: (value) {
         setState(() {
-          SearchScreen(
-              query: _query.text,
-              subject: _subject,
-              professor: _professor,
-              searchList: _searchList);
+          SearchScreen(query: _query.text);
         });
       },
       controller: _query,
@@ -125,19 +194,11 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  void closeSearch(){
+  void closeSearch() {
     _animationController.reverse();
     setState(() {
       isSearching = false;
     });
-  }
-
-  void populateSearchList() {
-    _searchList.clear();
-    _subject.forEach((subject) =>
-        _searchList.add(SearchItem(name: subject.name, type: "subject")));
-    _professor.forEach((professor) =>
-        _searchList.add(SearchItem(name: professor.name, type: "professor")));
   }
 
   void listenForSubject() async {
@@ -212,86 +273,11 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 500),
     );
     leading = menuButton();
-    listenForProfessor();
-    listenForSubject();
   }
 
   @override
   void dispose() {
     super.dispose();
     _animationController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (isSearching) {
-          closeSearch();
-          return false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        key: _scaffoldKey,
-        drawer: DrawerScreen(),
-        appBar: AppBar(
-          backgroundColor: Style.mainTheme.primaryColor,
-          title: appBarContent(),
-          leading: isSearching ? backButton() : menuButton(),
-          elevation: 0.0,
-          actions: <Widget>[actionAnimated()],
-        ),
-        body: isSearching
-            ? SearchScreen(
-                searchList: _searchList,
-                professor: _professor,
-                subject: _subject,
-                query: _query.text,
-              )
-            : DefaultTabController(
-                length: 2,
-                child: Column(
-                  children: <Widget>[
-                    Material(
-                      elevation: 2.0,
-                      child: Container(
-                        width: double.maxFinite,
-                        color: Style.mainTheme.primaryColor,
-                        child: Column(
-                          children: <Widget>[
-                            TabBar(
-                              isScrollable: true,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              indicator: BubbleTabIndicator(
-                                indicatorColor: Colors.white,
-                                indicatorHeight: 20.0,
-                                tabBarIndicatorSize:
-                                    TabBarIndicatorSize.label,
-                              ),
-                              unselectedLabelColor: Colors.white,
-                              labelColor: Style.mainTheme.primaryColor,
-                              tabs: [
-                                Tab(child: Text("Disciplinas")),
-                                Tab(child: Text("Professores")),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        children: [
-                          SubjectsTab(_subject),
-                          ProfessorTab(_professor),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
-    );
   }
 }

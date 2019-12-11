@@ -5,7 +5,7 @@ import 'package:infoprovas/styles/github_icon.dart';
 import 'package:infoprovas/styles/facebook_icon.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 
-class About extends StatelessWidget {
+class AboutScreen extends StatelessWidget {
   Future<void> _launchURL(BuildContext context, String url) async {
     try {
       await launch(

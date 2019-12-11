@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/subject.dart';
-import 'package:infoprovas/screens/professor_exam.dart';
+import 'package:infoprovas/screens/professors_tab/professor_exams.dart';
 import 'package:infoprovas/screens/subject_exam.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 

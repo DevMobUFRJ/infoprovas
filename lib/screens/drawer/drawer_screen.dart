@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:infoprovas/screens/about.dart';
+import 'package:infoprovas/screens/about/about_screen.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/screens/saved_exams.dart';
-import 'package:infoprovas/screens/contact.dart';
+import 'package:infoprovas/screens/contact/contact_screen.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:infoprovas/widgets/drawer_item.dart';
@@ -112,7 +112,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             icon: OMIcons.info,
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => About()));
+                  context, MaterialPageRoute(builder: (context) => AboutScreen()));
             },
           ),
         ],

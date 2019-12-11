@@ -7,6 +7,7 @@ import 'package:infoprovas/model/exam.dart';
 import 'package:infoprovas/repository/exam_repository.dart';
 import 'package:infoprovas/screens/subject_exam_tab.dart';
 import 'package:infoprovas/utils/main_functions.dart';
+import 'package:infoprovas/widgets/centered_progress.dart';
 
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -55,7 +56,7 @@ class _SubjectExamState extends State<SubjectExam>
       body: _types.isEmpty
           ? hasFailed
               ? Center(child: Text("Não há provas desta disciplina"))
-              : Center(child: CircularProgressIndicator())
+              : CenteredProgress()
           : DefaultTabController(
               length: _types.length,
               child: Column(
