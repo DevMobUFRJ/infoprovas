@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:infoprovas/screens/home.dart';
+import 'package:infoprovas/screens/home/home.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
-import 'package:infoprovas/screens/about.dart';
-import 'package:infoprovas/screens/search.dart';
+import 'package:infoprovas/screens/about/about_screen.dart';
+import 'package:infoprovas/utils/app_provider.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(new MyApp());
-}
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -18,14 +17,17 @@ class MyApp extends StatelessWidget {
         brightness: brightness,
       ),
       themedWidgetBuilder: (context, theme) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'InfoProvas',
-          theme: theme,
-          home: Home(),
-          routes: <String, WidgetBuilder>{
-            'about': (context) => About(),
-          },
+        return ChangeNotifierProvider(
+          create: (_) => AppProvider(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'InfoProvas',
+            theme: theme,
+            home: Home(),
+            routes: <String, WidgetBuilder>{
+              'about': (context) => AboutScreen(),
+            },
+          ),
         );
       },
     );
