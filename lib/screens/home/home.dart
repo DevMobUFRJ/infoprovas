@@ -1,18 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-import 'package:infoprovas/model/search_item.dart';
-import 'package:infoprovas/screens/professors_tab/home_professor_tab.dart';
-import 'package:infoprovas/screens/subjects_tab/home_subjects_tab.dart';
-import 'package:infoprovas/screens/drawer_screen.dart';
-import 'package:infoprovas/screens/search_screen.dart';
+import 'package:infoprovas/screens/home/home_body.dart';
+import 'package:infoprovas/screens/drawer/drawer_screen.dart';
+import 'package:infoprovas/screens/search/search_screen.dart';
 import 'package:infoprovas/styles/style.dart';
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
-import 'package:infoprovas/repository/professor_repository.dart';
-import 'package:infoprovas/repository/subject_repository.dart';
-import 'package:infoprovas/model/professor.dart';
-import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/utils/app_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -24,11 +16,9 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> with TickerProviderStateMixin {
+  AppProvider provider;
   static String title = "InfoProvas";
   bool isSearching = false;
-
-  List<Subject> _subject = <Subject>[];
-  List<Professor> _professor = <Professor>[];
 
   TextEditingController _query = TextEditingController();
   AnimationController _animationController;
@@ -37,6 +27,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<AppProvider>(context);
     return WillPopScope(
       onWillPop: () async {
         if (isSearching) {
@@ -45,65 +36,29 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         }
         return true;
       },
-      child: ChangeNotifierProvider(
-        create: (_) => AppProvider(),
-        child: Scaffold(
-          key: _scaffoldKey,
-          drawer: DrawerScreen(),
-          appBar: AppBar(
-            backgroundColor: Style.mainTheme.primaryColor,
-            title: appBarContent(),
-            leading: isSearching ? backButton() : menuButton(),
-            elevation: 0.0,
-            actions: <Widget>[actionAnimated()],
-          ),
-          body: isSearching
-              ? SearchScreen(query: _query.text)
-              : DefaultTabController(
-                  length: 2,
-                  child: Column(
-                    children: <Widget>[
-                      Material(
-                        elevation: 2.0,
-                        child: Container(
-                          width: double.maxFinite,
-                          color: Style.mainTheme.primaryColor,
-                          child: Column(
-                            children: <Widget>[
-                              TabBar(
-                                isScrollable: true,
-                                indicatorSize: TabBarIndicatorSize.label,
-                                indicator: BubbleTabIndicator(
-                                  indicatorColor: Colors.white,
-                                  indicatorHeight: 20.0,
-                                  tabBarIndicatorSize:
-                                      TabBarIndicatorSize.label,
-                                ),
-                                unselectedLabelColor: Colors.white,
-                                labelColor: Style.mainTheme.primaryColor,
-                                tabs: [
-                                  Tab(child: Text("Disciplinas")),
-                                  Tab(child: Text("Professores")),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            SubjectsTab(),
-                            ProfessorTab(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawer: DrawerScreen(),
+        appBar: AppBar(
+          backgroundColor: Style.mainTheme.primaryColor,
+          title: appBarContent(),
+          leading: isSearching ? backButton() : menuButton(),
+          elevation: 0.0,
+          actions: <Widget>[actionAnimated()],
         ),
+        body: isSearching ? SearchScreen(query: _query.text) : HomeBody(),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+    leading = menuButton();
   }
 
   Widget actionAnimated() => AnimatedCrossFade(
@@ -117,7 +72,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   Widget searchButton() => IconButton(
         icon: Icon(Icons.search, color: Colors.white),
         onPressed: () {
-          AppProvider provider = Provider.of<AppProvider>(context);
           _animationController.forward();
           provider.populateSearchList();
           setState(() {
@@ -201,53 +155,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     });
   }
 
-  void listenForSubject() async {
-    try {
-      _subject.addAll(await getSubject());
-      setState(() {
-        _subject.sort(
-            (a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
-      });
-    } catch (e) {
-      onFailedConnection();
-    }
-  }
-
-  void listenForProfessor() async {
-    try {
-      _professor.addAll(await getProfessor());
-      _professor
-          .sort((a, b) => removeAccent(a.name).compareTo(removeAccent(b.name)));
-      setState(() {});
-    } catch (e) {}
-  }
-
-  void onFailedConnection() {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Text(
-            "Não foi possível conectar a rede",
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        backgroundColor: Style.mainTheme.primaryColor,
-        duration: Duration(minutes: 5),
-        action: SnackBarAction(
-          label: "Tentar novamente",
-          textColor: Colors.white,
-          onPressed: () {
-            setState(() {
-              listenForProfessor();
-              listenForSubject();
-            });
-          },
-        ),
-      ),
-    );
-  }
-
   String removeAccent(String name) {
     switch (name[0]) {
       case "Á":
@@ -263,16 +170,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       default:
         return name;
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    );
-    leading = menuButton();
   }
 
   @override
