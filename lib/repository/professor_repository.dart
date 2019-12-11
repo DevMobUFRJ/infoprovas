@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'dart:convert';
-import 'package:infoprovas/model/professor.dart';
 
-Future<List<Professor>> getProfessor() async {
+Future<List> getProfessor() async {
   final String url = 'https://infoprovas.dcc.ufrj.br/api.php?tipo=professores';
 
   try {
@@ -14,9 +14,9 @@ Future<List<Professor>> getProfessor() async {
 
     IOClient ioClient = IOClient(httpClient);
 
-    final streamedRest = await ioClient.get(url);
-    List<dynamic> professors = json.decode(utf8.decode(streamedRest.bodyBytes));
-    return professors.map((data) => Professor.fromJSON(data)).toList();
+    final Response streamedRest = await ioClient.get(url);
+    List professors = json.decode(utf8.decode(streamedRest.bodyBytes));
+    return professors;
   } catch (e) {
     return null;
   }

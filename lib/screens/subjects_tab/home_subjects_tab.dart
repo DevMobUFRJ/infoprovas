@@ -1,15 +1,12 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:infoprovas/model/subject.dart';
-import 'package:infoprovas/repository/subject_repository.dart';
 import 'package:infoprovas/styles/style.dart';
 import 'package:infoprovas/utils/app_provider.dart';
 import 'package:infoprovas/widgets/centered_progress.dart';
 import 'package:infoprovas/widgets/no_connection.dart';
-import 'package:infoprovas/widgets/subject_tile.dart';
+import 'package:infoprovas/screens/subjects_tab/subject_tile.dart';
 import 'package:provider/provider.dart';
 
 class SubjectsTab extends StatefulWidget {
@@ -18,57 +15,45 @@ class SubjectsTab extends StatefulWidget {
 }
 
 class _SubjectsTabState extends State<SubjectsTab> {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
   int _selectedPeriod = 0;
   AppProvider provider;
-
-  Future<void> _refresh() async {
-    await Future.delayed(const Duration(seconds: 2));
-    provider.refreshSubjects();
-    return null;
-  }
 
   void tryAgain() => provider.refreshSubjects();
 
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<AppProvider>(context);
-    return RefreshIndicator(
-      key: _refreshIndicatorKey,
-      onRefresh: _refresh,
-      child: FutureBuilder(
-        future: provider.fetchSubjects(),
-        builder: (_, AsyncSnapshot<List<Subject>> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return CenteredProgress();
-            case ConnectionState.none:
-              return NoConnection(tryAgain);
-            case ConnectionState.done:
-              if (!snapshot.hasData) return NoConnection(tryAgain);
-              return Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: selectorPeriod(),
+    return FutureBuilder(
+      future: provider.fetchSubjects(),
+      builder: (_, AsyncSnapshot<List> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return CenteredProgress();
+          case ConnectionState.none:
+            return NoConnection(tryAgain);
+          case ConnectionState.done:
+            if (!snapshot.hasData) return NoConnection(tryAgain);
+            return Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: selectorPeriod(),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (_, index) {
+                      return SubjectTile(Subject.fromJSON(snapshot.data[index]),
+                          _selectedPeriod);
+                    },
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (_, index) {
-                        return SubjectTile(
-                            snapshot.data[index], _selectedPeriod);
-                      },
-                    ),
-                  ),
-                ],
-              );
-            default:
-              return CenteredProgress();
-          }
-        },
-      ),
+                ),
+              ],
+            );
+          default:
+            return CenteredProgress();
+        }
+      },
     );
   }
 
