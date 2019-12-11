@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/search_item.dart';
+import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/repository/professor_repository.dart';
 import 'package:infoprovas/repository/subject_repository.dart';
 
@@ -8,12 +10,12 @@ class AppProvider with ChangeNotifier {
   List subjects, professors;
   List<SearchItem> searchList = <SearchItem>[];
 
-  void refreshProfessors() async {
+  Future refreshProfessors() async {
     professors = await getProfessor();
     notifyListeners();
   }
 
-  void refreshSubjects() async {
+  Future refreshSubjects() async {
     subjects = await getSubject();
     notifyListeners();
   }
@@ -30,11 +32,19 @@ class AppProvider with ChangeNotifier {
     return professors;
   }
 
-  void populateSearchList() {
+  void populateSearchList() async {
     searchList.clear();
-    subjects.forEach((subject) =>
-        searchList.add(SearchItem(name: subject.name, type: "subject")));
-    professors.forEach((professor) =>
-        searchList.add(SearchItem(name: professor.name, type: "professor")));
+    if (subjects == null) {
+      await refreshSubjects();
+      populateSearchList();
+    } else if (professors == null) {
+      await refreshProfessors();
+      populateSearchList();
+    } else {
+      subjects.forEach((subject) => searchList.add(
+          SearchItem(name: Subject.fromJSON(subject).name, type: "subject")));
+      professors.forEach((professor) => searchList.add(SearchItem(
+          name: Professor.fromJSON(professor).name, type: "professor")));
+    }
   }
 }

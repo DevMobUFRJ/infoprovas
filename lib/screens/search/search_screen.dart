@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:infoprovas/model/professor.dart';
 import 'package:infoprovas/model/search_item.dart';
+import 'package:infoprovas/model/subject.dart';
 import 'package:infoprovas/utils/app_provider.dart';
 import 'package:infoprovas/screens/search/search_tile.dart';
 import 'package:provider/provider.dart';
@@ -33,16 +35,16 @@ class _SearchScreenState extends State<SearchScreen> {
                   name: results[index].name,
                   type: results[index].type,
                   professor: identical(results[index].type, "professor")
-                      ? value.professors
-                          .where((professor) =>
-                              identical(results[index].name, professor.name))
-                          .first
+                      ? Professor.fromJSON(value.professors
+                          .where((professor) => identical(results[index].name,
+                              Professor.fromJSON(professor).name))
+                          .first)
                       : null,
                   subject: identical(results[index].type, "subject")
-                      ? provider.subjects
-                          .where((subject) =>
-                              identical(results[index].name, subject.name))
-                          .first
+                      ? Subject.fromJSON(provider.subjects
+                          .where((subject) => identical(results[index].name,
+                              Subject.fromJSON(subject).name))
+                          .first)
                       : null,
                 ),
               );
